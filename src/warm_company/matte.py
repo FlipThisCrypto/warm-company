@@ -121,6 +121,28 @@ def fringe_report(image: Image.Image) -> dict:
     }
 
 
+def strip_key_fringe(image: Image.Image) -> Image.Image:
+    """Knock down cyan/magenta antialias leftover without eating umber outlines."""
+    image = image.convert("RGBA")
+    box = image.getchannel("A").getbbox()
+    if not box:
+        return image
+    px = image.load()
+    x0, y0, x1, y1 = box
+    for y in range(y0, y1):
+        for x in range(x0, x1):
+            r, g, b, a = px[x, y]
+            if a < 16 or a > 236:
+                continue
+            mag = (r + b) / 2 - g
+            cyn = (g + b) / 2 - r
+            if cyn > 28 and g > 130 and r < 130:
+                px[x, y] = (r, max(0, g - 40), max(0, b - 40), int(a * 0.2))
+            elif mag > 36 and r > 150 and g < 140:
+                px[x, y] = (max(0, r - 40), g, max(0, b - 40), int(a * 0.25))
+    return image
+
+
 def clip_to_mask(image: Image.Image, mask: Image.Image, dilate: int = 7) -> Image.Image:
     mask = _resize_to_canvas(mask.convert("L"))
     if dilate:

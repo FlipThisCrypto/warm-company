@@ -3,13 +3,41 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageChops
 
 from . import config
+from .matte import fringe_report
 from .paths import BUILD, LAYERS, ROOT, TEMPLATES, ensure_build
 
 CANVAS = (1024, 1024)
 REQUIRED_MODE_TRANSPARENT = {"RGBA"}
+
+FOLDER_TO_SLOT = {
+    "body": "body",
+    "patterns": "pattern",
+    "structural": "structural",
+    "face": "face",
+    "eyes": "eyes",
+    "eyebrows": "eyebrows",
+    "mouths": "mouth",
+    "facial": "facial",
+    "arms": "arm_pose",
+    "arms-rear": "arm_pose",
+    "legs": "legs",
+    "legs-rear": "legs",
+    "footwear": "footwear",
+    "headwear": "headwear",
+    "handheld": "held_item",
+    "handheld-rear": "held_item",
+    "accessories": "body_accessory",
+    "accessories-rear": "rear_accessory",
+    "light": "held_item",
+    "backgrounds": "background",
+    "atmosphere": "atmosphere",
+    "atmosphere-rear": "atmosphere",
+    "rear-environment": "rear_environment",
+    "ground": "ground_accessory",
+}
 
 
 def _bbox(image: Image.Image) -> tuple[int, int, int, int] | None:
@@ -83,14 +111,11 @@ def occupancy_check(path: Path, class_id: str) -> list[str]:
     # Sample: if art has visible pixels where mask is near 0, warn.
     outside = 0
     inside = 0
-    art_px = art_alpha.tobytes()
-    mask_px = mask.tobytes()
-    for a, m in zip(art_px, mask_px):
-        if a > 24:
-            if m < 12:
-                outside += 1
-            else:
-                inside += 1
+    art_bin = art_alpha.point(lambda a: 255 if a > 24 else 0)
+    inside_mask = mask.point(lambda m: 255 if m >= 12 else 0)
+    outside_mask = mask.point(lambda m: 255 if m < 12 else 0)
+    inside = ImageChops.multiply(art_bin, inside_mask).histogram()[255]
+    outside = ImageChops.multiply(art_bin, outside_mask).histogram()[255]
     if inside == 0:
         errors.append("no overlap with occupancy mask")
     elif outside / (inside + outside) > 0.08:
@@ -103,13 +128,40 @@ def validate_library() -> dict:
     pngs = [path for path in LAYERS.rglob("*.png") if path.is_file()]
     reports = []
     errors = 0
+    known_ids: dict[str, set[str]] = {}
+    for trait in config.traits()["traits"]:
+        known_ids.setdefault(trait["slot"], set()).add(trait["id"])
     for path in sorted(pngs):
         rel = path.relative_to(LAYERS).parts
         is_background = len(rel) >= 2 and rel[0] == "shared" and rel[1] == "backgrounds"
-        item = inspect_png(path, expect_transparent=not is_background)
+        expect_transparent = not is_background
+        item = inspect_png(path, expect_transparent=expect_transparent)
+        folder = rel[1] if len(rel) > 1 else ""
+        slot = FOLDER_TO_SLOT.get(folder)
+        if slot and path.stem not in known_ids.get(slot, set()) and not path.stem.endswith("-glow"):
+            item["ok"] = False
+            item["errors"].append(f"PNG {path.name} is not a trait id in slot {slot}")
         if not is_background and rel[0] in config.CLASS_IDS:
             occ = occupancy_check(path, rel[0])
             item["warnings"].extend(occ)
+            if folder == "headwear" and item.get("bbox"):
+                spec = config.class_spec(rel[0])
+                pref_w = spec["headwear_preferred"]["w"]
+                bw = item["bbox"][2] - item["bbox"][0]
+                if bw > pref_w * 1.45:
+                    item["warnings"].append(
+                        f"headwear bbox width {bw}px exceeds preferred {pref_w}px"
+                    )
+        if expect_transparent and item["ok"] and path.suffix.lower() == ".png":
+            try:
+                fringe = fringe_report(Image.open(path))
+                item["fringe"] = {k: fringe[k] for k in ("cyan_fringe_px", "magenta_fringe_px", "ok")}
+                if not fringe["ok"]:
+                    item["warnings"].append(
+                        f"extraction fringe cyan={fringe['cyan_fringe_px']} magenta={fringe['magenta_fringe_px']}"
+                    )
+            except Exception as exc:  # noqa: BLE001
+                item["warnings"].append(f"fringe check failed: {exc}")
         if not item["ok"]:
             errors += 1
         reports.append(item)
@@ -117,7 +169,7 @@ def validate_library() -> dict:
         "png_count": len(pngs),
         "error_count": errors,
         "ok": errors == 0,
-        "note": "Phase 0 expects png_count == 0. Empty is valid until art production begins.",
+        "note": "Every PNG must be 1024x1024. Extra files that are not trait ids are errors. Fringe is a warning until the library is fully recleaned.",
         "reports": reports,
     }
     (BUILD / "reports" / "layer_validation.json").write_text(

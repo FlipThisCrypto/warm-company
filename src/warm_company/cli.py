@@ -101,7 +101,7 @@ def cmd_prompts(args: argparse.Namespace) -> int:
 
 
 def cmd_composite(args: argparse.Namespace) -> int:
-    from .composite import composite_token, write_token_png
+    from .composite import composite_with_report, write_token_png
 
     result = _load_tokens()
     missing = "allow" if args.allow_missing else "error"
@@ -110,11 +110,13 @@ def cmd_composite(args: argparse.Namespace) -> int:
         if args.token_id and token["token_id"] != args.token_id:
             continue
         try:
-            image = composite_token(token, missing=missing)
+            image, report = composite_with_report(token, missing=missing)
         except FileNotFoundError as exc:
             print(exc, file=sys.stderr)
             return 1
         write_token_png(token, image)
+        if args.report_missing and report["missing"]:
+            print(f"#{token.get('token_id')} missing: {', '.join(report['missing'])}")
         count += 1
         if args.limit and count >= args.limit:
             break
@@ -159,6 +161,7 @@ def build_parser() -> argparse.ArgumentParser:
     comp.add_argument("--token-id", type=int, default=None)
     comp.add_argument("--limit", type=int, default=None)
     comp.add_argument("--allow-missing", action="store_true")
+    comp.add_argument("--report-missing", action="store_true")
     comp.set_defaults(func=cmd_composite)
     return parser
 

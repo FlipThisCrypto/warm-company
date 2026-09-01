@@ -54,18 +54,18 @@
     { "id": "bedroll", "slot": "rear_accessory", "name": "Bedroll", "phase": 6, "band": "uncommon", "weight": 60, "classes": ["small-tent", "large-tent"] },
     { "id": "extra-fly", "slot": "rear_accessory", "name": "Rain Fly", "phase": 9, "band": "rare", "weight": 30, "classes": ["small-tent", "large-tent"] },
 
-    { "id": "rest", "slot": "arm_pose", "name": "Rest", "phase": 3, "band": "common", "weight": 520, "classes": ["sleeping-bag", "small-tent", "large-tent"], "files": ["front_arm"] },
-    { "id": "hold-item", "slot": "arm_pose", "name": "Hold Item", "phase": 3, "band": "common", "weight": 280, "classes": ["sleeping-bag", "small-tent", "large-tent"], "files": ["front_arm"] },
-    { "id": "wave", "slot": "arm_pose", "name": "Wave", "phase": 6, "band": "uncommon", "weight": 90, "classes": ["sleeping-bag", "small-tent", "large-tent"], "files": ["front_arm", "rear_arm"] },
-    { "id": "akimbo", "slot": "arm_pose", "name": "Hands on Hips", "phase": 6, "band": "uncommon", "weight": 70, "classes": ["sleeping-bag", "small-tent", "large-tent"], "files": ["front_arm"] },
-    { "id": "hold-two-hand", "slot": "arm_pose", "name": "Two-Handed Hold", "phase": 9, "band": "rare", "weight": 40, "classes": ["sleeping-bag", "small-tent", "large-tent"], "files": ["front_arm"] },
+    { "id": "rest", "slot": "arm_pose", "name": "Rest", "phase": 3, "band": "common", "weight": 520, "classes": ["sleeping-bag", "small-tent", "large-tent"], "files": ["rear_arm"] },
+    { "id": "hold-item", "slot": "arm_pose", "name": "Hold Item", "phase": 3, "band": "common", "weight": 280, "classes": ["sleeping-bag", "small-tent", "large-tent"], "files": ["rear_arm", "front_arm"] },
+    { "id": "wave", "slot": "arm_pose", "name": "Wave", "phase": 6, "band": "uncommon", "weight": 90, "classes": ["sleeping-bag", "small-tent", "large-tent"], "files": ["rear_arm", "front_arm"] },
+    { "id": "akimbo", "slot": "arm_pose", "name": "Hands on Hips", "phase": 6, "band": "uncommon", "weight": 70, "classes": ["sleeping-bag", "small-tent", "large-tent"], "files": ["rear_arm"] },
+    { "id": "hold-two-hand", "slot": "arm_pose", "name": "Two-Handed Hold", "phase": 9, "band": "rare", "weight": 40, "classes": ["sleeping-bag", "small-tent", "large-tent"], "files": ["rear_arm", "front_arm"] },
 
     { "id": "none", "slot": "held_item", "name": "None", "phase": 3, "band": "common", "weight": 380, "classes": ["sleeping-bag", "small-tent", "large-tent"] },
     { "id": "coffee", "slot": "held_item", "name": "Coffee", "phase": 3, "band": "common", "weight": 80, "classes": ["sleeping-bag", "small-tent", "large-tent"], "requires_pose": ["hold-item"] },
     { "id": "hot-chocolate", "slot": "held_item", "name": "Hot Chocolate", "phase": 3, "band": "common", "weight": 80, "classes": ["sleeping-bag", "small-tent", "large-tent"], "requires_pose": ["hold-item"] },
     { "id": "thermos", "slot": "held_item", "name": "Thermos", "phase": 3, "band": "uncommon", "weight": 60, "classes": ["sleeping-bag", "small-tent", "large-tent"], "requires_pose": ["hold-item"] },
     { "id": "flashlight", "slot": "held_item", "name": "Flashlight", "phase": 6, "band": "uncommon", "weight": 50, "classes": ["sleeping-bag", "small-tent", "large-tent"], "requires_pose": ["hold-item"] },
-    { "id": "lantern", "slot": "held_item", "name": "Lantern", "phase": 6, "band": "rare", "weight": 40, "classes": ["sleeping-bag", "small-tent", "large-tent"], "requires_pose": ["hold-item"] },
+    { "id": "lantern", "slot": "held_item", "name": "Lantern", "phase": 6, "band": "rare", "weight": 40, "classes": ["sleeping-bag", "small-tent", "large-tent"], "requires_pose": ["hold-item"], "files": ["rear_held", "front_held", "light_effect"] },
     { "id": "heart", "slot": "held_item", "name": "Heart", "phase": 6, "band": "rare", "weight": 30, "classes": ["sleeping-bag", "small-tent", "large-tent"], "requires_pose": ["hold-item"] },
     { "id": "hand-warmer", "slot": "held_item", "name": "Hand Warmer", "phase": 6, "band": "uncommon", "weight": 40, "classes": ["sleeping-bag", "small-tent", "large-tent"], "requires_pose": ["hold-item"] },
     { "id": "soup-cup", "slot": "held_item", "name": "Soup Cup", "phase": 6, "band": "uncommon", "weight": 40, "classes": ["sleeping-bag", "small-tent", "large-tent"], "requires_pose": ["hold-item"] },
@@ -123,7 +123,7 @@
     { "id": "vestibule", "slot": "structural", "name": "Vestibule", "phase": 6, "band": "rare", "weight": 160, "classes": ["large-tent"] },
     { "id": "extra-panels", "slot": "structural", "name": "Extra Paneling", "phase": 6, "band": "uncommon", "weight": 140, "classes": ["large-tent"] },
 
-    { "id": "short-legs", "slot": "legs", "name": "Short Legs", "phase": 3, "band": "common", "weight": 1000, "classes": ["sleeping-bag", "small-tent", "large-tent"] },
+    { "id": "short-legs", "slot": "legs", "name": "Short Legs", "phase": 3, "band": "common", "weight": 1000, "classes": ["sleeping-bag", "small-tent", "large-tent"], "files": ["rear_leg"] },
 
     { "id": "basic-shoes", "slot": "footwear", "name": "Basic Shoes", "phase": 3, "band": "common", "weight": 280, "classes": ["sleeping-bag", "small-tent", "large-tent"] },
     { "id": "work-boots", "slot": "footwear", "name": "Work Boots", "phase": 3, "band": "common", "weight": 180, "classes": ["sleeping-bag", "small-tent", "large-tent"] },

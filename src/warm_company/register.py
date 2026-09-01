@@ -35,8 +35,8 @@ def measure(path: Path, class_id: str) -> dict:
         occ = mask.point(lambda a: 255 if a > 12 else 0)
         inter = ImageChops.multiply(art, occ)
         union = ImageChops.add(art, occ)
-        inter_n = sum(1 for px in inter.tobytes() if px)
-        union_n = sum(1 for px in union.tobytes() if px)
+        inter_n = inter.histogram()[255]
+        union_n = union.histogram()[255]
         iou = (inter_n / union_n) if union_n else 0.0
     expected = spec["bounding_box"]
     delta = None

@@ -39,17 +39,28 @@
       "rest": ["rear_arm"],
       "hold-item": ["rear_arm", "front_arm"],
       "hold-two-hand": ["rear_arm", "front_arm"],
+      "wave": ["rear_arm", "front_arm"],
+      "akimbo": ["rear_arm"],
       "note": "Shoulder/root is always on rear_arm so the body hides the seam. Hands that must overlap the torso or a prop live on front_arm."
     },
     "held_item": {
       "coffee": ["front_held"],
       "thermos": ["front_held"],
       "lantern": ["rear_held", "front_held", "light_effect"],
+      "flashlight": ["front_held", "light_effect"],
       "map": ["front_held"],
       "blanket": ["front_held"]
     },
     "legs": {
-      "short-legs": ["rear_leg", "legs"]
+      "short-legs": ["rear_leg"]
+    },
+    "atmosphere": {
+      "light-snow": ["rear_atmosphere", "atmosphere"],
+      "steady-snow": ["rear_atmosphere", "atmosphere"],
+      "heavy-snow": ["rear_atmosphere", "atmosphere"],
+      "breath-fog": ["atmosphere"],
+      "sparkle-frost": ["atmosphere"],
+      "north-star-field": ["atmosphere"]
     }
   },
   "occlusion_rules": [

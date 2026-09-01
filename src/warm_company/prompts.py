@@ -23,13 +23,15 @@ LAYER_INSTRUCTIONS: dict[str, str] = {
     "eyebrows": "Paint only the eyebrows on the class brow baseline. No other facial features.",
     "mouth": "Paint only the mouth on the class mouth baseline. No other facial features.",
     "facial": "Paint only this facial extra (blush, glasses, etc.) registered to the face oval.",
-    "front_arm": "Paint only the front arm(s) for this pose, attached at the class arm anchors.",
-    "rear_arm": "Paint only the rear arm for this pose, attached at the class arm anchors, drawn to sit behind the body.",
-    "legs": "Paint only the short cartoon legs, ending on the shared baseline.",
-    "footwear": "Paint only the footwear, soles kissing the shared baseline at the foot anchors. No floating shoes.",
-    "headwear": "Paint only the headwear in the headwear zone. On tents it perches on the peak, brim above the door/face. On sleeping bags it sits on the hood crown, brim above the eyes.",
-    "front_held": "Paint only the held item in the hand, gripped at the class default hand point.",
-    "rear_held": "Paint only the portion of the held item that must sit behind the body.",
+    "front_arm": "Paint only the front forearm/hand for this pose. The hand must grip any held object. Do not draw a disconnected tube.",
+    "rear_arm": "Paint only the arm including extra shoulder that will sit BEHIND the body. Same canvas position as the canonical. Magenta #FF00FF background. Do not add extra quilt pads or disconnected panels.",
+    "rear_leg": "Paint only the legs with extra length above the hem that the body will hide. Soles on the shared baseline. Magenta #FF00FF background. No tent poles.",
+    "legs": "Paint only the visible lower cartoon legs in front of the hem, ending on the shared baseline.",
+    "footwear": "Paint only the footwear, soles kissing the shared baseline at the foot anchors. No floating shoes. Connect to the visible legs.",
+    "headwear": "Paint only a human-scale hat at the PREFERRED headwear size, never filling the legal maximum zone. Tents: perch on the peak, slightly absurd, do not hide structure. Sleeping bags: sit on the hood, much smaller than the hood.",
+    "front_held": "Paint only the held item actually gripped in the hand, correct occlusion, same line weight as the canonical. Not a product photo.",
+    "rear_held": "Paint only the portion of the held item that must sit behind the hand or body (for example a lantern handle).",
+    "light_effect": "Paint only a small warm transparent glow, localized, not a 3D relight of the character.",
     "body_accessory": "Paint only the front body accessory in the body accessory zone.",
     "rear_accessory": "Paint only the rear accessory sitting behind the body.",
     "background": "Paint a complete 1024x1024 winter environment. Keep the character occupancy zone quiet. No figures.",
@@ -61,8 +63,11 @@ def geometry_block(class_id: str | None) -> str:
             f"right arm anchor=({spec['right_arm_anchor']['x']},{spec['right_arm_anchor']['y']}).",
             f"Left foot=({spec['left_foot_anchor']['x']},{spec['left_foot_anchor']['y']}); "
             f"right foot=({spec['right_foot_anchor']['x']},{spec['right_foot_anchor']['y']}).",
-            f"Headwear zone x={spec['headwear_zone']['x']} y={spec['headwear_zone']['y']} "
-            f"w={spec['headwear_zone']['w']} h={spec['headwear_zone']['h']}, brim Y={spec['headwear_brim_y']}.",
+            f"Headwear legal zone x={spec['headwear_zone']['x']} y={spec['headwear_zone']['y']} "
+            f"w={spec['headwear_zone']['w']} h={spec['headwear_zone']['h']}.",
+            f"Headwear PREFERRED draw size x={spec['headwear_preferred']['x']} y={spec['headwear_preferred']['y']} "
+            f"w={spec['headwear_preferred']['w']} h={spec['headwear_preferred']['h']}, brim Y={spec['headwear_brim_y']}.",
+            f"Hem Y={spec['hem_y']}. Arm roots behind body={spec['arm_root_behind']}. Face shape={spec['face_shape']}.",
             spec["silhouette"]["construction"],
         ]
     return " ".join(lines)

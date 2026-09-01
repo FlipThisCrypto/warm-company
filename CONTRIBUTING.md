@@ -34,6 +34,7 @@ Do not commit:
 4. Save as `layers/{class}/{slot}/{id}.png` at 1024×1024 RGBA (backgrounds opaque).
 5. Register to occupancy. Drift over 12px is a redraw, not a nudge.
 6. Run `python -m warm_company validate-layers`.
+7. Preview with the production compositor: `python scripts/preview_samples.py`. Do not judge a layer only in isolation.
 
 ## Generator
 
