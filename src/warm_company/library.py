@@ -73,8 +73,23 @@ def save_png(im: Image.Image, path: Path) -> Path:
     return path
 
 
-def fabric_mask(im: Image.Image) -> Image.Image:
-    """Opaque non-cream, non-outline pixels (the cloth)."""
+def face_keepout(class_id: str) -> Image.Image:
+    """White=recolor allowed. Black=preserve cream hood/door."""
+    spec = config.class_spec(class_id)
+    door = spec.get("face_door") or spec["face_oval"]
+    m = Image.new("L", CANVAS, 255)
+    d = ImageDraw.Draw(m)
+    pad = 10
+    box = [door["x"] - pad, door["y"] - pad, door["x"] + door["w"] + pad, door["y"] + door["h"] + pad]
+    if spec.get("face_shape") == "hood-opening":
+        d.ellipse(box, fill=0)
+    else:
+        d.rounded_rectangle(box, radius=70, fill=0)
+    return m.filter(ImageFilter.GaussianBlur(6))
+
+
+def fabric_mask(im: Image.Image, class_id: str | None = None) -> Image.Image:
+    """Opaque non-cream, non-outline pixels (the cloth). Face panels stay out."""
     im = im.convert("RGBA")
     try:
         import numpy as np
@@ -82,9 +97,9 @@ def fabric_mask(im: Image.Image) -> Image.Image:
         r, g, b, a = arr[:, :, 0], arr[:, :, 1], arr[:, :, 2], arr[:, :, 3]
         luma = (r.astype(np.uint16) + g + b) / 3
         sat = np.maximum(np.maximum(r, g), b).astype(np.int16) - np.minimum(np.minimum(r, g), b)
-        keep = (a >= 40) & (luma >= 48) & ~((luma > 210) & (sat < 28))
+        keep = (a >= 40) & (luma >= 48) & ~((luma > 175) & (sat < 55))
         m = np.where(keep, a, 0).astype(np.uint8)
-        return Image.fromarray(m, "L")
+        mask = Image.fromarray(m, "L")
     except ImportError:
         px = im.load()
         mask = Image.new("L", im.size, 0)
@@ -99,15 +114,17 @@ def fabric_mask(im: Image.Image) -> Image.Image:
                 sat = max(r, g, b) - min(r, g, b)
                 if luma < 48:
                     continue
-                if luma > 210 and sat < 28:
+                if luma > 175 and sat < 55:
                     continue
                 mp[x, y] = a
-        return mask
+    if class_id:
+        mask = ImageChops.multiply(mask, face_keepout(class_id))
+    return mask
 
 
-def recolor_fabric(im: Image.Image, target: tuple[int, int, int], strength: float = 0.82) -> Image.Image:
+def recolor_fabric(im: Image.Image, target: tuple[int, int, int], strength: float = 0.82, class_id: str | None = None) -> Image.Image:
     im = im.convert("RGBA")
-    mask = fabric_mask(im)
+    mask = fabric_mask(im, class_id)
     try:
         import numpy as np
     except ImportError:
@@ -160,9 +177,9 @@ def recolor_fabric(im: Image.Image, target: tuple[int, int, int], strength: floa
     return out
 
 
-def two_tone(im: Image.Image, top: tuple[int, int, int], bot: tuple[int, int, int], split_y: int) -> Image.Image:
-    a = recolor_fabric(im, top)
-    b = recolor_fabric(im, bot)
+def two_tone(im: Image.Image, top: tuple[int, int, int], bot: tuple[int, int, int], split_y: int, class_id: str | None = None) -> Image.Image:
+    a = recolor_fabric(im, top, class_id=class_id)
+    b = recolor_fabric(im, bot, class_id=class_id)
     mask = Image.new("L", CANVAS, 0)
     ImageDraw.Draw(mask).rectangle([0, split_y, 1024, 1024], fill=255)
     mask = mask.filter(ImageFilter.GaussianBlur(8))
@@ -792,11 +809,11 @@ def ensure_body(class_id: str, trait_id: str) -> Path:
     master = Image.open(MASTERS[class_id]).convert("RGBA")
     spec = config.class_spec(class_id)
     if trait_id == "two-tone-olive-tan":
-        im = two_tone(master, BODY_COLORS["trail-olive"], BODY_COLORS["sand-tan"], spec["hem_y"] - 120)
+        im = two_tone(master, BODY_COLORS["trail-olive"], BODY_COLORS["sand-tan"], spec["hem_y"] - 120, class_id)
     elif trait_id == "two-tone-navy-orange":
-        im = two_tone(master, BODY_COLORS["navy-night"], BODY_COLORS["camp-orange"], spec["hem_y"] - 120)
+        im = two_tone(master, BODY_COLORS["navy-night"], BODY_COLORS["camp-orange"], spec["hem_y"] - 120, class_id)
     elif trait_id in BODY_COLORS:
-        im = recolor_fabric(master, BODY_COLORS[trait_id])
+        im = recolor_fabric(master, BODY_COLORS[trait_id], class_id=class_id)
         if trait_id == "aurora":
             im = ImageEnhance.Color(im).enhance(1.25)
         if trait_id == "north-star-navy":
@@ -910,16 +927,9 @@ def build_all(*, overwrite: bool = False) -> dict:
         dest = LAYERS / class_id / "body" / "dusty-rose.png"
         maybe(dest, lambda cid=class_id: Image.open(ensure_body(cid, "dusty-rose")))
 
-    # Expressions, facial
-    for class_id in config.CLASS_IDS:
-        for kind in ("normal", "happy", "sleepy", "determined", "surprised", "worried", "squint", "side-eye", "starry", "heart", "sunglasses-compatible"):
-            maybe(LAYERS / class_id / "eyes" / f"{kind}.png", lambda c=class_id, k=kind: paint_eyes(c, k))
-        for kind in ("neutral", "raised", "concerned", "mischievous", "determined"):
-            maybe(LAYERS / class_id / "eyebrows" / f"{kind}.png", lambda c=class_id, k=kind: paint_brows(c, k))
-        for kind in ("smile", "grin", "open-laugh", "smirk", "surprised", "teeth", "tongue", "chatter", "determined", "small-o"):
-            maybe(LAYERS / class_id / "mouths" / f"{kind}.png", lambda c=class_id, k=kind: paint_mouth(c, k))
-        for kind in ("blush", "freckles", "snow-kissed", "glasses", "sunglasses", "mustache"):
-            maybe(LAYERS / class_id / "facial" / f"{kind}.png", lambda c=class_id, k=kind: paint_facial(c, k))
+    # Illustrated eyes/mouths/hats/handhelds/arms are never factory-drawn.
+    # build_all only fills missing geometric helpers (structure, atmosphere)
+    # after image_edit assets are in place. Do not overwrite files > 20KB.
 
     # Patterns + structural using master body
     for class_id in config.CLASS_IDS:

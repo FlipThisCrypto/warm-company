@@ -3,11 +3,41 @@
   "model": "trait-weighted, not NFT-tier-first",
   "note": "Every token is one of 800 equally important winter items. Rarity describes trait scarcity for collectors, not moral worth. Do not market 'homeless rarity'.",
   "bands": {
-    "common":     { "target_trait_share": [0.45, 0.60], "color": "#8AA3B5" },
-    "uncommon":   { "target_trait_share": [0.20, 0.30], "color": "#3F8F6B" },
-    "rare":       { "target_trait_share": [0.10, 0.15], "color": "#2C6EA8" },
-    "epic":       { "target_trait_share": [0.03, 0.07], "color": "#7A4E9B" },
-    "legendary":  { "target_trait_share": [0.01, 0.02], "color": "#C45C26" }
+    "common": {
+      "target_trait_share": [
+        0.45,
+        0.6
+      ],
+      "color": "#8AA3B5"
+    },
+    "uncommon": {
+      "target_trait_share": [
+        0.2,
+        0.3
+      ],
+      "color": "#3F8F6B"
+    },
+    "rare": {
+      "target_trait_share": [
+        0.1,
+        0.15
+      ],
+      "color": "#2C6EA8"
+    },
+    "epic": {
+      "target_trait_share": [
+        0.03,
+        0.07
+      ],
+      "color": "#7A4E9B"
+    },
+    "legendary": {
+      "target_trait_share": [
+        0.01,
+        0.02
+      ],
+      "color": "#C45C26"
+    }
   },
   "class_guarantees": {
     "sleeping-bag": 400,
@@ -32,15 +62,15 @@
         "traits": {
           "background": "warm-dawn",
           "body": "camp-orange",
-          "pattern": "panels",
+          "pattern": "two-tone-panel",
           "eyes": "happy",
           "eyebrows": "raised",
           "mouth": "smile",
           "headwear": "beanie",
-          "held_item": "sign-heart",
+          "held_item": "coffee",
           "arm_pose": "hold-item",
-          "body_accessory": "sash",
-          "footwear": "sneakers",
+          "body_accessory": "none",
+          "footwear": "work-boots",
           "atmosphere": "none",
           "special": "the-volunteer"
         }
@@ -57,12 +87,12 @@
           "eyes": "determined",
           "eyebrows": "determined",
           "mouth": "determined",
-          "headwear": "knit-cap",
+          "headwear": "beanie",
           "held_item": "thermos",
           "arm_pose": "hold-item",
           "footwear": "work-boots",
-          "body_accessory": "patch",
-          "atmosphere": "breath-fog",
+          "body_accessory": "none",
+          "atmosphere": "light-snow",
           "special": "the-outreach-worker"
         }
       },
@@ -79,7 +109,7 @@
           "eyebrows": "neutral",
           "mouth": "smile",
           "headwear": "earflap-beanie",
-          "held_item": "hand-warmer",
+          "held_item": "coffee",
           "arm_pose": "hold-item",
           "footwear": "snow-boots",
           "atmosphere": "light-snow",
@@ -94,14 +124,14 @@
         "traits": {
           "background": "forest-clearing",
           "body": "forest-green",
-          "pattern": "panels",
+          "pattern": "two-tone-panel",
           "eyes": "determined",
           "eyebrows": "raised",
           "mouth": "determined",
           "headwear": "bucket-hat",
           "held_item": "map",
           "arm_pose": "hold-two-hand",
-          "footwear": "hiking-boots",
+          "footwear": "work-boots",
           "atmosphere": "none",
           "special": "the-navigator"
         }
@@ -115,14 +145,14 @@
           "background": "starry-night",
           "body": "navy-night",
           "pattern": "none",
-          "eyes": "normal",
+          "eyes": "determined",
           "eyebrows": "determined",
           "mouth": "determined",
           "headwear": "none",
           "held_item": "lantern",
           "arm_pose": "hold-item",
           "footwear": "work-boots",
-          "atmosphere": "sparkle-frost",
+          "atmosphere": "light-snow",
           "facial": "none",
           "special": "the-night-watch"
         }
@@ -136,15 +166,15 @@
           "background": "winter-sunset",
           "rear_environment": "campfire-glow",
           "body": "ember-rust",
-          "pattern": "horizontal-quilt",
+          "pattern": "plaid",
           "eyes": "happy",
           "eyebrows": "neutral",
           "mouth": "smile",
           "headwear": "beanie",
-          "held_item": "soup-cup",
+          "held_item": "coffee",
           "arm_pose": "hold-item",
           "ground_accessory": "tiny-campfire",
-          "footwear": "slippers",
+          "footwear": "snow-boots",
           "atmosphere": "none",
           "special": "the-campfire-keeper"
         }
@@ -157,12 +187,12 @@
         "traits": {
           "background": "warm-dawn",
           "body": "burgundy-quilt",
-          "pattern": "stars",
-          "eyes": "heart",
+          "pattern": "patchwork",
+          "eyes": "happy",
           "eyebrows": "raised",
           "mouth": "smile",
           "headwear": "none",
-          "held_item": "heart",
+          "held_item": "coffee",
           "arm_pose": "hold-item",
           "footwear": "basic-shoes",
           "facial": "blush",
@@ -179,15 +209,15 @@
           "background": "abstract-snow",
           "body": "cream-fleece",
           "pattern": "none",
-          "eyes": "surprised",
+          "eyes": "happy",
           "eyebrows": "raised",
-          "mouth": "small-o",
+          "mouth": "smile",
           "headwear": "knit-cap",
           "held_item": "none",
           "arm_pose": "rest",
           "footwear": "snow-boots",
           "atmosphere": "light-snow",
-          "facial": "snow-kissed",
+          "facial": "blush",
           "special": "the-first-snow"
         }
       },
@@ -199,14 +229,14 @@
         "traits": {
           "background": "winter-sunrise",
           "body": "sand-tan",
-          "pattern": "panels",
+          "pattern": "two-tone-panel",
           "eyes": "sleepy",
           "eyebrows": "neutral",
           "mouth": "smile",
           "headwear": "beanie",
           "held_item": "coffee",
           "arm_pose": "hold-item",
-          "footwear": "basic-shoes",
+          "footwear": "work-boots",
           "atmosphere": "none",
           "special": "the-early-riser"
         }
@@ -219,14 +249,14 @@
         "traits": {
           "background": "forest-clearing",
           "body": "trail-olive",
-          "pattern": "camo-soft",
+          "pattern": "none",
           "eyes": "determined",
           "eyebrows": "determined",
           "mouth": "grin",
           "headwear": "baseball-cap",
-          "held_item": "walking-stick",
+          "held_item": "lantern",
           "arm_pose": "hold-item",
-          "footwear": "hiking-boots",
+          "footwear": "work-boots",
           "atmosphere": "none",
           "special": "the-trailblazer"
         }
@@ -241,13 +271,13 @@
           "body": "sun-yellow",
           "pattern": "none",
           "eyes": "happy",
-          "eyebrows": "mischievous",
+          "eyebrows": "raised",
           "mouth": "grin",
-          "headwear": "crown",
+          "headwear": "beanie",
           "held_item": "lantern",
           "arm_pose": "hold-item",
-          "footwear": "sneakers",
-          "atmosphere": "sparkle-frost",
+          "footwear": "work-boots",
+          "atmosphere": "light-snow",
           "special": "the-hope-dealer"
         }
       },
@@ -263,11 +293,11 @@
           "eyes": "normal",
           "eyebrows": "raised",
           "mouth": "smile",
-          "headwear": "headband",
-          "held_item": "blanket",
+          "headwear": "beanie",
+          "held_item": "map",
           "arm_pose": "hold-two-hand",
-          "footwear": "mismatched",
-          "body_accessory": "patch",
+          "footwear": "snow-boots",
+          "body_accessory": "none",
           "atmosphere": "none",
           "special": "the-second-chance"
         }
@@ -276,19 +306,19 @@
         "id": "the-not-by-chance",
         "name": "The Not By Chance",
         "class": "large-tent",
-        "story": "The gathering Lodge. North-star cloth, halo, night field. Collection keystone — still a 6-person tent, still one of 800 items.",
+        "story": "The gathering Lodge. North-star cloth, halo, night field. Collection keystone \u2014 still a 6-person tent, still one of 800 items.",
         "traits": {
           "background": "starry-night",
           "body": "north-star-navy",
-          "pattern": "mission-patch-field",
-          "eyes": "starry",
+          "pattern": "none",
+          "eyes": "normal",
           "eyebrows": "neutral",
           "mouth": "smile",
           "headwear": "halo",
           "held_item": "none",
           "arm_pose": "rest",
           "footwear": "snow-boots",
-          "atmosphere": "north-star-field",
+          "atmosphere": "light-snow",
           "facial": "none",
           "structural": "cabin-poles",
           "special": "the-not-by-chance"

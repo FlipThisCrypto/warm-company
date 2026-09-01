@@ -524,6 +524,30 @@ class ReviewStripTests(unittest.TestCase):
 
 
 class InventoryLibraryTests(unittest.TestCase):
+    def test_illustrated_eyes_not_factory_dots(self):
+        path = ROOT / "layers" / "sleeping-bag" / "eyes" / "normal.png"
+        self.assertGreater(path.stat().st_size, 50_000)
+
+    def test_hold_item_front_arm_differs_from_rest(self):
+        rest = (ROOT / "layers" / "sleeping-bag" / "arms-rear" / "rest.png").read_bytes()
+        hold = (ROOT / "layers" / "sleeping-bag" / "arms" / "hold-item.png").read_bytes()
+        two = (ROOT / "layers" / "sleeping-bag" / "arms" / "hold-two-hand.png").read_bytes()
+        self.assertNotEqual(hold, rest)
+        self.assertNotEqual(two, rest)
+        self.assertNotEqual(hold, two)
+
+    def test_dusty_rose_keeps_cream_face(self):
+        path = ROOT / "layers" / "sleeping-bag" / "body" / "dusty-rose.png"
+        im = Image.open(path).convert("RGBA")
+        spec = config.class_spec("sleeping-bag")
+        fc = spec["face_center"]
+        r, g, b, a = im.getpixel((fc["x"], fc["y"]))
+        self.assertGreater(a, 200)
+        luma = (r + g + b) / 3
+        self.assertGreater(luma, 170)
+        self.assertLess(max(r, g, b) - min(r, g, b), 80)
+
+
     def test_dusty_rose_is_pink_not_purple(self):
         row = config.trait_by_id("body", "dusty-rose")
         self.assertIsNotNone(row)
