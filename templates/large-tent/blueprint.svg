@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#e2eaf0"/>
+  <rect x="0" y="640" width="1024" height="384" fill="#f4f7fa"/>
+  <line x1="0" y1="640" x2="1024" y2="640" stroke="#5a82aa" stroke-width="2"/>
+  <line x1="0" y1="896" x2="1024" y2="896" stroke="#8c4632" stroke-width="3"/>
+  <rect x="152" y="176" width="720" height="720" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="400" y="368" width="224" height="232" rx="80" fill="#f0c45a55" stroke="#c9a227"/>
+  <rect x="360" y="80" width="304" height="176" fill="#a85cc450" stroke="#7a3d96"/>
+  <rect x="832" y="40" width="168" height="128" fill="none" stroke="#c85050" stroke-width="2"/>
+  <text x="56" y="48" font-size="22" font-family="Segoe UI, Arial">Large Tent / Lodge</text>
+  <text x="56" y="72" font-size="13" font-family="Segoe UI, Arial">bbox (152,176) 720×720  fill #2C5F8A</text>
+  <g><circle cx="512" cy="856" r="5" fill="#1a1a1a"/><text x="520" y="848" font-size="12" font-family="Segoe UI, Arial">center X (512,856)</text></g><g><circle cx="512" cy="464" r="5" fill="#1a1a1a"/><text x="520" y="456" font-size="12" font-family="Segoe UI, Arial">face (512,464)</text></g><g><circle cx="448" cy="440" r="5" fill="#1a1a1a"/><text x="456" y="432" font-size="12" font-family="Segoe UI, Arial">eye L (448,440)</text></g><g><circle cx="576" cy="440" r="5" fill="#1a1a1a"/><text x="584" y="432" font-size="12" font-family="Segoe UI, Arial">eye R (576,440)</text></g><g><circle cx="512" cy="512" r="5" fill="#1a1a1a"/><text x="520" y="504" font-size="12" font-family="Segoe UI, Arial">mouth (512,512)</text></g><g><circle cx="176" cy="536" r="5" fill="#1a1a1a"/><text x="184" y="528" font-size="12" font-family="Segoe UI, Arial">arm L (176,536)</text></g><g><circle cx="848" cy="536" r="5" fill="#1a1a1a"/><text x="856" y="528" font-size="12" font-family="Segoe UI, Arial">arm R (848,536)</text></g><g><circle cx="120" cy="620" r="5" fill="#1a1a1a"/><text x="128" y="612" font-size="12" font-family="Segoe UI, Arial">hand L (120,620)</text></g><g><circle cx="904" cy="620" r="5" fill="#1a1a1a"/><text x="912" y="612" font-size="12" font-family="Segoe UI, Arial">hand R (904,620)</text></g><g><circle cx="360" cy="896" r="5" fill="#1a1a1a"/><text x="368" y="888" font-size="12" font-family="Segoe UI, Arial">foot L (360,896)</text></g><g><circle cx="664" cy="896" r="5" fill="#1a1a1a"/><text x="672" y="888" font-size="12" font-family="Segoe UI, Arial">foot R (664,896)</text></g><g><circle cx="512" cy="176" r="5" fill="#1a1a1a"/><text x="520" y="168" font-size="12" font-family="Segoe UI, Arial">peak (512,176)</text></g>
+</svg>

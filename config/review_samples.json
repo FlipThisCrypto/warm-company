@@ -1,0 +1,196 @@
+{
+  "version": 1,
+  "note": "Nine review composites. Each listed trait is its own Imagine layer, then composited.",
+  "matte": "#00FFFF",
+  "samples": [
+    {
+      "id": "snug-01-dawn-coffee",
+      "class_id": "sleeping-bag",
+      "title": "Snug — Dawn Coffee",
+      "traits": {
+        "background": "winter-sunrise",
+        "body": "ember-rust",
+        "structural": "basic-baffles",
+        "legs": "short-legs",
+        "footwear": "snow-boots",
+        "face": "standard-face",
+        "eyes": "sleepy",
+        "eyebrows": "neutral",
+        "mouth": "smile",
+        "facial": "blush",
+        "arm_pose": "hold-item",
+        "held_item": "coffee",
+        "headwear": "beanie",
+        "atmosphere": "none"
+      }
+    },
+    {
+      "id": "snug-02-camp-grin",
+      "class_id": "sleeping-bag",
+      "title": "Snug — Camp Grin",
+      "traits": {
+        "background": "snowy-camp",
+        "body": "trail-olive",
+        "structural": "basic-baffles",
+        "legs": "short-legs",
+        "footwear": "basic-shoes",
+        "face": "standard-face",
+        "eyes": "happy",
+        "eyebrows": "raised",
+        "mouth": "grin",
+        "facial": "none",
+        "arm_pose": "rest",
+        "held_item": "none",
+        "headwear": "none",
+        "atmosphere": "light-snow"
+      }
+    },
+    {
+      "id": "snug-03-night-lantern",
+      "class_id": "sleeping-bag",
+      "title": "Snug — Night Lantern",
+      "traits": {
+        "background": "cold-blue-night",
+        "body": "navy-night",
+        "structural": "basic-baffles",
+        "legs": "short-legs",
+        "footwear": "work-boots",
+        "face": "standard-face",
+        "eyes": "determined",
+        "eyebrows": "determined",
+        "mouth": "determined",
+        "facial": "none",
+        "arm_pose": "hold-item",
+        "held_item": "lantern",
+        "headwear": "knit-cap",
+        "atmosphere": "light-snow"
+      }
+    },
+    {
+      "id": "pup-01-sunrise-mug",
+      "class_id": "small-tent",
+      "title": "Pup — Sunrise Mug",
+      "traits": {
+        "background": "winter-sunrise",
+        "body": "camp-orange",
+        "structural": "a-frame-poles",
+        "legs": "short-legs",
+        "footwear": "sneakers",
+        "face": "standard-face",
+        "eyes": "happy",
+        "eyebrows": "raised",
+        "mouth": "smile",
+        "facial": "none",
+        "arm_pose": "hold-item",
+        "held_item": "coffee",
+        "headwear": "beanie",
+        "atmosphere": "none"
+      }
+    },
+    {
+      "id": "pup-02-forest-rest",
+      "class_id": "small-tent",
+      "title": "Pup — Forest Rest",
+      "traits": {
+        "background": "forest-clearing",
+        "body": "forest-green",
+        "structural": "a-frame-poles",
+        "legs": "short-legs",
+        "footwear": "work-boots",
+        "face": "standard-face",
+        "eyes": "normal",
+        "eyebrows": "neutral",
+        "mouth": "smile",
+        "facial": "none",
+        "arm_pose": "hold-item",
+        "held_item": "thermos",
+        "headwear": "none",
+        "atmosphere": "none"
+      }
+    },
+    {
+      "id": "pup-03-night-nap",
+      "class_id": "small-tent",
+      "title": "Pup — Night Nap",
+      "traits": {
+        "background": "cold-blue-night",
+        "body": "navy-night",
+        "structural": "a-frame-poles",
+        "legs": "short-legs",
+        "footwear": "snow-boots",
+        "face": "standard-face",
+        "eyes": "sleepy",
+        "eyebrows": "neutral",
+        "mouth": "smile",
+        "facial": "none",
+        "arm_pose": "rest",
+        "held_item": "none",
+        "headwear": "knit-cap",
+        "atmosphere": "light-snow"
+      }
+    },
+    {
+      "id": "lodge-01-camp-gathering",
+      "class_id": "large-tent",
+      "title": "Lodge — Camp Gathering",
+      "traits": {
+        "background": "snowy-camp",
+        "body": "forest-green",
+        "structural": "cabin-poles",
+        "legs": "short-legs",
+        "footwear": "work-boots",
+        "face": "standard-face",
+        "eyes": "happy",
+        "eyebrows": "raised",
+        "mouth": "grin",
+        "facial": "none",
+        "arm_pose": "hold-item",
+        "held_item": "lantern",
+        "headwear": "none",
+        "atmosphere": "none"
+      }
+    },
+    {
+      "id": "lodge-02-dawn-coffee",
+      "class_id": "large-tent",
+      "title": "Lodge — Dawn Coffee",
+      "traits": {
+        "background": "winter-sunrise",
+        "body": "camp-orange",
+        "structural": "cabin-poles",
+        "legs": "short-legs",
+        "footwear": "work-boots",
+        "face": "standard-face",
+        "eyes": "determined",
+        "eyebrows": "determined",
+        "mouth": "smile",
+        "facial": "none",
+        "arm_pose": "hold-item",
+        "held_item": "coffee",
+        "headwear": "beanie",
+        "atmosphere": "none"
+      }
+    },
+    {
+      "id": "lodge-03-night-watch",
+      "class_id": "large-tent",
+      "title": "Lodge — Night Watch",
+      "traits": {
+        "background": "cold-blue-night",
+        "body": "navy-night",
+        "structural": "cabin-poles",
+        "legs": "short-legs",
+        "footwear": "snow-boots",
+        "face": "standard-face",
+        "eyes": "normal",
+        "eyebrows": "neutral",
+        "mouth": "determined",
+        "facial": "none",
+        "arm_pose": "rest",
+        "held_item": "none",
+        "headwear": "none",
+        "atmosphere": "light-snow"
+      }
+    }
+  ]
+}

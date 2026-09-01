@@ -1,0 +1,210 @@
+{
+  "version": 1,
+  "engine": "forces then excludes then requires; reroll the offending slot; max 24 attempts per token",
+  "dignity": [
+    "No trait may depict poverty as costume, joke, or rarity flex.",
+    "No cardboard-sign gags, trash piles, bottles-as-identity, or 'homeless starter kit' loadouts.",
+    "Patchwork and well-loved wear mean care and use, not degradation.",
+    "Worried / chattering expressions are weather reactions, never class identity."
+  ],
+  "rules": [
+    {
+      "id": "sunglasses-force-eyes",
+      "if": { "slot": "facial", "equals": "sunglasses" },
+      "forces": { "slot": "eyes", "id": "sunglasses-compatible" },
+      "reason": "Sunglasses replace the visible iris treatment."
+    },
+    {
+      "id": "sunglasses-exclude-eye-overlays",
+      "if": { "slot": "facial", "equals": "sunglasses" },
+      "excludes": { "slot": "eyes", "ids": ["starry", "heart", "side-eye", "sleepy"] },
+      "reason": "Those eye treatments fight the glasses graphic."
+    },
+    {
+      "id": "glasses-exclude-sunglasses-eyes",
+      "if": { "slot": "facial", "equals": "glasses" },
+      "excludes": { "slot": "eyes", "ids": ["starry", "heart", "sunglasses-compatible"] },
+      "reason": "Clear glasses need readable cartoon eyes."
+    },
+    {
+      "id": "held-item-needs-hold-pose",
+      "if": { "slot": "held_item", "not_in": ["none"] },
+      "requires": { "slot": "arm_pose", "ids": ["hold-item", "hold-two-hand"] },
+      "reason": "An item in the hand requires a grip pose."
+    },
+    {
+      "id": "two-hand-items",
+      "if": { "slot": "held_item", "in": ["map", "blanket"] },
+      "forces": { "slot": "arm_pose", "id": "hold-two-hand" },
+      "reason": "Map and spare blanket are two-handed."
+    },
+    {
+      "id": "one-hand-items",
+      "if": { "slot": "held_item", "in": ["coffee", "hot-chocolate", "thermos", "flashlight", "lantern", "heart", "hand-warmer", "soup-cup", "compass", "walking-stick", "sign-heart", "umbrella"] },
+      "forces": { "slot": "arm_pose", "id": "hold-item" },
+      "reason": "Single-hand grip."
+    },
+    {
+      "id": "empty-hands-no-hold",
+      "if": { "slot": "held_item", "equals": "none" },
+      "excludes": { "slot": "arm_pose", "ids": ["hold-item", "hold-two-hand"] },
+      "reason": "Do not leave a gripping hand empty."
+    },
+    {
+      "id": "wave-no-item",
+      "if": { "slot": "arm_pose", "equals": "wave" },
+      "forces": { "slot": "held_item", "id": "none" },
+      "reason": "A waving arm cannot also present a held object in v1."
+    },
+    {
+      "id": "akimbo-no-item",
+      "if": { "slot": "arm_pose", "equals": "akimbo" },
+      "forces": { "slot": "held_item", "id": "none" },
+      "reason": "Hands on hips occupy both hands."
+    },
+    {
+      "id": "backpack-front-straps",
+      "if": { "slot": "rear_accessory", "equals": "backpack" },
+      "forces": { "slot": "body_accessory", "id": "backpack-straps" },
+      "reason": "Backpack is a split asset: pack behind, straps in front."
+    },
+    {
+      "id": "no-straps-without-pack",
+      "if": { "slot": "rear_accessory", "not_in": ["backpack"] },
+      "excludes": { "slot": "body_accessory", "ids": ["backpack-straps"] },
+      "reason": "Straps cannot float."
+    },
+    {
+      "id": "trapper-excludes-ear-hats",
+      "if": { "slot": "headwear", "equals": "trapper-hat" },
+      "excludes": { "slot": "headwear", "ids": ["earmuffs", "headband", "hood", "earflap-beanie"] },
+      "reason": "Ear zone collision. Slot exclusivity already prevents this; kept as documentation."
+    },
+    {
+      "id": "hood-sleeping-bag-only",
+      "if": { "slot": "headwear", "equals": "hood" },
+      "classes_only": ["sleeping-bag"],
+      "reason": "Hood is a bag-crown treatment. Tents wear hats on the peak instead."
+    },
+    {
+      "id": "slippers-bag-only",
+      "if": { "slot": "footwear", "equals": "slippers" },
+      "classes_only": ["sleeping-bag"],
+      "reason": "Slippers belong to the goofy tall bag, not the tents."
+    },
+    {
+      "id": "umbrella-no-tall-hats",
+      "if": { "slot": "held_item", "equals": "umbrella" },
+      "excludes": { "slot": "headwear", "ids": ["santa-hat", "crown", "halo", "trapper-hat"] },
+      "reason": "Open canopy fights tall crown treatments."
+    },
+    {
+      "id": "heavy-snow-not-on-face-traits",
+      "if": { "slot": "atmosphere", "equals": "heavy-snow" },
+      "excludes": { "slot": "facial", "ids": ["snow-kissed"] },
+      "reason": "Redundant. Face is already punched out of atmosphere; extra face snow reads as dirt."
+    },
+    {
+      "id": "ground-lantern-not-with-held-lantern",
+      "if": { "slot": "held_item", "equals": "lantern" },
+      "excludes": { "slot": "ground_accessory", "ids": ["small-lantern"] },
+      "reason": "Two lanterns is visual noise, not a story."
+    },
+    {
+      "id": "tiny-campfire-not-with-ground-lantern",
+      "if": { "slot": "ground_accessory", "equals": "tiny-campfire" },
+      "excludes": { "slot": "ground_accessory", "ids": ["small-lantern", "mug-in-snow", "pack-on-ground"] },
+      "reason": "Slot exclusivity; campfire needs a clear patch of snow."
+    },
+    {
+      "id": "concerned-no-open-laugh",
+      "if": { "slot": "eyebrows", "equals": "concerned" },
+      "excludes": { "slot": "mouth", "ids": ["open-laugh", "tongue", "grin"] },
+      "reason": "Uncanny expression combo."
+    },
+    {
+      "id": "sleepy-no-open-laugh",
+      "if": { "slot": "eyes", "equals": "sleepy" },
+      "excludes": { "slot": "mouth", "ids": ["open-laugh", "teeth"] },
+      "reason": "Sleepy eyes plus a roar reads broken, not funny."
+    },
+    {
+      "id": "surprised-eyes-prefer-open-mouth",
+      "if": { "slot": "eyes", "equals": "surprised" },
+      "excludes": { "slot": "mouth", "ids": ["smirk", "determined", "chatter"] },
+      "reason": "Surprise needs an open or round mouth."
+    },
+    {
+      "id": "chatter-no-heart-eyes",
+      "if": { "slot": "mouth", "equals": "chatter" },
+      "excludes": { "slot": "eyes", "ids": ["heart", "starry"] },
+      "reason": "Cold chatter vs enchanted eyes fight each other."
+    },
+    {
+      "id": "mustache-clear-mouth",
+      "if": { "slot": "facial", "equals": "mustache" },
+      "excludes": { "slot": "mouth", "ids": ["tongue", "open-laugh"] },
+      "reason": "Mustache collides with a wide-open mouth."
+    },
+    {
+      "id": "wave-no-umbrella-space",
+      "if": { "slot": "arm_pose", "equals": "wave" },
+      "excludes": { "slot": "headwear", "ids": ["halo"] },
+      "reason": "Raised hand occupies the halo arc on the waving side."
+    },
+    {
+      "id": "north-star-body-prefers-night",
+      "if": { "slot": "body", "equals": "north-star-navy" },
+      "requires": { "slot": "background", "ids": ["cold-blue-night", "starry-night", "first-light", "abstract-snow"] },
+      "reason": "Legendary navy-star fabric needs a dark or quiet field."
+    },
+    {
+      "id": "aurora-not-noon-camp",
+      "if": { "slot": "body", "equals": "aurora" },
+      "excludes": { "slot": "background", "ids": ["campground"] },
+      "reason": "Iridescent cloth wants dawn, dusk, or night."
+    },
+    {
+      "id": "quilt-patterns-bags-only",
+      "if": { "slot": "pattern", "in": ["horizontal-quilt", "vertical-quilt", "plaid", "stars", "moons", "geometric-trail"] },
+      "classes_only": ["sleeping-bag"],
+      "reason": "Bag fabric language."
+    },
+    {
+      "id": "tent-panels-tents-only",
+      "if": { "slot": "pattern", "in": ["panels", "two-tone-panel", "weathered-care"] },
+      "classes_only": ["small-tent", "large-tent"],
+      "reason": "Tent fabric language."
+    },
+    {
+      "id": "bag-structure-bags-only",
+      "if": { "slot": "structural", "in": ["basic-baffles", "hood-drawstring", "chest-zipper-pull"] },
+      "classes_only": ["sleeping-bag"],
+      "reason": "Class-locked structure."
+    },
+    {
+      "id": "small-tent-structure",
+      "if": { "slot": "structural", "in": ["a-frame-poles", "door-window"] },
+      "classes_only": ["small-tent"],
+      "reason": "Pup-only poles and door."
+    },
+    {
+      "id": "large-tent-structure",
+      "if": { "slot": "structural", "in": ["cabin-poles", "vestibule", "extra-panels"] },
+      "classes_only": ["large-tent"],
+      "reason": "Lodge-only structure."
+    },
+    {
+      "id": "guy-lines-tents",
+      "if": { "slot": "structural", "equals": "guy-lines" },
+      "classes_only": ["small-tent", "large-tent"],
+      "reason": "Guy lines belong to tents."
+    },
+    {
+      "id": "vestibule-not-with-tiny-campfire-overlap",
+      "if": { "slot": "structural", "equals": "vestibule" },
+      "excludes": { "slot": "ground_accessory", "ids": ["tiny-campfire", "pack-on-ground"] },
+      "reason": "Vestibule occupies the front ground plane."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+[project]
+name = "warm-company"
+version = "0.1.0"
+description = "Generative pipeline for the Warm Company winter-outreach NFT collection."
+requires-python = ">=3.11"
+dependencies = ["Pillow>=10.0.0"]
+
+[project.scripts]
+warm-company = "warm_company.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

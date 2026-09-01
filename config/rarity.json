@@ -1,0 +1,299 @@
+{
+  "version": 1,
+  "model": "trait-weighted, not NFT-tier-first",
+  "note": "Every token is one of 800 equally important winter items. Rarity describes trait scarcity for collectors, not moral worth. Do not market 'homeless rarity'.",
+  "bands": {
+    "common":     { "target_trait_share": [0.45, 0.60], "color": "#8AA3B5" },
+    "uncommon":   { "target_trait_share": [0.20, 0.30], "color": "#3F8F6B" },
+    "rare":       { "target_trait_share": [0.10, 0.15], "color": "#2C6EA8" },
+    "epic":       { "target_trait_share": [0.03, 0.07], "color": "#7A4E9B" },
+    "legendary":  { "target_trait_share": [0.01, 0.02], "color": "#C45C26" }
+  },
+  "class_guarantees": {
+    "sleeping-bag": 400,
+    "small-tent": 200,
+    "large-tent": 200
+  },
+  "scoring": {
+    "method": "information-content",
+    "formula": "sum over slots of -log2(count(trait)/class_supply)",
+    "note": "Reported after generation. Not used to relabel tokens into rigid tiers. Optional percentile columns may appear in the audit."
+  },
+  "specials": {
+    "count": 13,
+    "selection": "coordinated loadouts, not random jackpots",
+    "placement": "injected after ordinary generation by replacing a compatible token of the required class, preserving uniqueness",
+    "characters": [
+      {
+        "id": "the-volunteer",
+        "name": "The Volunteer",
+        "class": "small-tent",
+        "story": "Shows up with a heart sign and a sash. Helpful, not heroic-cosplay.",
+        "traits": {
+          "background": "warm-dawn",
+          "body": "camp-orange",
+          "pattern": "panels",
+          "eyes": "happy",
+          "eyebrows": "raised",
+          "mouth": "smile",
+          "headwear": "beanie",
+          "held_item": "sign-heart",
+          "arm_pose": "hold-item",
+          "body_accessory": "sash",
+          "footwear": "sneakers",
+          "atmosphere": "none",
+          "special": "the-volunteer"
+        }
+      },
+      {
+        "id": "the-outreach-worker",
+        "name": "The Outreach Worker",
+        "class": "large-tent",
+        "story": "Thermos, determined eyes, work boots. The one who keeps coming back.",
+        "traits": {
+          "background": "city-edge",
+          "body": "navy-night",
+          "pattern": "two-tone-panel",
+          "eyes": "determined",
+          "eyebrows": "determined",
+          "mouth": "determined",
+          "headwear": "knit-cap",
+          "held_item": "thermos",
+          "arm_pose": "hold-item",
+          "footwear": "work-boots",
+          "body_accessory": "patch",
+          "atmosphere": "breath-fog",
+          "special": "the-outreach-worker"
+        }
+      },
+      {
+        "id": "the-survivor",
+        "name": "The Survivor",
+        "class": "sleeping-bag",
+        "story": "Patchwork as care. Tough smile. Never a degraded costume.",
+        "traits": {
+          "background": "appalachian-ridge",
+          "body": "storm-charcoal",
+          "pattern": "patchwork",
+          "eyes": "determined",
+          "eyebrows": "neutral",
+          "mouth": "smile",
+          "headwear": "earflap-beanie",
+          "held_item": "hand-warmer",
+          "arm_pose": "hold-item",
+          "footwear": "snow-boots",
+          "atmosphere": "light-snow",
+          "special": "the-survivor"
+        }
+      },
+      {
+        "id": "the-navigator",
+        "name": "The Navigator",
+        "class": "small-tent",
+        "story": "Map in both hands. Getting people to the next warm place.",
+        "traits": {
+          "background": "forest-clearing",
+          "body": "forest-green",
+          "pattern": "panels",
+          "eyes": "determined",
+          "eyebrows": "raised",
+          "mouth": "determined",
+          "headwear": "bucket-hat",
+          "held_item": "map",
+          "arm_pose": "hold-two-hand",
+          "footwear": "hiking-boots",
+          "atmosphere": "none",
+          "special": "the-navigator"
+        }
+      },
+      {
+        "id": "the-night-watch",
+        "name": "The Night Watch",
+        "class": "large-tent",
+        "story": "Lantern, starry night, still standing.",
+        "traits": {
+          "background": "starry-night",
+          "body": "navy-night",
+          "pattern": "none",
+          "eyes": "normal",
+          "eyebrows": "determined",
+          "mouth": "determined",
+          "headwear": "none",
+          "held_item": "lantern",
+          "arm_pose": "hold-item",
+          "footwear": "work-boots",
+          "atmosphere": "sparkle-frost",
+          "facial": "none",
+          "special": "the-night-watch"
+        }
+      },
+      {
+        "id": "the-campfire-keeper",
+        "name": "The Campfire Keeper",
+        "class": "sleeping-bag",
+        "story": "Sunset, tiny campfire, soup. The warmth-holder.",
+        "traits": {
+          "background": "winter-sunset",
+          "rear_environment": "campfire-glow",
+          "body": "ember-rust",
+          "pattern": "horizontal-quilt",
+          "eyes": "happy",
+          "eyebrows": "neutral",
+          "mouth": "smile",
+          "headwear": "beanie",
+          "held_item": "soup-cup",
+          "arm_pose": "hold-item",
+          "ground_accessory": "tiny-campfire",
+          "footwear": "slippers",
+          "atmosphere": "none",
+          "special": "the-campfire-keeper"
+        }
+      },
+      {
+        "id": "the-warm-heart",
+        "name": "The Warm Heart",
+        "class": "sleeping-bag",
+        "story": "Heart in hand, heart in the eyes. Earnest on purpose.",
+        "traits": {
+          "background": "warm-dawn",
+          "body": "burgundy-quilt",
+          "pattern": "stars",
+          "eyes": "heart",
+          "eyebrows": "raised",
+          "mouth": "smile",
+          "headwear": "none",
+          "held_item": "heart",
+          "arm_pose": "hold-item",
+          "footwear": "basic-shoes",
+          "facial": "blush",
+          "atmosphere": "none",
+          "special": "the-warm-heart"
+        }
+      },
+      {
+        "id": "the-first-snow",
+        "name": "The First Snow",
+        "class": "sleeping-bag",
+        "story": "Cream fleece, wonder, light snow. New weather, not naivete-as-joke.",
+        "traits": {
+          "background": "abstract-snow",
+          "body": "cream-fleece",
+          "pattern": "none",
+          "eyes": "surprised",
+          "eyebrows": "raised",
+          "mouth": "small-o",
+          "headwear": "knit-cap",
+          "held_item": "none",
+          "arm_pose": "rest",
+          "footwear": "snow-boots",
+          "atmosphere": "light-snow",
+          "facial": "snow-kissed",
+          "special": "the-first-snow"
+        }
+      },
+      {
+        "id": "the-early-riser",
+        "name": "The Early Riser",
+        "class": "small-tent",
+        "story": "Sunrise and coffee. Sleepy eyes, already moving.",
+        "traits": {
+          "background": "winter-sunrise",
+          "body": "sand-tan",
+          "pattern": "panels",
+          "eyes": "sleepy",
+          "eyebrows": "neutral",
+          "mouth": "smile",
+          "headwear": "beanie",
+          "held_item": "coffee",
+          "arm_pose": "hold-item",
+          "footwear": "basic-shoes",
+          "atmosphere": "none",
+          "special": "the-early-riser"
+        }
+      },
+      {
+        "id": "the-trailblazer",
+        "name": "The Trailblazer",
+        "class": "large-tent",
+        "story": "Forest, walking stick, hiking boots. Makes a path others can use.",
+        "traits": {
+          "background": "forest-clearing",
+          "body": "trail-olive",
+          "pattern": "camo-soft",
+          "eyes": "determined",
+          "eyebrows": "determined",
+          "mouth": "grin",
+          "headwear": "baseball-cap",
+          "held_item": "walking-stick",
+          "arm_pose": "hold-item",
+          "footwear": "hiking-boots",
+          "atmosphere": "none",
+          "special": "the-trailblazer"
+        }
+      },
+      {
+        "id": "the-hope-dealer",
+        "name": "The Hope Dealer",
+        "class": "small-tent",
+        "story": "Lantern at dawn. The name is swagger; the pose is gentle.",
+        "traits": {
+          "background": "first-light",
+          "body": "sun-yellow",
+          "pattern": "none",
+          "eyes": "happy",
+          "eyebrows": "mischievous",
+          "mouth": "grin",
+          "headwear": "crown",
+          "held_item": "lantern",
+          "arm_pose": "hold-item",
+          "footwear": "sneakers",
+          "atmosphere": "sparkle-frost",
+          "special": "the-hope-dealer"
+        }
+      },
+      {
+        "id": "the-second-chance",
+        "name": "The Second Chance",
+        "class": "sleeping-bag",
+        "story": "Two-tone life. Care patch. Hopeful, not tragic.",
+        "traits": {
+          "background": "warm-dawn",
+          "body": "sky-flannel",
+          "pattern": "patchwork",
+          "eyes": "normal",
+          "eyebrows": "raised",
+          "mouth": "smile",
+          "headwear": "headband",
+          "held_item": "blanket",
+          "arm_pose": "hold-two-hand",
+          "footwear": "mismatched",
+          "body_accessory": "patch",
+          "atmosphere": "none",
+          "special": "the-second-chance"
+        }
+      },
+      {
+        "id": "the-not-by-chance",
+        "name": "The Not By Chance",
+        "class": "large-tent",
+        "story": "The gathering Lodge. North-star cloth, halo, night field. Collection keystone — still a 6-person tent, still one of 800 items.",
+        "traits": {
+          "background": "starry-night",
+          "body": "north-star-navy",
+          "pattern": "mission-patch-field",
+          "eyes": "starry",
+          "eyebrows": "neutral",
+          "mouth": "smile",
+          "headwear": "halo",
+          "held_item": "none",
+          "arm_pose": "rest",
+          "footwear": "snow-boots",
+          "atmosphere": "north-star-field",
+          "facial": "none",
+          "structural": "cabin-poles",
+          "special": "the-not-by-chance"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,273 @@
+{
+  "world": {
+    "center_x": 512,
+    "baseline_y": 896,
+    "horizon_y": 640,
+    "ground_plane_y": 768,
+    "margin_hard": 24,
+    "margin_safe": 48,
+    "lighting": {
+      "key_direction": "upper-left",
+      "key_clock": "11:00",
+      "key_elevation_deg": 30,
+      "shadow_fall": "down-right",
+      "key_color_locked": "warm",
+      "fill_source": "snow-bounce-from-below",
+      "note": "Key-light DIRECTION is locked for every asset. Color temperature of the key stays warm (sun or lantern). Cool moonlight is fill only, never a second key from the right."
+    },
+    "contact_shadow": {
+      "procedural": true,
+      "color": [
+        42,
+        36,
+        48
+      ],
+      "opacity": 0.28,
+      "offset_y": 8,
+      "blur_px": 18
+    },
+    "logo_safe_primary": {
+      "x": 832,
+      "y": 40,
+      "w": 168,
+      "h": 128,
+      "note": "Top-right. Preferred. Characters do not occupy this region. Logo is NOT designed until Phase 10."
+    },
+    "logo_safe_alternate": {
+      "x": 24,
+      "y": 856,
+      "w": 168,
+      "h": 144,
+      "note": "Bottom-left. Use only if top-right fights a specific background. Never cover feet."
+    },
+    "ground_accessory_zone": {
+      "x": 80,
+      "y": 848,
+      "w": 864,
+      "h": 132
+    },
+    "edge_safety": {
+      "inner": [
+        48,
+        48,
+        976,
+        976
+      ],
+      "outer": [
+        24,
+        24,
+        1000,
+        1000
+      ]
+    },
+    "background_keepout_union": {
+      "note": "Backgrounds may paint the full canvas but must not place important scenery (readable landmarks, high-contrast props, signage, faces) inside any class face zone or the primary logo safe zone.",
+      "character_occupancy_union": {
+        "x": 152,
+        "y": 112,
+        "w": 720,
+        "h": 784
+      }
+    }
+  },
+  "classes": {
+    "sleeping-bag": {
+      "character_center_x": 512,
+      "character_baseline_y": 896,
+      "bounding_box": {
+        "x": 296,
+        "y": 112,
+        "w": 432,
+        "h": 784
+      },
+      "peak": {
+        "x": 512,
+        "y": 112
+      },
+      "face_center": {
+        "x": 512,
+        "y": 376
+      },
+      "eye_baseline_y": 360,
+      "eye_left": {
+        "x": 456,
+        "y": 360
+      },
+      "eye_right": {
+        "x": 568,
+        "y": 360
+      },
+      "mouth_baseline_y": 424,
+      "mouth_center": {
+        "x": 512,
+        "y": 424
+      },
+      "left_arm_anchor": {
+        "x": 304,
+        "y": 472
+      },
+      "right_arm_anchor": {
+        "x": 720,
+        "y": 472
+      },
+      "left_foot_anchor": {
+        "x": 448,
+        "y": 896
+      },
+      "right_foot_anchor": {
+        "x": 576,
+        "y": 896
+      },
+      "headwear_zone": {
+        "x": 360,
+        "y": 64,
+        "w": 304,
+        "h": 168
+      },
+      "handheld_left_zone": {
+        "x": 96,
+        "y": 500,
+        "w": 220,
+        "h": 260
+      },
+      "handheld_right_zone": {
+        "x": 708,
+        "y": 500,
+        "w": 220,
+        "h": 260
+      }
+    },
+    "small-tent": {
+      "character_center_x": 512,
+      "character_baseline_y": 896,
+      "bounding_box": {
+        "x": 224,
+        "y": 256,
+        "w": 576,
+        "h": 640
+      },
+      "peak": {
+        "x": 512,
+        "y": 256
+      },
+      "face_center": {
+        "x": 512,
+        "y": 512
+      },
+      "eye_baseline_y": 488,
+      "eye_left": {
+        "x": 456,
+        "y": 488
+      },
+      "eye_right": {
+        "x": 568,
+        "y": 488
+      },
+      "mouth_baseline_y": 552,
+      "mouth_center": {
+        "x": 512,
+        "y": 552
+      },
+      "left_arm_anchor": {
+        "x": 240,
+        "y": 560
+      },
+      "right_arm_anchor": {
+        "x": 784,
+        "y": 560
+      },
+      "left_foot_anchor": {
+        "x": 400,
+        "y": 896
+      },
+      "right_foot_anchor": {
+        "x": 624,
+        "y": 896
+      },
+      "headwear_zone": {
+        "x": 400,
+        "y": 176,
+        "w": 224,
+        "h": 160
+      },
+      "handheld_left_zone": {
+        "x": 48,
+        "y": 540,
+        "w": 200,
+        "h": 260
+      },
+      "handheld_right_zone": {
+        "x": 776,
+        "y": 540,
+        "w": 200,
+        "h": 260
+      }
+    },
+    "large-tent": {
+      "character_center_x": 512,
+      "character_baseline_y": 896,
+      "bounding_box": {
+        "x": 152,
+        "y": 176,
+        "w": 720,
+        "h": 720
+      },
+      "peak": {
+        "x": 512,
+        "y": 176
+      },
+      "face_center": {
+        "x": 512,
+        "y": 464
+      },
+      "eye_baseline_y": 440,
+      "eye_left": {
+        "x": 448,
+        "y": 440
+      },
+      "eye_right": {
+        "x": 576,
+        "y": 440
+      },
+      "mouth_baseline_y": 512,
+      "mouth_center": {
+        "x": 512,
+        "y": 512
+      },
+      "left_arm_anchor": {
+        "x": 176,
+        "y": 536
+      },
+      "right_arm_anchor": {
+        "x": 848,
+        "y": 536
+      },
+      "left_foot_anchor": {
+        "x": 360,
+        "y": 896
+      },
+      "right_foot_anchor": {
+        "x": 664,
+        "y": 896
+      },
+      "headwear_zone": {
+        "x": 360,
+        "y": 80,
+        "w": 304,
+        "h": 176
+      },
+      "handheld_left_zone": {
+        "x": 48,
+        "y": 500,
+        "w": 180,
+        "h": 280
+      },
+      "handheld_right_zone": {
+        "x": 796,
+        "y": 500,
+        "w": 180,
+        "h": 280
+      }
+    }
+  }
+}

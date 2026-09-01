@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "working_title": "Warm Company",
+  "working_title_status": "proposed",
+  "subtitle": "800 illustrated winter-shelter companions for Not By Chance Outreach.",
+  "organization": "Not By Chance Outreach",
+  "campaign": "Chia Winter Outreach Generative NFT Fundraiser",
+  "blockchain": "chia",
+  "standard": "CHIP-0007",
+  "supply": 800,
+  "canvas": { "width": 1024, "height": 1024, "format": "PNG", "mode_layers": "RGBA", "mode_background": "RGB_or_opaque_RGBA" },
+  "artwork": {
+    "type": "static",
+    "construction": "layered-generative",
+    "look": "hand-drawn-2d-cartoon"
+  },
+  "chip0007": {
+    "collection_name": "Warm Company",
+    "collection_id": "0d8b7760-aba7-5393-af88-baeaa3aea62f",
+    "collection_id_note": "This is the CHIP-0007 collection UUID (off-chain metadata grouping). It is NOT a Chia launcher ID, DID, NFT ID, or mint address. Those are assigned later.",
+    "minting_tool": "warm-company-generator/0.1.0",
+    "sensitive_content": false,
+    "series_total": 800
+  },
+  "classes": [
+    {
+      "id": "sleeping-bag",
+      "label": "Sleeping Bag",
+      "family_name": "Snug",
+      "supply": 400,
+      "represents": "Sleeping Bag",
+      "physical_unit_cost_usd": 7.5,
+      "token_id_range_pre_shuffle": [1, 400]
+    },
+    {
+      "id": "small-tent",
+      "label": "Small Tent",
+      "family_name": "Pup",
+      "supply": 200,
+      "represents": "3-Person Tent",
+      "physical_unit_cost_usd": 15.0,
+      "token_id_range_pre_shuffle": [401, 600]
+    },
+    {
+      "id": "large-tent",
+      "label": "Large Tent",
+      "family_name": "Lodge",
+      "supply": 200,
+      "represents": "6-Person Tent",
+      "physical_unit_cost_usd": 30.0,
+      "token_id_range_pre_shuffle": [601, 800]
+    }
+  ],
+  "naming": {
+    "token": "Warm Company #{token_id:04d}",
+    "token_alt_with_class": "Warm Company #{token_id:04d} — {family_name}",
+    "description_template": "Warm Company #{token_id:04d} is a {family_name}, an illustrated {class_label} created for the Not By Chance Outreach winter campaign. This NFT symbolically represents one {represents_lower} the campaign intends to purchase. It does not convey legal title to a specific physical item."
+  },
+  "title_candidates": [
+    {
+      "name": "Warm Company",
+      "recommended": true,
+      "why": "Company means companionship and a company of characters. Warm is the mission. Reads well on a marketplace. Does not punch down."
+    },
+    {
+      "name": "Camp Kind",
+      "why": "Short, outdoor, moral without being syrupy."
+    },
+    {
+      "name": "Eight Hundred Warm",
+      "why": "Leads with the 1:1 count. Very campaign-forward. Slightly less character-forward."
+    },
+    {
+      "name": "Shelter Kin",
+      "why": "Family of objects. Risk: 'shelter' can sound institutional."
+    },
+    {
+      "name": "First Light Camp",
+      "why": "Dawn motif already in the art direction. More poetic, less literal about the 800 items."
+    }
+  ],
+  "family_names": {
+    "sleeping-bag": "Snug",
+    "small-tent": "Pup",
+    "large-tent": "Lodge",
+    "note": "Pup is outdoor vocabulary (pup tent), not a cute-animal costume. Lodge reads as the larger gathering tent."
+  },
+  "production_seed": {
+    "status": "placeholder-not-for-mint",
+    "value": "warm-company-dev-seed-v0",
+    "note": "Replace with a freshly generated production seed before Phase 11. Store the production seed offline as well as in config once locked. Never rotate after final generation."
+  },
+  "shuffle_seed_suffix": "mint-order",
+  "phase": 0,
+  "logo_status": "deferred-until-phase-10",
+  "urls": {
+    "note": "Do not invent public URLs, IPFS CIDs, or on-chain identifiers. Fill these only when they exist.",
+    "website": null,
+    "twitter": null,
+    "icon": null,
+    "banner": null,
+    "image_uris": [],
+    "metadata_uris": [],
+    "license_uri": null
+  }
+}
