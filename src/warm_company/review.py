@@ -24,7 +24,7 @@ def review_token(class_id: str, **traits: str) -> dict:
             "large-tent": "royal-blue",
         }[class_id],
         "pattern": "none",
-        "structural": "basic-baffles",
+        "structural": "none",
         "legs": "short-legs",
         "footwear": "basic-shoes",
         "face": "standard-face",

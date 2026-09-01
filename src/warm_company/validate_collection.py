@@ -35,7 +35,7 @@ def validate_result(result: dict) -> dict:
         problems.append(f"specials {got} != {expected_specials}")
     # Combination counts
     combos = Counter(
-        tuple(sorted(token["traits"].items())) for token in tokens
+        (token["class_id"], tuple(sorted(token["traits"].items()))) for token in tokens
     )
     if any(count > 1 for count in combos.values()):
         problems.append("duplicate trait combinations")

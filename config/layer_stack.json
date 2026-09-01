@@ -1,66 +1,251 @@
 {
   "version": 2,
-  "note": "Painter's algorithm. Limb roots live BEHIND the body so the silhouette hides the seam. Preferred hat sizes live in anchors.json — never treat the legal zone as a draw target.",
+  "note": "Painter's algorithm. Limb roots live BEHIND the body so the silhouette hides the seam. Preferred hat sizes live in anchors.json \u2014 never treat the legal zone as a draw target.",
   "contact_shadow": {
     "slot": "contact_shadow",
     "z": 3,
     "source": "procedural"
   },
   "stack": [
-    { "z": 1,  "slot": "background",        "folder": "layers/shared/backgrounds",           "scope": "shared", "optional": false, "opaque": true },
-    { "z": 2,  "slot": "rear_atmosphere",   "folder": "layers/shared/atmosphere-rear",      "scope": "shared", "optional": true, "driven_by": "atmosphere" },
-    { "z": 3,  "slot": "rear_environment",  "folder": "layers/shared/rear-environment",      "scope": "shared", "optional": true },
-    { "z": 4,  "slot": "contact_shadow",    "folder": "layers/shared/ground",                "scope": "procedural", "optional": false },
-    { "z": 5,  "slot": "rear_accessory",    "folder": "layers/{class}/accessories-rear",     "scope": "class",  "optional": true },
-    { "z": 6,  "slot": "rear_arm",          "folder": "layers/{class}/arms-rear",            "scope": "class",  "optional": true, "driven_by": "arm_pose" },
-    { "z": 7,  "slot": "rear_held",         "folder": "layers/{class}/handheld-rear",        "scope": "class",  "optional": true, "driven_by": "held_item" },
-    { "z": 8,  "slot": "rear_leg",          "folder": "layers/{class}/legs-rear",            "scope": "class",  "optional": true, "driven_by": "legs" },
-    { "z": 9,  "slot": "body",              "folder": "layers/{class}/body",                 "scope": "class",  "optional": false },
-    { "z": 10, "slot": "pattern",           "folder": "layers/{class}/patterns",             "scope": "class",  "optional": true },
-    { "z": 11, "slot": "structural",        "folder": "layers/{class}/structural",           "scope": "class",  "optional": true },
-    { "z": 12, "slot": "face",              "folder": "layers/{class}/face",                 "scope": "class",  "optional": false },
-    { "z": 13, "slot": "eyes",              "folder": "layers/{class}/eyes",                 "scope": "class",  "optional": false },
-    { "z": 14, "slot": "eyebrows",          "folder": "layers/{class}/eyebrows",             "scope": "class",  "optional": true },
-    { "z": 15, "slot": "mouth",             "folder": "layers/{class}/mouths",               "scope": "class",  "optional": false },
-    { "z": 16, "slot": "facial",            "folder": "layers/{class}/facial",               "scope": "class",  "optional": true },
-    { "z": 17, "slot": "legs",              "folder": "layers/{class}/legs",                 "scope": "class",  "optional": true },
-    { "z": 18, "slot": "footwear",          "folder": "layers/{class}/footwear",             "scope": "class",  "optional": false },
-    { "z": 19, "slot": "front_arm",         "folder": "layers/{class}/arms",                 "scope": "class",  "optional": false, "driven_by": "arm_pose" },
-    { "z": 20, "slot": "front_held",        "folder": "layers/{class}/handheld",             "scope": "class",  "optional": true, "driven_by": "held_item" },
-    { "z": 21, "slot": "light_effect",      "folder": "layers/{class}/light",                "scope": "class",  "optional": true, "driven_by": "held_item" },
-    { "z": 22, "slot": "body_accessory",    "folder": "layers/{class}/accessories",          "scope": "class",  "optional": true },
-    { "z": 23, "slot": "headwear",          "folder": "layers/{class}/headwear",             "scope": "class",  "optional": true },
-    { "z": 24, "slot": "ground_accessory",  "folder": "layers/shared/ground",                "scope": "shared", "optional": true },
-    { "z": 25, "slot": "atmosphere",        "folder": "layers/shared/atmosphere",            "scope": "shared", "optional": true },
-    { "z": 26, "slot": "logo",              "folder": "layers/shared/logo",                  "scope": "shared", "optional": true, "deferred": true }
+    {
+      "z": 1,
+      "slot": "background",
+      "folder": "layers/shared/backgrounds",
+      "scope": "shared",
+      "optional": false,
+      "opaque": true
+    },
+    {
+      "z": 2,
+      "slot": "rear_atmosphere",
+      "folder": "layers/shared/atmosphere-rear",
+      "scope": "shared",
+      "optional": true,
+      "driven_by": "atmosphere"
+    },
+    {
+      "z": 3,
+      "slot": "rear_environment",
+      "folder": "layers/shared/rear-environment",
+      "scope": "shared",
+      "optional": true
+    },
+    {
+      "z": 4,
+      "slot": "contact_shadow",
+      "folder": "layers/shared/ground",
+      "scope": "procedural",
+      "optional": false
+    },
+    {
+      "z": 5,
+      "slot": "rear_accessory",
+      "folder": "layers/{class}/accessories-rear",
+      "scope": "class",
+      "optional": true
+    },
+    {
+      "z": 6,
+      "slot": "rear_arm",
+      "folder": "layers/{class}/arms-rear",
+      "scope": "class",
+      "optional": true,
+      "driven_by": "arm_pose"
+    },
+    {
+      "z": 7,
+      "slot": "rear_held",
+      "folder": "layers/{class}/handheld-rear",
+      "scope": "class",
+      "optional": true,
+      "driven_by": "held_item"
+    },
+    {
+      "z": 8,
+      "slot": "rear_leg",
+      "folder": "layers/{class}/legs-rear",
+      "scope": "class",
+      "optional": true,
+      "driven_by": "legs"
+    },
+    {
+      "z": 9,
+      "slot": "body",
+      "folder": "layers/{class}/body",
+      "scope": "class",
+      "optional": false
+    },
+    {
+      "z": 10,
+      "slot": "pattern",
+      "folder": "layers/{class}/patterns",
+      "scope": "class",
+      "optional": true
+    },
+    {
+      "z": 11,
+      "slot": "structural",
+      "folder": "layers/{class}/structural",
+      "scope": "class",
+      "optional": true
+    },
+    {
+      "z": 12,
+      "slot": "face",
+      "folder": "layers/{class}/face",
+      "scope": "class",
+      "optional": false
+    },
+    {
+      "z": 13,
+      "slot": "eyes",
+      "folder": "layers/{class}/eyes",
+      "scope": "class",
+      "optional": false
+    },
+    {
+      "z": 14,
+      "slot": "eyebrows",
+      "folder": "layers/{class}/eyebrows",
+      "scope": "class",
+      "optional": true
+    },
+    {
+      "z": 15,
+      "slot": "mouth",
+      "folder": "layers/{class}/mouths",
+      "scope": "class",
+      "optional": false
+    },
+    {
+      "z": 16,
+      "slot": "facial",
+      "folder": "layers/{class}/facial",
+      "scope": "class",
+      "optional": true
+    },
+    {
+      "z": 17,
+      "slot": "legs",
+      "folder": "layers/{class}/legs",
+      "scope": "class",
+      "optional": true
+    },
+    {
+      "z": 18,
+      "slot": "footwear",
+      "folder": "layers/{class}/footwear",
+      "scope": "class",
+      "optional": false
+    },
+    {
+      "z": 19,
+      "slot": "front_arm",
+      "folder": "layers/{class}/arms",
+      "scope": "class",
+      "optional": false,
+      "driven_by": "arm_pose"
+    },
+    {
+      "z": 20,
+      "slot": "front_held",
+      "folder": "layers/{class}/handheld",
+      "scope": "class",
+      "optional": true,
+      "driven_by": "held_item"
+    },
+    {
+      "z": 21,
+      "slot": "light_effect",
+      "folder": "layers/{class}/light",
+      "scope": "class",
+      "optional": true,
+      "driven_by": "held_item"
+    },
+    {
+      "z": 22,
+      "slot": "body_accessory",
+      "folder": "layers/{class}/accessories",
+      "scope": "class",
+      "optional": true
+    },
+    {
+      "z": 23,
+      "slot": "headwear",
+      "folder": "layers/{class}/headwear",
+      "scope": "class",
+      "optional": true
+    },
+    {
+      "z": 24,
+      "slot": "ground_accessory",
+      "folder": "layers/shared/ground",
+      "scope": "shared",
+      "optional": true
+    },
+    {
+      "z": 25,
+      "slot": "atmosphere",
+      "folder": "layers/shared/atmosphere",
+      "scope": "shared",
+      "optional": true
+    },
+    {
+      "z": 26,
+      "slot": "logo",
+      "folder": "layers/shared/logo",
+      "scope": "shared",
+      "optional": true,
+      "deferred": true
+    }
   ],
   "split_assets": {
     "arm_pose": {
-      "rest": ["rear_arm"],
-      "hold-item": ["rear_arm", "front_arm"],
-      "hold-two-hand": ["rear_arm", "front_arm"],
-      "wave": ["rear_arm", "front_arm"],
-      "akimbo": ["rear_arm"],
+      "rest": [
+        "rear_arm"
+      ],
+      "hold-item": [
+        "front_arm"
+      ],
+      "hold-two-hand": [
+        "front_arm"
+      ],
+      "wave": [
+        "rear_arm",
+        "front_arm"
+      ],
+      "akimbo": [
+        "rear_arm"
+      ],
       "note": "Shoulder/root is always on rear_arm so the body hides the seam. Hands that must overlap the torso or a prop live on front_arm."
     },
     "held_item": {
-      "coffee": ["front_held"],
-      "thermos": ["front_held"],
-      "lantern": ["rear_held", "front_held", "light_effect"],
-      "flashlight": ["front_held", "light_effect"],
-      "map": ["front_held"],
-      "blanket": ["front_held"]
+      "coffee": [],
+      "lantern": [
+        "front_held",
+        "light_effect"
+      ],
+      "map": []
     },
     "legs": {
-      "short-legs": ["rear_leg"]
+      "short-legs": [
+        "rear_leg"
+      ]
     },
     "atmosphere": {
-      "light-snow": ["rear_atmosphere", "atmosphere"],
-      "steady-snow": ["rear_atmosphere", "atmosphere"],
-      "heavy-snow": ["rear_atmosphere", "atmosphere"],
-      "breath-fog": ["atmosphere"],
-      "sparkle-frost": ["atmosphere"],
-      "north-star-field": ["atmosphere"]
+      "light-snow": [
+        "rear_atmosphere",
+        "atmosphere"
+      ],
+      "breath-fog": [
+        "atmosphere"
+      ],
+      "sparkle-frost": [
+        "atmosphere"
+      ],
+      "north-star-field": [
+        "atmosphere"
+      ]
     }
   },
   "occlusion_rules": [

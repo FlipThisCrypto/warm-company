@@ -17,18 +17,16 @@
 | background | First Light | `first-light` | shared | 20 | legendary |  |  | layers/shared/backgrounds/first-light.png |
 | background | Light Snowfall | `light-snowfall-scene` | shared | 20 | uncommon |  |  | layers/shared/backgrounds/light-snowfall-scene.png |
 | rear_environment | None | `none` | shared | 720 | common |  |  |  |
-| rear_environment | Distant Pines | `distant-pines` | shared | 140 | uncommon |  |  | layers/shared/rear-environment/distant-pines.png |
 | rear_environment | Campfire Glow | `campfire-glow` | shared | 80 | rare |  |  | layers/shared/rear-environment/campfire-glow.png |
 | rear_accessory | None | `none` | sleeping-bag, small-tent, large-tent | 820 | common |  |  |  |
 | arm_pose | Rest | `rest` | sleeping-bag, small-tent, large-tent | 520 | common | ['rear_arm'] |  | layers/sleeping-bag/arms-rear/rest.png, layers/small-tent/arms-rear/rest.png, layers/large-tent/arms-rear/rest.png |
-| arm_pose | Hold Item | `hold-item` | sleeping-bag, small-tent, large-tent | 280 | common | ['rear_arm', 'front_arm'] | empty-hands-no-hold | layers/sleeping-bag/arms-rear/hold-item.png, layers/sleeping-bag/arms/hold-item.png, layers/small-tent/arms-rear/hold-item.png, layers/small-tent/arms/hold-item.png, layers/large-tent/arms-rear/hold-item.png, layers/large-tent/arms/hold-item.png |
+| arm_pose | Hold Item | `hold-item` | sleeping-bag, large-tent | 280 | common | ['front_arm'] | empty-hands-no-hold | layers/sleeping-bag/arms/hold-item.png, layers/large-tent/arms/hold-item.png |
 | arm_pose | Wave | `wave` | sleeping-bag | 90 | uncommon | ['rear_arm', 'front_arm'] |  | layers/sleeping-bag/arms-rear/wave.png, layers/sleeping-bag/arms/wave.png |
-| arm_pose | Two-Handed Hold | `hold-two-hand` | sleeping-bag, small-tent, large-tent | 40 | rare | ['rear_arm', 'front_arm'] | empty-hands-no-hold | layers/sleeping-bag/arms-rear/hold-two-hand.png, layers/sleeping-bag/arms/hold-two-hand.png, layers/small-tent/arms-rear/hold-two-hand.png, layers/small-tent/arms/hold-two-hand.png, layers/large-tent/arms-rear/hold-two-hand.png, layers/large-tent/arms/hold-two-hand.png |
+| arm_pose | Two-Handed Hold | `hold-two-hand` | small-tent | 40 | rare | ['front_arm'] | empty-hands-no-hold | layers/small-tent/arms/hold-two-hand.png |
 | held_item | None | `none` | sleeping-bag, small-tent, large-tent | 380 | common |  |  |  |
-| held_item | Coffee | `coffee` | sleeping-bag, small-tent, large-tent | 80 | common | ['hold-item'] |  | layers/sleeping-bag/handheld/coffee.png, layers/small-tent/handheld/coffee.png, layers/large-tent/handheld/coffee.png |
-| held_item | Thermos | `thermos` | sleeping-bag, small-tent, large-tent | 60 | uncommon | ['hold-item'] |  | layers/sleeping-bag/handheld/thermos.png, layers/small-tent/handheld/thermos.png, layers/large-tent/handheld/thermos.png |
-| held_item | Lantern | `lantern` | sleeping-bag, small-tent, large-tent | 40 | rare | ['hold-item'] |  | layers/sleeping-bag/handheld-rear/lantern.png, layers/sleeping-bag/handheld/lantern.png, layers/sleeping-bag/light/lantern-glow.png, layers/small-tent/handheld-rear/lantern.png, layers/small-tent/handheld/lantern.png, layers/small-tent/light/lantern-glow.png |
-| held_item | Map | `map` | sleeping-bag, small-tent, large-tent | 25 | rare | ['hold-two-hand'] |  | layers/sleeping-bag/handheld/map.png, layers/small-tent/handheld/map.png, layers/large-tent/handheld/map.png |
+| held_item | Coffee | `coffee` | sleeping-bag | 80 | common | ['hold-item'] |  |  |
+| held_item | Lantern | `lantern` | large-tent | 40 | rare | ['hold-item'] |  | layers/large-tent/handheld/lantern.png, layers/large-tent/light/lantern-glow.png |
+| held_item | Map | `map` | small-tent | 25 | rare | ['hold-two-hand'] |  |  |
 | body | Trail Olive | `trail-olive` | sleeping-bag, small-tent, large-tent | 110 | common |  |  | layers/sleeping-bag/body/trail-olive.png, layers/small-tent/body/trail-olive.png, layers/large-tent/body/trail-olive.png |
 | body | Ember Rust | `ember-rust` | sleeping-bag, small-tent, large-tent | 100 | common |  |  | layers/sleeping-bag/body/ember-rust.png, layers/small-tent/body/ember-rust.png, layers/large-tent/body/ember-rust.png |
 | body | Navy Night | `navy-night` | sleeping-bag, small-tent, large-tent | 100 | common |  |  | layers/sleeping-bag/body/navy-night.png, layers/small-tent/body/navy-night.png, layers/large-tent/body/navy-night.png |
@@ -54,36 +52,24 @@
 | body | North Star Navy | `north-star-navy` | sleeping-bag, small-tent, large-tent | 8 | legendary |  |  | layers/sleeping-bag/body/north-star-navy.png, layers/small-tent/body/north-star-navy.png, layers/large-tent/body/north-star-navy.png |
 | pattern | Solid | `none` | sleeping-bag, small-tent, large-tent | 420 | common |  |  |  |
 | pattern | Plaid | `plaid` | sleeping-bag | 70 | uncommon |  |  | layers/sleeping-bag/patterns/plaid.png |
-| pattern | Stars | `stars` | sleeping-bag | 40 | rare |  |  | layers/sleeping-bag/patterns/stars.png |
-| pattern | Patchwork | `patchwork` | sleeping-bag, small-tent, large-tent | 40 | rare |  |  | layers/sleeping-bag/patterns/patchwork.png, layers/small-tent/patterns/patchwork.png, layers/large-tent/patterns/patchwork.png |
-| pattern | Two-Tone Panels | `two-tone-panel` | small-tent, large-tent | 80 | uncommon |  |  | layers/small-tent/patterns/two-tone-panel.png, layers/large-tent/patterns/two-tone-panel.png |
-| structural | Baffles + Zipper | `basic-baffles` | sleeping-bag | 700 | common |  |  | layers/sleeping-bag/structural/basic-baffles.png |
-| structural | Hood Drawstring | `hood-drawstring` | sleeping-bag | 200 | uncommon |  |  | layers/sleeping-bag/structural/hood-drawstring.png |
-| structural | A-Frame Poles | `a-frame-poles` | small-tent | 620 | common |  |  | layers/small-tent/structural/a-frame-poles.png |
-| structural | Guy Lines | `guy-lines` | small-tent, large-tent | 240 | uncommon |  |  | layers/small-tent/structural/guy-lines.png, layers/large-tent/structural/guy-lines.png |
-| structural | Cabin Poles + Ridge | `cabin-poles` | large-tent | 560 | common |  |  | layers/large-tent/structural/cabin-poles.png |
+| pattern | Patchwork | `patchwork` | sleeping-bag | 40 | rare |  |  | layers/sleeping-bag/patterns/patchwork.png |
+| pattern | Two-Tone Panels | `two-tone-panel` | small-tent | 80 | uncommon |  |  | layers/small-tent/patterns/two-tone-panel.png |
 | structural | Extra Paneling | `extra-panels` | large-tent | 140 | uncommon |  |  | layers/large-tent/structural/extra-panels.png |
 | legs | Short Legs | `short-legs` | sleeping-bag, small-tent, large-tent | 1000 | common | ['rear_leg'] |  | layers/sleeping-bag/legs-rear/short-legs.png, layers/small-tent/legs-rear/short-legs.png, layers/large-tent/legs-rear/short-legs.png |
-| footwear | Basic Shoes | `basic-shoes` | sleeping-bag, small-tent, large-tent | 280 | common |  |  | layers/sleeping-bag/footwear/basic-shoes.png, layers/small-tent/footwear/basic-shoes.png, layers/large-tent/footwear/basic-shoes.png |
+| footwear | Basic Shoes | `basic-shoes` | sleeping-bag | 280 | common |  |  | layers/sleeping-bag/footwear/basic-shoes.png |
 | footwear | Work Boots | `work-boots` | sleeping-bag, small-tent, large-tent | 180 | common |  |  | layers/sleeping-bag/footwear/work-boots.png, layers/small-tent/footwear/work-boots.png, layers/large-tent/footwear/work-boots.png |
 | footwear | Snow Boots | `snow-boots` | sleeping-bag, small-tent, large-tent | 160 | uncommon |  |  | layers/sleeping-bag/footwear/snow-boots.png, layers/small-tent/footwear/snow-boots.png, layers/large-tent/footwear/snow-boots.png |
 | face | Standard Face | `standard-face` | sleeping-bag, small-tent, large-tent | 1000 | common |  |  | layers/sleeping-bag/face/standard-face.png, layers/small-tent/face/standard-face.png, layers/large-tent/face/standard-face.png |
 | eyes | Normal | `normal` | sleeping-bag, small-tent, large-tent | 240 | common |  |  | layers/sleeping-bag/eyes/normal.png, layers/small-tent/eyes/normal.png, layers/large-tent/eyes/normal.png |
 | eyes | Happy | `happy` | sleeping-bag, small-tent, large-tent | 160 | common |  |  | layers/sleeping-bag/eyes/happy.png, layers/small-tent/eyes/happy.png, layers/large-tent/eyes/happy.png |
-| eyes | Sleepy | `sleepy` | sleeping-bag, small-tent, large-tent | 110 | uncommon |  | sunglasses-exclude-eye-overlays | layers/sleeping-bag/eyes/sleepy.png, layers/small-tent/eyes/sleepy.png, layers/large-tent/eyes/sleepy.png |
+| eyes | Sleepy | `sleepy` | sleeping-bag, small-tent | 110 | uncommon |  | sunglasses-exclude-eye-overlays | layers/sleeping-bag/eyes/sleepy.png, layers/small-tent/eyes/sleepy.png |
 | eyes | Sunglasses Ready | `sunglasses-compatible` | sleeping-bag, small-tent, large-tent | 15 | rare |  | glasses-exclude-sunglasses-eyes | layers/sleeping-bag/eyes/sunglasses-compatible.png, layers/small-tent/eyes/sunglasses-compatible.png, layers/large-tent/eyes/sunglasses-compatible.png |
 | eyes | Determined | `determined` | sleeping-bag, small-tent, large-tent | 100 | uncommon |  |  | layers/sleeping-bag/eyes/determined.png, layers/small-tent/eyes/determined.png, layers/large-tent/eyes/determined.png |
-| eyebrows | Neutral | `neutral` | sleeping-bag, small-tent, large-tent | 360 | common |  |  | layers/sleeping-bag/eyebrows/neutral.png, layers/small-tent/eyebrows/neutral.png, layers/large-tent/eyebrows/neutral.png |
-| eyebrows | Raised | `raised` | sleeping-bag, small-tent, large-tent | 180 | uncommon |  |  | layers/sleeping-bag/eyebrows/raised.png, layers/small-tent/eyebrows/raised.png, layers/large-tent/eyebrows/raised.png |
-| eyebrows | Concerned | `concerned` | sleeping-bag, small-tent, large-tent | 160 | uncommon |  |  | layers/sleeping-bag/eyebrows/concerned.png, layers/small-tent/eyebrows/concerned.png, layers/large-tent/eyebrows/concerned.png |
-| eyebrows | Mischievous | `mischievous` | sleeping-bag, small-tent, large-tent | 140 | rare |  |  | layers/sleeping-bag/eyebrows/mischievous.png, layers/small-tent/eyebrows/mischievous.png, layers/large-tent/eyebrows/mischievous.png |
-| eyebrows | Determined | `determined` | sleeping-bag, small-tent, large-tent | 160 | uncommon |  |  | layers/sleeping-bag/eyebrows/determined.png, layers/small-tent/eyebrows/determined.png, layers/large-tent/eyebrows/determined.png |
 | mouth | Smile | `smile` | sleeping-bag, small-tent, large-tent | 240 | common |  |  | layers/sleeping-bag/mouths/smile.png, layers/small-tent/mouths/smile.png, layers/large-tent/mouths/smile.png |
 | mouth | Grin | `grin` | sleeping-bag, small-tent, large-tent | 150 | common |  | concerned-no-open-laugh | layers/sleeping-bag/mouths/grin.png, layers/small-tent/mouths/grin.png, layers/large-tent/mouths/grin.png |
-| mouth | Determined | `determined` | sleeping-bag, small-tent, large-tent | 80 | uncommon |  | surprised-eyes-prefer-open-mouth | layers/sleeping-bag/mouths/determined.png, layers/small-tent/mouths/determined.png, layers/large-tent/mouths/determined.png |
+| mouth | Determined | `determined` | sleeping-bag, large-tent | 80 | uncommon |  | surprised-eyes-prefer-open-mouth | layers/sleeping-bag/mouths/determined.png, layers/large-tent/mouths/determined.png |
 | facial | None | `none` | sleeping-bag, small-tent, large-tent | 620 | common |  |  |  |
-| facial | Sunglasses | `sunglasses` | sleeping-bag, small-tent, large-tent | 35 | rare |  |  | layers/sleeping-bag/facial/sunglasses.png, layers/small-tent/facial/sunglasses.png, layers/large-tent/facial/sunglasses.png |
-| facial | Cold Blush | `blush` | sleeping-bag, small-tent, large-tent | 140 | uncommon |  |  | layers/sleeping-bag/facial/blush.png, layers/small-tent/facial/blush.png, layers/large-tent/facial/blush.png |
+| facial | Cold Blush | `blush` | sleeping-bag | 140 | uncommon |  |  | layers/sleeping-bag/facial/blush.png |
 | body_accessory | None | `none` | sleeping-bag, small-tent, large-tent | 640 | common |  |  |  |
 | headwear | None | `none` | sleeping-bag, small-tent, large-tent | 300 | common |  |  |  |
 | headwear | Winter Beanie | `beanie` | sleeping-bag, small-tent, large-tent | 140 | common |  |  | layers/sleeping-bag/headwear/beanie.png, layers/small-tent/headwear/beanie.png, layers/large-tent/headwear/beanie.png |
@@ -96,19 +82,19 @@
 | headwear | North Star Halo | `halo` | large-tent | 8 | legendary |  | umbrella-no-tall-hats, wave-no-umbrella-space | layers/large-tent/headwear/halo.png |
 | headwear | Earflap Beanie | `earflap-beanie` | sleeping-bag | 25 | rare |  | trapper-excludes-ear-hats | layers/sleeping-bag/headwear/earflap-beanie.png |
 | ground_accessory | None | `none` | shared | 780 | common |  |  |  |
-| ground_accessory | Tiny Campfire | `tiny-campfire` | shared | 25 | epic |  | vestibule-not-with-tiny-campfire-overlap | layers/shared/ground/tiny-campfire.png |
 | atmosphere | Clear | `none` | shared | 520 | common |  |  |  |
 | atmosphere | Light Snow | `light-snow` | shared | 220 | uncommon |  |  | layers/shared/atmosphere-rear/light-snow.png, layers/shared/atmosphere/light-snow.png |
-| atmosphere | Steady Snow | `steady-snow` | shared | 90 | rare |  |  | layers/shared/atmosphere-rear/steady-snow.png, layers/shared/atmosphere/steady-snow.png |
+| eyebrows | None | `none` | sleeping-bag, small-tent, large-tent | 1000 | common |  |  |  |
+| structural | None | `none` | sleeping-bag, small-tent, large-tent | 820 | common |  |  |  |
 
 ## Human-review flags (pre-approval)
 
 - Dusty Rose: confirm it reads pink, not mauve, especially on Pup/Lodge.
-- Body colors are fabric recolors of one silhouette per class; plaid/patchwork/two-tone-panel are the non-recolor treatments.
-- Stars overlay is thin compared with baked diamond quilting.
-- Pose-master grips: Snug coffee, Pup map, Lodge lantern. Other class/item pairs still use clip-art props.
-- Thermos has no illustrated grip.
-- Body accessories were pruned (clip-art). J sheet shows ground/rear-environment only.
+- Body colors are fabric recolors of one silhouette per class; Snug plaid/patchwork and Pup two-tone-panel are the non-recolor treatments.
+- Factory clip-art (thermos, PIL eyebrows/sunglasses/stars/steady-snow/tiny-campfire, rest-copied hold rear-arms) was dropped, not redrawn.
+- Pose-master grips only: Snug coffee, Pup map, Lodge lantern. Held items are class-restricted to those three.
+- Body accessories: none retained.
+- Eyebrows: none only (Lodge eyes already include brow marks).
 - Rest-pose rear arms still crop hard against the body (Snug/Pup).
 - Some hats are class-restricted (bucket Pup-only, trapper/crown/halo Lodge-only).
 - Quiet Overpass background: dignified empty infrastructure; confirm it is not too literal.

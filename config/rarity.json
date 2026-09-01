@@ -64,15 +64,16 @@
           "body": "camp-orange",
           "pattern": "two-tone-panel",
           "eyes": "happy",
-          "eyebrows": "raised",
+          "eyebrows": "none",
           "mouth": "smile",
           "headwear": "beanie",
-          "held_item": "coffee",
-          "arm_pose": "hold-item",
+          "held_item": "map",
+          "arm_pose": "hold-two-hand",
           "body_accessory": "none",
           "footwear": "work-boots",
           "atmosphere": "none",
-          "special": "the-volunteer"
+          "special": "the-volunteer",
+          "structural": "none"
         }
       },
       {
@@ -83,17 +84,18 @@
         "traits": {
           "background": "city-edge",
           "body": "navy-night",
-          "pattern": "two-tone-panel",
+          "pattern": "none",
           "eyes": "determined",
-          "eyebrows": "determined",
+          "eyebrows": "none",
           "mouth": "determined",
           "headwear": "beanie",
-          "held_item": "thermos",
+          "held_item": "lantern",
           "arm_pose": "hold-item",
           "footwear": "work-boots",
           "body_accessory": "none",
           "atmosphere": "light-snow",
-          "special": "the-outreach-worker"
+          "special": "the-outreach-worker",
+          "structural": "none"
         }
       },
       {
@@ -106,14 +108,15 @@
           "body": "storm-charcoal",
           "pattern": "patchwork",
           "eyes": "determined",
-          "eyebrows": "neutral",
+          "eyebrows": "none",
           "mouth": "smile",
           "headwear": "earflap-beanie",
           "held_item": "coffee",
           "arm_pose": "hold-item",
           "footwear": "snow-boots",
           "atmosphere": "light-snow",
-          "special": "the-survivor"
+          "special": "the-survivor",
+          "structural": "none"
         }
       },
       {
@@ -126,14 +129,16 @@
           "body": "forest-green",
           "pattern": "two-tone-panel",
           "eyes": "determined",
-          "eyebrows": "raised",
+          "eyebrows": "none",
           "mouth": "determined",
           "headwear": "bucket-hat",
           "held_item": "map",
           "arm_pose": "hold-two-hand",
+          "mouth": "smile",
           "footwear": "work-boots",
           "atmosphere": "none",
-          "special": "the-navigator"
+          "special": "the-navigator",
+          "structural": "none"
         }
       },
       {
@@ -146,7 +151,7 @@
           "body": "navy-night",
           "pattern": "none",
           "eyes": "determined",
-          "eyebrows": "determined",
+          "eyebrows": "none",
           "mouth": "determined",
           "headwear": "none",
           "held_item": "lantern",
@@ -154,7 +159,8 @@
           "footwear": "work-boots",
           "atmosphere": "light-snow",
           "facial": "none",
-          "special": "the-night-watch"
+          "special": "the-night-watch",
+          "structural": "none"
         }
       },
       {
@@ -168,15 +174,16 @@
           "body": "ember-rust",
           "pattern": "plaid",
           "eyes": "happy",
-          "eyebrows": "neutral",
+          "eyebrows": "none",
           "mouth": "smile",
           "headwear": "beanie",
           "held_item": "coffee",
           "arm_pose": "hold-item",
-          "ground_accessory": "tiny-campfire",
+          "ground_accessory": "none",
           "footwear": "snow-boots",
           "atmosphere": "none",
-          "special": "the-campfire-keeper"
+          "special": "the-campfire-keeper",
+          "structural": "none"
         }
       },
       {
@@ -189,7 +196,7 @@
           "body": "burgundy-quilt",
           "pattern": "patchwork",
           "eyes": "happy",
-          "eyebrows": "raised",
+          "eyebrows": "none",
           "mouth": "smile",
           "headwear": "none",
           "held_item": "coffee",
@@ -197,7 +204,8 @@
           "footwear": "basic-shoes",
           "facial": "blush",
           "atmosphere": "none",
-          "special": "the-warm-heart"
+          "special": "the-warm-heart",
+          "structural": "none"
         }
       },
       {
@@ -210,7 +218,7 @@
           "body": "cream-fleece",
           "pattern": "none",
           "eyes": "happy",
-          "eyebrows": "raised",
+          "eyebrows": "none",
           "mouth": "smile",
           "headwear": "knit-cap",
           "held_item": "none",
@@ -218,7 +226,8 @@
           "footwear": "snow-boots",
           "atmosphere": "light-snow",
           "facial": "blush",
-          "special": "the-first-snow"
+          "special": "the-first-snow",
+          "structural": "none"
         }
       },
       {
@@ -231,14 +240,15 @@
           "body": "sand-tan",
           "pattern": "two-tone-panel",
           "eyes": "sleepy",
-          "eyebrows": "neutral",
+          "eyebrows": "none",
           "mouth": "smile",
           "headwear": "beanie",
-          "held_item": "coffee",
-          "arm_pose": "hold-item",
+          "held_item": "map",
+          "arm_pose": "hold-two-hand",
           "footwear": "work-boots",
           "atmosphere": "none",
-          "special": "the-early-riser"
+          "special": "the-early-riser",
+          "structural": "none"
         }
       },
       {
@@ -251,14 +261,15 @@
           "body": "trail-olive",
           "pattern": "none",
           "eyes": "determined",
-          "eyebrows": "determined",
+          "eyebrows": "none",
           "mouth": "grin",
           "headwear": "baseball-cap",
           "held_item": "lantern",
           "arm_pose": "hold-item",
           "footwear": "work-boots",
           "atmosphere": "none",
-          "special": "the-trailblazer"
+          "special": "the-trailblazer",
+          "structural": "none"
         }
       },
       {
@@ -271,14 +282,15 @@
           "body": "sun-yellow",
           "pattern": "none",
           "eyes": "happy",
-          "eyebrows": "raised",
+          "eyebrows": "none",
           "mouth": "grin",
           "headwear": "beanie",
-          "held_item": "lantern",
-          "arm_pose": "hold-item",
+          "held_item": "map",
+          "arm_pose": "hold-two-hand",
           "footwear": "work-boots",
           "atmosphere": "light-snow",
-          "special": "the-hope-dealer"
+          "special": "the-hope-dealer",
+          "structural": "none"
         }
       },
       {
@@ -291,15 +303,16 @@
           "body": "sky-flannel",
           "pattern": "patchwork",
           "eyes": "normal",
-          "eyebrows": "raised",
+          "eyebrows": "none",
           "mouth": "smile",
           "headwear": "beanie",
-          "held_item": "map",
-          "arm_pose": "hold-two-hand",
+          "held_item": "coffee",
+          "arm_pose": "hold-item",
           "footwear": "snow-boots",
           "body_accessory": "none",
           "atmosphere": "none",
-          "special": "the-second-chance"
+          "special": "the-second-chance",
+          "structural": "none"
         }
       },
       {
@@ -312,15 +325,15 @@
           "body": "north-star-navy",
           "pattern": "none",
           "eyes": "normal",
-          "eyebrows": "neutral",
+          "eyebrows": "none",
           "mouth": "smile",
           "headwear": "halo",
-          "held_item": "none",
-          "arm_pose": "rest",
+          "held_item": "lantern",
+          "arm_pose": "hold-item",
           "footwear": "snow-boots",
           "atmosphere": "light-snow",
           "facial": "none",
-          "structural": "cabin-poles",
+          "structural": "none",
           "special": "the-not-by-chance"
         }
       }

@@ -943,8 +943,6 @@ def build_all(*, overwrite: bool = False) -> dict:
     for class_id in config.CLASS_IDS:
         rest = Image.open(ARM_MASTERS[class_id]).convert("RGBA")
         maybe(LAYERS / class_id / "arms-rear" / "rest.png", lambda r=rest: r)
-        maybe(LAYERS / class_id / "arms-rear" / "hold-item.png", lambda r=rest: r)
-        maybe(LAYERS / class_id / "arms-rear" / "hold-two-hand.png", lambda r=rest: r)
         maybe(LAYERS / class_id / "arms-rear" / "akimbo.png", lambda r=rest: r)
         maybe(LAYERS / class_id / "arms-rear" / "wave.png", lambda r=rest, c=class_id: raise_arm(r, c, "right"))
         hold_front = LAYERS / class_id / "arms" / "hold-item.png"

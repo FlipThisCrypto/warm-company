@@ -139,12 +139,12 @@ class CompositorStackTests(unittest.TestCase):
             "held_item": "none",
             "body": "ember-rust",
             "pattern": "none",
-            "structural": "basic-baffles",
+            "structural": "none",
             "legs": "short-legs",
             "footwear": "basic-shoes",
             "face": "standard-face",
             "eyes": "normal",
-            "eyebrows": "neutral",
+            "eyebrows": "none",
             "mouth": "smile",
             "facial": "none",
             "body_accessory": "none",
@@ -174,7 +174,7 @@ class CompositorStackTests(unittest.TestCase):
 
     def test_two_hand_pose_uses_front_arm(self):
         self.assertTrue(slot_is_active("front_arm", "arm_pose", "hold-two-hand"))
-        self.assertTrue(slot_is_active("rear_arm", "arm_pose", "hold-two-hand"))
+        self.assertFalse(slot_is_active("rear_arm", "arm_pose", "hold-two-hand"))
 
     def test_work_boots_not_treated_as_default_feet(self):
         from warm_company.composite import DEFAULT_FOOTWEAR
@@ -188,7 +188,7 @@ class CompositorStackTests(unittest.TestCase):
 
     def test_lantern_declares_glow_and_split_hold(self):
         self.assertTrue(slot_is_active("light_effect", "held_item", "lantern"))
-        self.assertTrue(slot_is_active("rear_held", "held_item", "lantern"))
+        self.assertFalse(slot_is_active("rear_held", "held_item", "lantern"))
         self.assertTrue(slot_is_active("front_held", "held_item", "lantern"))
         traits = self._bare_snug()
         traits["held_item"] = "lantern"
@@ -295,22 +295,22 @@ class CompositorStackTests(unittest.TestCase):
 
 
 class CompatibilityTests(unittest.TestCase):
-    def test_sunglasses_force_eyes(self):
+    def test_held_item_forces_hold_pose(self):
         traits = {
-            "facial": "sunglasses",
-            "eyes": "starry",
-            "held_item": "none",
+            "facial": "none",
+            "eyes": "normal",
+            "held_item": "coffee",
             "arm_pose": "rest",
             "rear_accessory": "none",
             "body_accessory": "none",
             "background": "snowy-camp",
             "body": "ember-rust",
             "pattern": "none",
-            "structural": "basic-baffles",
+            "structural": "none",
             "legs": "short-legs",
             "footwear": "basic-shoes",
             "face": "standard-face",
-            "eyebrows": "neutral",
+            "eyebrows": "none",
             "mouth": "smile",
             "headwear": "none",
             "rear_environment": "none",
@@ -319,7 +319,7 @@ class CompatibilityTests(unittest.TestCase):
             "special": "none",
         }
         forced = compatibility.apply_forces(traits)
-        self.assertEqual(forced["eyes"], "sunglasses-compatible")
+        self.assertEqual(forced["arm_pose"], "hold-item")
         self.assertTrue(compatibility.is_legal("sleeping-bag", forced))
 
 
@@ -336,6 +336,15 @@ class GenerationTests(unittest.TestCase):
             "large-tent": 200,
         })
         self.assertEqual(self.result["unique_dna"], 800)
+
+    def test_collection_validation_ok(self):
+        from warm_company.validate_collection import validate_result
+
+        report = validate_result(self.result)
+        self.assertEqual(report["problems"], [])
+        self.assertTrue(report["ok"])
+        self.assertEqual(report["unique_dna"], 800)
+        self.assertEqual(report["special_count"], 13)
 
     def test_reproducible(self):
         again = generate_collection(seed="warm-company-dev-seed-v0", phase=9)
@@ -370,7 +379,7 @@ class GenerationTests(unittest.TestCase):
             "held_item": "none",
             "body": "ember-rust",
             "pattern": "none",
-            "structural": "basic-baffles",
+            "structural": "none",
             "legs": "short-legs",
             "footwear": "basic-shoes",
             "face": "standard-face",
@@ -400,7 +409,7 @@ class GenerationTests(unittest.TestCase):
             "held_item": "none",
             "body": "ember-rust",
             "pattern": "none",
-            "structural": "basic-baffles",
+            "structural": "none",
             "legs": "short-legs",
             "footwear": "basic-shoes",
             "face": "standard-face",
@@ -482,31 +491,18 @@ class ReviewStripTests(unittest.TestCase):
         bare = reconstruction_composite(review_token("large-tent"))
         self.assertNotEqual(lit.tobytes(), bare.tobytes())
 
-    def test_thermos_does_not_paint_coffee_pose_master(self):
-        from warm_company.composite import pose_master_slot, resolved_stack
-        from warm_company.review import review_token
-
-        tok = review_token("sleeping-bag", held_item="thermos", arm_pose="hold-item")
-        self.assertIsNone(pose_master_slot(tok["class_id"], tok["traits"]))
-        slots = [s for s, _src in resolved_stack(tok["class_id"], tok["traits"])]
-        self.assertIn("body", slots)
-        self.assertIn("front_held", slots)
-        self.assertNotIn("front_arm", slots)
-
     def test_pose_master_is_item_specific(self):
         from warm_company.composite import pose_master_slot
         from warm_company.review import review_token
 
         coffee = review_token("sleeping-bag", held_item="coffee", arm_pose="hold-item")
-        lantern = review_token("sleeping-bag", held_item="lantern", arm_pose="hold-item")
-        thermos = review_token("sleeping-bag", held_item="thermos", arm_pose="hold-item")
-        self.assertEqual(pose_master_slot(coffee["class_id"], coffee["traits"]), "front_arm")
-        self.assertIsNone(pose_master_slot(lantern["class_id"], lantern["traits"]))
-        self.assertIsNone(pose_master_slot(thermos["class_id"], thermos["traits"]))
         lodge = review_token("large-tent", held_item="lantern", arm_pose="hold-item")
+        pup_map = review_token("small-tent", held_item="map", arm_pose="hold-two-hand")
+        self.assertEqual(pose_master_slot(coffee["class_id"], coffee["traits"]), "front_arm")
         self.assertEqual(pose_master_slot(lodge["class_id"], lodge["traits"]), "front_held")
-        lodge_coffee = review_token("large-tent", held_item="coffee", arm_pose="hold-item")
-        self.assertIsNone(pose_master_slot(lodge_coffee["class_id"], lodge_coffee["traits"]))
+        self.assertEqual(pose_master_slot(pup_map["class_id"], pup_map["traits"]), "front_arm")
+        snug_rest = review_token("sleeping-bag")
+        self.assertIsNone(pose_master_slot(snug_rest["class_id"], snug_rest["traits"]))
 
     def test_map_hold_uses_pose_master(self):
         from warm_company.composite import pose_master_slot, resolved_stack
@@ -533,7 +529,7 @@ class ReviewStripTests(unittest.TestCase):
         self.assertNotIn("front_held", slots)
         self.assertNotIn("body", slots)
         clipart = ROOT / "layers" / "sleeping-bag" / "handheld" / "coffee.png"
-        self.assertTrue(clipart.exists())
+        self.assertFalse(clipart.exists())
 
     def test_beanie_file_within_preferred_width(self):
         from warm_company.composite import clamp_headwear
@@ -576,10 +572,34 @@ class InventoryLibraryTests(unittest.TestCase):
     def test_hold_item_front_arm_differs_from_rest(self):
         rest = (ROOT / "layers" / "sleeping-bag" / "arms-rear" / "rest.png").read_bytes()
         hold = (ROOT / "layers" / "sleeping-bag" / "arms" / "hold-item.png").read_bytes()
-        two = (ROOT / "layers" / "sleeping-bag" / "arms" / "hold-two-hand.png").read_bytes()
+        two = (ROOT / "layers" / "small-tent" / "arms" / "hold-two-hand.png").read_bytes()
         self.assertNotEqual(hold, rest)
         self.assertNotEqual(two, rest)
         self.assertNotEqual(hold, two)
+
+    def test_hold_rear_arms_are_not_rest_copies(self):
+        from warm_company import config
+
+        for class_id in config.CLASS_IDS:
+            rest_path = ROOT / "layers" / class_id / "arms-rear" / "rest.png"
+            rest = rest_path.read_bytes()
+            for name in ("hold-item.png", "hold-two-hand.png"):
+                path = ROOT / "layers" / class_id / "arms-rear" / name
+                if path.exists():
+                    self.assertNotEqual(
+                        path.read_bytes(),
+                        rest,
+                        msg=f"{class_id} arms-rear/{name} must not be a rest copy",
+                    )
+
+    def test_no_tiny_factory_production_pngs(self):
+        from warm_company.library import required_paths
+
+        tiny = []
+        for path in required_paths():
+            if path.exists() and path.stat().st_size < 5000:
+                tiny.append(f"{path.relative_to(ROOT).as_posix()} {path.stat().st_size}")
+        self.assertEqual(tiny, [], msg="factory clip-art still rollable: " + "; ".join(tiny[:20]))
 
     def test_dusty_rose_keeps_cream_face(self):
         path = ROOT / "layers" / "sleeping-bag" / "body" / "dusty-rose.png"

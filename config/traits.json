@@ -52,7 +52,7 @@
     {
       "id": "structural",
       "label": "Structural Detail",
-      "optional": false,
+      "optional": true,
       "scope": "class"
     },
     {
@@ -82,7 +82,7 @@
     {
       "id": "eyebrows",
       "label": "Eyebrows",
-      "optional": false,
+      "optional": true,
       "scope": "class"
     },
     {
@@ -300,17 +300,6 @@
       ]
     },
     {
-      "id": "distant-pines",
-      "slot": "rear_environment",
-      "name": "Distant Pines",
-      "phase": 6,
-      "band": "uncommon",
-      "weight": 140,
-      "classes": [
-        "shared"
-      ]
-    },
-    {
       "id": "campfire-glow",
       "slot": "rear_environment",
       "name": "Campfire Glow",
@@ -359,11 +348,9 @@
       "weight": 280,
       "classes": [
         "sleeping-bag",
-        "small-tent",
         "large-tent"
       ],
       "files": [
-        "rear_arm",
         "front_arm"
       ]
     },
@@ -390,12 +377,9 @@
       "band": "rare",
       "weight": 40,
       "classes": [
-        "sleeping-bag",
-        "small-tent",
-        "large-tent"
+        "small-tent"
       ],
       "files": [
-        "rear_arm",
         "front_arm"
       ]
     },
@@ -420,25 +404,7 @@
       "band": "common",
       "weight": 80,
       "classes": [
-        "sleeping-bag",
-        "small-tent",
-        "large-tent"
-      ],
-      "requires_pose": [
-        "hold-item"
-      ]
-    },
-    {
-      "id": "thermos",
-      "slot": "held_item",
-      "name": "Thermos",
-      "phase": 3,
-      "band": "uncommon",
-      "weight": 60,
-      "classes": [
-        "sleeping-bag",
-        "small-tent",
-        "large-tent"
+        "sleeping-bag"
       ],
       "requires_pose": [
         "hold-item"
@@ -452,15 +418,12 @@
       "band": "rare",
       "weight": 40,
       "classes": [
-        "sleeping-bag",
-        "small-tent",
         "large-tent"
       ],
       "requires_pose": [
         "hold-item"
       ],
       "files": [
-        "rear_held",
         "front_held",
         "light_effect"
       ]
@@ -473,9 +436,7 @@
       "band": "rare",
       "weight": 25,
       "classes": [
-        "sleeping-bag",
-        "small-tent",
-        "large-tent"
+        "small-tent"
       ],
       "requires_pose": [
         "hold-two-hand"
@@ -788,17 +749,6 @@
       ]
     },
     {
-      "id": "stars",
-      "slot": "pattern",
-      "name": "Stars",
-      "phase": 6,
-      "band": "rare",
-      "weight": 40,
-      "classes": [
-        "sleeping-bag"
-      ]
-    },
-    {
       "id": "patchwork",
       "slot": "pattern",
       "name": "Patchwork",
@@ -806,9 +756,7 @@
       "band": "rare",
       "weight": 40,
       "classes": [
-        "sleeping-bag",
-        "small-tent",
-        "large-tent"
+        "sleeping-bag"
       ],
       "notes": "Mended with care, not 'dirty' or degraded. Dignity."
     },
@@ -820,64 +768,7 @@
       "band": "uncommon",
       "weight": 80,
       "classes": [
-        "small-tent",
-        "large-tent"
-      ]
-    },
-    {
-      "id": "basic-baffles",
-      "slot": "structural",
-      "name": "Baffles + Zipper",
-      "phase": 3,
-      "band": "common",
-      "weight": 700,
-      "classes": [
-        "sleeping-bag"
-      ]
-    },
-    {
-      "id": "hood-drawstring",
-      "slot": "structural",
-      "name": "Hood Drawstring",
-      "phase": 6,
-      "band": "uncommon",
-      "weight": 200,
-      "classes": [
-        "sleeping-bag"
-      ]
-    },
-    {
-      "id": "a-frame-poles",
-      "slot": "structural",
-      "name": "A-Frame Poles",
-      "phase": 3,
-      "band": "common",
-      "weight": 620,
-      "classes": [
         "small-tent"
-      ]
-    },
-    {
-      "id": "guy-lines",
-      "slot": "structural",
-      "name": "Guy Lines",
-      "phase": 6,
-      "band": "uncommon",
-      "weight": 240,
-      "classes": [
-        "small-tent",
-        "large-tent"
-      ]
-    },
-    {
-      "id": "cabin-poles",
-      "slot": "structural",
-      "name": "Cabin Poles + Ridge",
-      "phase": 3,
-      "band": "common",
-      "weight": 560,
-      "classes": [
-        "large-tent"
       ]
     },
     {
@@ -915,9 +806,7 @@
       "band": "common",
       "weight": 280,
       "classes": [
-        "sleeping-bag",
-        "small-tent",
-        "large-tent"
+        "sleeping-bag"
       ]
     },
     {
@@ -994,8 +883,7 @@
       "weight": 110,
       "classes": [
         "sleeping-bag",
-        "small-tent",
-        "large-tent"
+        "small-tent"
       ]
     },
     {
@@ -1005,7 +893,11 @@
       "phase": 6,
       "band": "rare",
       "weight": 15,
-      "classes": ["sleeping-bag", "small-tent", "large-tent"]
+      "classes": [
+        "sleeping-bag",
+        "small-tent",
+        "large-tent"
+      ]
     },
     {
       "id": "determined",
@@ -1014,71 +906,6 @@
       "phase": 3,
       "band": "uncommon",
       "weight": 100,
-      "classes": [
-        "sleeping-bag",
-        "small-tent",
-        "large-tent"
-      ]
-    },
-    {
-      "id": "neutral",
-      "slot": "eyebrows",
-      "name": "Neutral",
-      "phase": 3,
-      "band": "common",
-      "weight": 360,
-      "classes": [
-        "sleeping-bag",
-        "small-tent",
-        "large-tent"
-      ]
-    },
-    {
-      "id": "raised",
-      "slot": "eyebrows",
-      "name": "Raised",
-      "phase": 3,
-      "band": "uncommon",
-      "weight": 180,
-      "classes": [
-        "sleeping-bag",
-        "small-tent",
-        "large-tent"
-      ]
-    },
-    {
-      "id": "concerned",
-      "slot": "eyebrows",
-      "name": "Concerned",
-      "phase": 3,
-      "band": "uncommon",
-      "weight": 160,
-      "classes": [
-        "sleeping-bag",
-        "small-tent",
-        "large-tent"
-      ]
-    },
-    {
-      "id": "mischievous",
-      "slot": "eyebrows",
-      "name": "Mischievous",
-      "phase": 6,
-      "band": "rare",
-      "weight": 140,
-      "classes": [
-        "sleeping-bag",
-        "small-tent",
-        "large-tent"
-      ]
-    },
-    {
-      "id": "determined",
-      "slot": "eyebrows",
-      "name": "Determined",
-      "phase": 6,
-      "band": "uncommon",
-      "weight": 160,
       "classes": [
         "sleeping-bag",
         "small-tent",
@@ -1120,7 +947,6 @@
       "weight": 80,
       "classes": [
         "sleeping-bag",
-        "small-tent",
         "large-tent"
       ]
     },
@@ -1138,15 +964,6 @@
       ]
     },
     {
-      "id": "sunglasses",
-      "slot": "facial",
-      "name": "Sunglasses",
-      "phase": 6,
-      "band": "rare",
-      "weight": 35,
-      "classes": ["sleeping-bag", "small-tent", "large-tent"]
-    },
-    {
       "id": "blush",
       "slot": "facial",
       "name": "Cold Blush",
@@ -1154,9 +971,7 @@
       "band": "uncommon",
       "weight": 140,
       "classes": [
-        "sleeping-bag",
-        "small-tent",
-        "large-tent"
+        "sleeping-bag"
       ]
     },
     {
@@ -1300,18 +1115,6 @@
       ]
     },
     {
-      "id": "tiny-campfire",
-      "slot": "ground_accessory",
-      "name": "Tiny Campfire",
-      "phase": 9,
-      "band": "epic",
-      "weight": 25,
-      "classes": [
-        "shared"
-      ],
-      "notes": "Stylized, safe, small. Not a hazard gag."
-    },
-    {
       "id": "none",
       "slot": "atmosphere",
       "name": "Clear",
@@ -1334,17 +1137,6 @@
       ]
     },
     {
-      "id": "steady-snow",
-      "slot": "atmosphere",
-      "name": "Steady Snow",
-      "phase": 6,
-      "band": "rare",
-      "weight": 90,
-      "classes": [
-        "shared"
-      ]
-    },
-    {
       "id": "none",
       "slot": "special",
       "name": "None",
@@ -1357,6 +1149,32 @@
         "large-tent"
       ],
       "not_a_layer": true
+    },
+    {
+      "id": "none",
+      "slot": "eyebrows",
+      "name": "None",
+      "phase": 3,
+      "band": "common",
+      "weight": 1000,
+      "classes": [
+        "sleeping-bag",
+        "small-tent",
+        "large-tent"
+      ]
+    },
+    {
+      "id": "none",
+      "slot": "structural",
+      "name": "None",
+      "phase": 3,
+      "band": "common",
+      "weight": 820,
+      "classes": [
+        "sleeping-bag",
+        "small-tent",
+        "large-tent"
+      ]
     }
   ]
 }
