@@ -1,14 +1,17 @@
-"""Knock out generation mattes and force 1024x1024 RGBA."""
+"""Knock out generation mattes with despill and fringe QA.
+
+Production matte is MAGENTA #FF00FF. Cyan leftover from v1 is still keyed.
+"""
 
 from __future__ import annotations
 
 from pathlib import Path
 
-from PIL import Image, ImageFilter
+from PIL import Image, ImageChops, ImageFilter, ImageOps
 
 CANVAS = (1024, 1024)
-KEY_CYAN = (0, 255, 255)
 KEY_MAGENTA = (255, 0, 255)
+KEY_CYAN = (0, 255, 255)
 
 
 def _resize_to_canvas(image: Image.Image) -> Image.Image:
@@ -17,47 +20,105 @@ def _resize_to_canvas(image: Image.Image) -> Image.Image:
     return image.resize(CANVAS, Image.Resampling.LANCZOS)
 
 
+def _corner_median(pixels, w: int, h: int) -> tuple[int, int, int]:
+    samples: list[tuple[int, int, int]] = []
+    for ox, oy in ((2, 2), (w - 8, 2), (2, h - 8), (w - 8, h - 8)):
+        for dy in range(6):
+            for dx in range(6):
+                samples.append(pixels[ox + dx, oy + dy][:3])
+    n = len(samples) // 2
+    return (
+        sorted(s[0] for s in samples)[n],
+        sorted(s[1] for s in samples)[n],
+        sorted(s[2] for s in samples)[n],
+    )
+
+
 def chroma_key(
     image: Image.Image,
-    keys: tuple[tuple[int, int, int], ...] = (KEY_CYAN, KEY_MAGENTA),
+    keys: tuple[tuple[int, int, int], ...] = (KEY_MAGENTA, KEY_CYAN),
     threshold: int = 48,
     corner_fallback: bool = True,
 ) -> Image.Image:
+    """Soft-key magenta/cyan/dusty-rose mattes, despill remaining edge, contract 1px."""
     image = _resize_to_canvas(image.convert("RGBA"))
     pixels = image.load()
     w, h = image.size
-
-    extra_keys = list(keys)
+    extra = list(keys)
+    bg = None
     if corner_fallback:
-        corners = [
-            pixels[2, 2][:3],
-            pixels[w - 3, 2][:3],
-            pixels[2, h - 3][:3],
-            pixels[w - 3, h - 3][:3],
-        ]
-        # If three corners agree, treat that as the matte.
-        counts: dict[tuple[int, int, int], int] = {}
-        for rgb in corners:
-            snapped = (rgb[0] // 8 * 8, rgb[1] // 8 * 8, rgb[2] // 8 * 8)
-            counts[snapped] = counts.get(snapped, 0) + 1
-        common = max(counts, key=counts.get)
-        if counts[common] >= 3:
-            extra_keys.append(corners[0])
+        bg = _corner_median(pixels, w, h)
+        extra.append(bg)
+        # Grainy generation mattes need a wider first pass than #FF00FF.
+        threshold = max(threshold, 64)
 
     for y in range(h):
         for x in range(w):
-            r, g, b, a = pixels[x, y]
-            for kr, kg, kb in extra_keys:
-                if abs(r - kr) + abs(g - kg) + abs(b - kb) <= threshold * 3:
-                    pixels[x, y] = (r, g, b, 0)
-                    break
+            pr, pg, pb, pa = pixels[x, y]
+            mag = (pr + pb) / 2 - pg
+            cyn = (pg + pb) / 2 - pr
+            # True chroma keys plus dusty rose/paper-grain magenta used by Imagine.
+            is_mag = pr > 150 and pb > 150 and pg < 130 and mag > 40
+            is_rose = pr > 140 and pg < 125 and pb > 70 and pr > pg + 35 and mag > 28
+            is_cyn = pg > 150 and pb > 150 and pr < 110 and cyn > 40
+            dist = min(abs(pr - kr) + abs(pg - kg) + abs(pb - kb) for kr, kg, kb in extra)
+            if dist <= threshold or is_mag or is_rose or is_cyn:
+                pixels[x, y] = (pr, pg, pb, 0)
+                continue
+            if dist <= threshold * 2:
+                t = dist / (threshold * 2)
+                t = max(0.0, min(1.0, t))
+                na = int(pa * t)
+                if mag > cyn:
+                    pg2 = pg
+                    pr2 = pr - int((pr - pg) * 0.55)
+                    pb2 = pb - int((pb - pg) * 0.55)
+                else:
+                    pr2 = pr
+                    pg2 = pg - int((pg - pr) * 0.55)
+                    pb2 = pb - int((pb - pr) * 0.55)
+                pixels[x, y] = (max(0, pr2), max(0, pg2), max(0, pb2), na)
             else:
-                # Near-key despill
-                if g > 180 and b > 180 and r < 90:
-                    pixels[x, y] = (r, g, b, 0)
-                elif r > 200 and b > 200 and g < 90:
-                    pixels[x, y] = (r, g, b, 0)
+                if mag > 18:
+                    pr = pr - int(mag * 0.25)
+                    pb = pb - int(mag * 0.25)
+                    pixels[x, y] = (max(0, pr), pg, max(0, pb), pa)
+                elif cyn > 18:
+                    pg = pg - int(cyn * 0.25)
+                    pb = pb - int(cyn * 0.25)
+                    pixels[x, y] = (pr, max(0, pg), max(0, pb), pa)
+    # Contract 1px of leftover matte fringe, then restore 1px of natural AA.
+    alpha = image.getchannel("A")
+    contracted = alpha.filter(ImageFilter.MinFilter(3))
+    restored = contracted.filter(ImageFilter.MaxFilter(3))
+    # Keep the more conservative of original vs restored on near-zero pixels.
+    image.putalpha(ImageChops.darker(alpha, restored.filter(ImageFilter.GaussianBlur(0.6))))
     return image
+
+
+def fringe_report(image: Image.Image) -> dict:
+    """Count remaining cyan/magenta contamination on opaque-ish pixels."""
+    image = image.convert("RGBA")
+    px = image.load()
+    w, h = image.size
+    cyan = magenta = 0
+    opaque = 0
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = px[x, y]
+            if a < 24:
+                continue
+            opaque += 1
+            if (g + b) / 2 - r > 40 and a < 220:
+                cyan += 1
+            if (r + b) / 2 - g > 40 and a < 220:
+                magenta += 1
+    return {
+        "opaque_px": opaque,
+        "cyan_fringe_px": cyan,
+        "magenta_fringe_px": magenta,
+        "ok": cyan < 80 and magenta < 80,
+    }
 
 
 def clip_to_mask(image: Image.Image, mask: Image.Image, dilate: int = 7) -> Image.Image:
@@ -65,24 +126,12 @@ def clip_to_mask(image: Image.Image, mask: Image.Image, dilate: int = 7) -> Imag
     if dilate:
         mask = mask.filter(ImageFilter.MaxFilter(dilate if dilate % 2 else dilate + 1))
     out = image.copy()
-    out.putalpha(_min_alpha(image.getchannel("A"), mask))
-    return out
-
-
-def _min_alpha(a: Image.Image, b: Image.Image) -> Image.Image:
-    pa, pb = a.load(), b.load()
-    out = Image.new("L", a.size, 0)
-    po = out.load()
-    w, h = a.size
-    for y in range(h):
-        for x in range(w):
-            po[x, y] = min(pa[x, y], pb[x, y])
+    out.putalpha(ImageChops.darker(image.getchannel("A"), mask))
     return out
 
 
 def process_file(src: Path, dest: Path, mask: Path | None = None) -> Path:
-    image = Image.open(src)
-    keyed = chroma_key(image)
+    keyed = chroma_key(Image.open(src))
     if mask and mask.exists():
         keyed = clip_to_mask(keyed, Image.open(mask))
     dest.parent.mkdir(parents=True, exist_ok=True)

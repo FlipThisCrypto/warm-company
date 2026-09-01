@@ -111,7 +111,7 @@ Do not type a fourth original style paragraph "to make it better." If the result
 
 **`sleeping-bag / headwear / beanie`**
 
-Prefix + Snug template + "Paint only the headwear in the headwear zone. On tents it perches on the peak, brim above the door/face. On sleeping bags it sits on the hood crown, brim above the eyes." + "Trait: Winter Beanie." + Snug geometry + transparency + negatives.
+Prefix + Snug template + "Paint only a human-scale hat at the preferred headwear size, not the legal maximum zone. On tents it perches on the peak, brim above the door/face, slightly absurd, never tent-wide. On sleeping bags it sits on the hood crown, brim above the eyes, much smaller than the hood." + "Trait: Winter Beanie." + Snug geometry + transparency + negatives.
 
 Then: `image_edit` the approved Snug canonical, extract the hat, register.
 

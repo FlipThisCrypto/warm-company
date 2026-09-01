@@ -2,13 +2,13 @@
 
 This collection is meant to be worked on by more than one person. The rule that keeps it from falling apart:
 
-**Every asset is designed in the context of every other asset.** Hats fit a published headwear zone. Eyes sit on published anchors. The compositor never repositions pixels.
+**Every asset is designed in the context of every other asset.** Hats are drawn to `headwear_preferred`, not the legal maximum zone. Eyes sit on published anchors, on the hood (Snug) or door (Pup/Lodge). The compositor never repositions pixels except for documented registration snaps.
 
 ## Start here
 
 1. Read [docs/COLLECTION_BIBLE.md](docs/COLLECTION_BIBLE.md).
 2. Open [docs/COORDINATE_SYSTEM.md](docs/COORDINATE_SYSTEM.md) and `config/anchors.json` — those numbers are the contract.
-3. Look at `templates/` (occupancy + blueprints) and `build/review-samples/` (nine reconstructed tests).
+3. Look at `templates/` (occupancy + blueprints), the locked v3 canonicals in `references/approved/`, and `build/review-v3/` (12-sample refinement gate).
 
 If a PNG and `anchors.json` disagree, regenerate the PNG. Do not edit the JSON to match a drifted drawing unless the group agrees to change the geometry.
 
@@ -19,7 +19,7 @@ Commit:
 - docs, config, source, tests, prompts
 - `templates/` blueprints and occupancy masks
 - accepted `layers/**/*.png` (full 1024×1024, never cropped)
-- review composites under `build/review-samples/`
+- review composites under `build/review-samples/` and `build/review-v3/`
 
 Do not commit:
 

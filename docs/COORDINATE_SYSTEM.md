@@ -62,13 +62,16 @@ Right hand raised       = (768, 280)
 Left foot anchor        = (448, 896)
 Right foot anchor       = (576, 896)
 Stance width            = 128
-Headwear zone           = x=360 y=64 w=304 h=168
-Headwear brim Y         = 216
+Headwear zone (legal max) = x=360 y=64 w=304 h=168
+Headwear preferred      = x=426 y=88 w=172 h=100   (draw target, ~150–190 px wide)
+Headwear brim Y         = 200
+Hem Y                   = 848
+Arm roots               = behind body
 Handheld left zone      = x=96 y=500 w=220 h=260
 Handheld right zone     = x=708 y=500 w=220 h=260
 ```
 
-Silhouette: mummy capsule. Hood radius 216 about `(512, 328)`. Tapers from width 432 at the shoulders to ~304 at the bag bottom `(Y=848)`, then short legs to the baseline. Zipper lives on the viewer's right. Face is the hood opening, upper-middle, not a sticker.
+Silhouette: mummy capsule. Hood radius 216 about `(512, 328)`. Tapers from width 432 at the shoulders to ~304 at the bag bottom `(Y=848)`. Face is the hood opening. Legs emerge from the open footbox; the bag hem hides the thigh. Mittens grow from behind the sides. Hats are human-scale accessories, never a second roof.
 
 ---
 
@@ -82,7 +85,9 @@ Character baseline Y    = 896
 Bounding box            = x=224 y=256 w=576 h=640   (56.3% × 62.5%)
 Peak                    = (512, 256)
 Face center             = (512, 512)
+Face shape              = a-frame-door
 Face oval               = x=418 y=428 w=188 h=200
+Face door               = x=400 y=400 w=224 h=420   (the cream door IS the face)
 Eye center Y            = 488
 Left eye                = (456, 488)
 Right eye               = (568, 488)
@@ -99,14 +104,17 @@ Right hand raised       = (824, 320)
 Left foot anchor        = (400, 896)
 Right foot anchor       = (624, 896)
 Stance width            = 224
-Headwear zone           = x=400 y=176 w=224 h=160
-Headwear brim Y         = 320
+Headwear zone (legal max) = x=400 y=176 w=224 h=160
+Headwear preferred      = x=444 y=196 w=136 h=84    (draw target, ~120–150 px wide)
+Headwear brim Y         = 268
+Hem Y                   = 848
+Arm roots               = behind body
 Handheld left zone      = x=48 y=540 w=200 h=260
 Handheld right zone     = x=776 y=540 w=200 h=260
 Door                    = x=400 y=400 w=224 h=420
 ```
 
-Silhouette: soft A-frame with a hint of dome. Base corners `(224, 880)` and `(800, 880)`. Two poles from the peak. Face in the D-door. Hats perch on the peak; brim is above the door.
+Silhouette: soft A-frame with a hint of dome. Base corners `(224, 880)` and `(800, 880)`. Two poles from the peak. Face in the triangular/D door. Hats perch on the peak at human scale; they must not hide the tent. Skirt covers leg roots.
 
 ---
 
@@ -119,15 +127,17 @@ Character center X      = 512
 Character baseline Y    = 896
 Bounding box            = x=152 y=176 w=720 h=720   (70.3% × 70.3%)
 Peak                    = (512, 176)
-Face center             = (512, 464)
-Face oval               = x=400 y=368 w=224 h=232
-Eye center Y            = 440
-Left eye                = (448, 440)
-Right eye               = (576, 440)
-Eye size                = 56×68
-Brow baseline Y         = 404
-Mouth baseline Y        = 512
-Mouth center            = (512, 512)
+Face center             = (512, 500)
+Face shape              = d-door
+Face oval               = x=400 y=368 w=224 h=360   (deprecated circular panel — do not use)
+Face door               = x=392 y=352 w=240 h=400   (the D-door IS the face)
+Eye center Y            = 456
+Left eye                = (452, 456)
+Right eye               = (572, 456)
+Eye size                = 48×56
+Brow baseline Y         = 424
+Mouth baseline Y        = 528
+Mouth center            = (512, 528)
 Left arm anchor         = (176, 536)
 Right arm anchor        = (848, 536)
 Left hand default       = (120, 620)
@@ -137,15 +147,18 @@ Right hand raised       = (880, 268)
 Left foot anchor        = (360, 896)
 Right foot anchor       = (664, 896)
 Stance width            = 304
-Headwear zone           = x=360 y=80 w=304 h=176
-Headwear brim Y         = 256
+Headwear zone (legal max) = x=360 y=80 w=304 h=176
+Headwear preferred      = x=436 y=100 w=152 h=88    (draw target, ~135–170 px wide)
+Headwear brim Y         = 188
+Hem Y                   = 848
+Arm roots               = behind body
 Handheld left zone      = x=48 y=500 w=180 h=280
 Handheld right zone     = x=796 y=500 w=180 h=280
 Door                    = x=368 y=340 w=288 h=500
 Shoulders / ridge       = (280, 320) — (744, 320)
 ```
 
-Silhouette: cabin-dome. Peak, ridge, vertical-ish side walls, wider skirt. Extra panel seams belong here. Vestibule, if present, occupies front ground and therefore excludes some ground accessories.
+Silhouette: cabin-dome. Peak, ridge, vertical-ish side walls, wider skirt. The cream D-door is the face panel — never a circular sticker. Hats perch on the peak at human scale and must not hide cabin structure. Skirt covers boot shafts.
 
 ---
 

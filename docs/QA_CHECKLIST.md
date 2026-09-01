@@ -19,10 +19,14 @@ Geometry
 
 - [ ] Occupancy IoU ≥ 0.82 against `templates/{class}/occupancy.png`
 - [ ] Face / eyes / mouth / feet within published tolerances
-- [ ] Headwear in the headwear zone; tent hats on the peak
-- [ ] Handheld in the hand zone, gripped, not hovering
-- [ ] Footwear soles on baseline Y=896
+- [ ] Headwear drawn to `headwear_preferred`, not filling the legal zone
+- [ ] Tent hats human-scale on the peak; they do not hide A-frame or cabin identity
+- [ ] Lodge face is the D-door panel, never a circular sticker
+- [ ] Handheld in the hand zone, actually gripped (correct occlusion), not hovering beside a closed fist
+- [ ] Footwear soles on baseline Y=896; leg roots hidden by hem/footbox
+- [ ] Shoulder/arm roots begin behind the body
 - [ ] Tent poles and bag width match the master, not a new silhouette
+- [ ] No cyan/teal extraction fringe; magenta matte fully keyed
 - [ ] Snap-translate used only for ≤12px; otherwise redrawn
 
 Style
@@ -50,9 +54,11 @@ Dignity
 - [ ] 1024×1024 PNG
 - [ ] Character stands on Y=896
 - [ ] No illegal combo (run the engine, do not eyeball)
-- [ ] Face readable at 128px
+- [ ] Face readable at 128px; object class (bag / 3-person tent / 6-person tent) reads first
 - [ ] Logo absent until Phase 10; then inside the safe zone only
 - [ ] Background does not compete with the face
+- [ ] Snow supports depth; it is not the subject
+- [ ] Accessories match the canonical's line weight and texture density
 
 ## C. Collection
 
@@ -70,13 +76,15 @@ Dignity
 Look specifically for:
 
 - scale drift (a Pup that is Lodge-wide)
-- floating shoes
-- hats on faces
-- eyes sliding down the door
+- floating shoes / legs pasted on the hem
+- hats that become architecture
+- Lodge circular face stickers
+- eyes sliding off the door
 - a layer that got shiny/3D
 - snow covering pupils
 - two lanterns
-- empty gripping hands
+- empty gripping hands / objects beside closed fists
+- cyan/teal extraction halos
 - accidental words in the sky
 
 ## E. Phase gates

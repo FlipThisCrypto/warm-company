@@ -1,57 +1,67 @@
 {
-  "version": 1,
-  "note": "Painter's algorithm: lower z is drawn first. Every file is 1024x1024. The compositor never repositions pixels.",
+  "version": 2,
+  "note": "Painter's algorithm. Limb roots live BEHIND the body so the silhouette hides the seam. Preferred hat sizes live in anchors.json — never treat the legal zone as a draw target.",
   "contact_shadow": {
     "slot": "contact_shadow",
     "z": 3,
-    "source": "procedural",
-    "note": "Default contact shadow is drawn by the compositor from foot anchors so it cannot drift. An illustrated override may replace it later if needed."
+    "source": "procedural"
   },
   "stack": [
     { "z": 1,  "slot": "background",        "folder": "layers/shared/backgrounds",           "scope": "shared", "optional": false, "opaque": true },
-    { "z": 2,  "slot": "rear_environment",  "folder": "layers/shared/rear-environment",      "scope": "shared", "optional": true },
-    { "z": 3,  "slot": "contact_shadow",    "folder": "layers/shared/ground",                "scope": "procedural", "optional": false },
-    { "z": 4,  "slot": "rear_accessory",    "folder": "layers/{class}/accessories-rear",     "scope": "class",  "optional": true },
-    { "z": 5,  "slot": "rear_arm",          "folder": "layers/{class}/arms-rear",            "scope": "class",  "optional": true, "driven_by": "arm_pose" },
-    { "z": 6,  "slot": "rear_held",         "folder": "layers/{class}/handheld-rear",        "scope": "class",  "optional": true, "driven_by": "held_item" },
-    { "z": 7,  "slot": "body",              "folder": "layers/{class}/body",                 "scope": "class",  "optional": false },
-    { "z": 8,  "slot": "pattern",           "folder": "layers/{class}/patterns",             "scope": "class",  "optional": true },
-    { "z": 9,  "slot": "structural",        "folder": "layers/{class}/structural",           "scope": "class",  "optional": false },
-    { "z": 10, "slot": "legs",              "folder": "layers/{class}/legs",                 "scope": "class",  "optional": false },
-    { "z": 11, "slot": "footwear",          "folder": "layers/{class}/footwear",             "scope": "class",  "optional": false },
+    { "z": 2,  "slot": "rear_atmosphere",   "folder": "layers/shared/atmosphere-rear",      "scope": "shared", "optional": true, "driven_by": "atmosphere" },
+    { "z": 3,  "slot": "rear_environment",  "folder": "layers/shared/rear-environment",      "scope": "shared", "optional": true },
+    { "z": 4,  "slot": "contact_shadow",    "folder": "layers/shared/ground",                "scope": "procedural", "optional": false },
+    { "z": 5,  "slot": "rear_accessory",    "folder": "layers/{class}/accessories-rear",     "scope": "class",  "optional": true },
+    { "z": 6,  "slot": "rear_arm",          "folder": "layers/{class}/arms-rear",            "scope": "class",  "optional": true, "driven_by": "arm_pose" },
+    { "z": 7,  "slot": "rear_held",         "folder": "layers/{class}/handheld-rear",        "scope": "class",  "optional": true, "driven_by": "held_item" },
+    { "z": 8,  "slot": "rear_leg",          "folder": "layers/{class}/legs-rear",            "scope": "class",  "optional": true, "driven_by": "legs" },
+    { "z": 9,  "slot": "body",              "folder": "layers/{class}/body",                 "scope": "class",  "optional": false },
+    { "z": 10, "slot": "pattern",           "folder": "layers/{class}/patterns",             "scope": "class",  "optional": true },
+    { "z": 11, "slot": "structural",        "folder": "layers/{class}/structural",           "scope": "class",  "optional": true },
     { "z": 12, "slot": "face",              "folder": "layers/{class}/face",                 "scope": "class",  "optional": false },
     { "z": 13, "slot": "eyes",              "folder": "layers/{class}/eyes",                 "scope": "class",  "optional": false },
-    { "z": 14, "slot": "eyebrows",          "folder": "layers/{class}/eyebrows",             "scope": "class",  "optional": false },
+    { "z": 14, "slot": "eyebrows",          "folder": "layers/{class}/eyebrows",             "scope": "class",  "optional": true },
     { "z": 15, "slot": "mouth",             "folder": "layers/{class}/mouths",               "scope": "class",  "optional": false },
     { "z": 16, "slot": "facial",            "folder": "layers/{class}/facial",               "scope": "class",  "optional": true },
-    { "z": 17, "slot": "front_arm",         "folder": "layers/{class}/arms",                 "scope": "class",  "optional": false, "driven_by": "arm_pose" },
-    { "z": 18, "slot": "front_held",        "folder": "layers/{class}/handheld",             "scope": "class",  "optional": true, "driven_by": "held_item" },
-    { "z": 19, "slot": "body_accessory",    "folder": "layers/{class}/accessories",          "scope": "class",  "optional": true },
-    { "z": 20, "slot": "headwear",          "folder": "layers/{class}/headwear",             "scope": "class",  "optional": true },
-    { "z": 21, "slot": "ground_accessory",  "folder": "layers/shared/ground",                "scope": "shared", "optional": true },
-    { "z": 22, "slot": "atmosphere",        "folder": "layers/shared/atmosphere",            "scope": "shared", "optional": true },
-    { "z": 23, "slot": "logo",              "folder": "layers/shared/logo",                  "scope": "shared", "optional": true, "deferred": true }
+    { "z": 17, "slot": "legs",              "folder": "layers/{class}/legs",                 "scope": "class",  "optional": true },
+    { "z": 18, "slot": "footwear",          "folder": "layers/{class}/footwear",             "scope": "class",  "optional": false },
+    { "z": 19, "slot": "front_arm",         "folder": "layers/{class}/arms",                 "scope": "class",  "optional": false, "driven_by": "arm_pose" },
+    { "z": 20, "slot": "front_held",        "folder": "layers/{class}/handheld",             "scope": "class",  "optional": true, "driven_by": "held_item" },
+    { "z": 21, "slot": "light_effect",      "folder": "layers/{class}/light",                "scope": "class",  "optional": true, "driven_by": "held_item" },
+    { "z": 22, "slot": "body_accessory",    "folder": "layers/{class}/accessories",          "scope": "class",  "optional": true },
+    { "z": 23, "slot": "headwear",          "folder": "layers/{class}/headwear",             "scope": "class",  "optional": true },
+    { "z": 24, "slot": "ground_accessory",  "folder": "layers/shared/ground",                "scope": "shared", "optional": true },
+    { "z": 25, "slot": "atmosphere",        "folder": "layers/shared/atmosphere",            "scope": "shared", "optional": true },
+    { "z": 26, "slot": "logo",              "folder": "layers/shared/logo",                  "scope": "shared", "optional": true, "deferred": true }
   ],
   "split_assets": {
-    "note": "Some traits occupy more than one z-index. The generator selects ONE trait id; the compositor loads every file the trait declares.",
-    "examples": [
-      "backpack = rear_accessory (pack) + body_accessory (front straps)",
-      "sign = rear_held (board behind) + front_held (handle and board front) + arm_pose hold-sign",
-      "fishing-not-used = rejected theme; collection stays winter-shelter",
-      "umbrella = rear_held (canopy behind head) + front_held (shaft in hand) when open",
-      "lantern = front_held only, requires arm_pose hold-item"
-    ]
+    "arm_pose": {
+      "rest": ["rear_arm"],
+      "hold-item": ["rear_arm", "front_arm"],
+      "hold-two-hand": ["rear_arm", "front_arm"],
+      "note": "Shoulder/root is always on rear_arm so the body hides the seam. Hands that must overlap the torso or a prop live on front_arm."
+    },
+    "held_item": {
+      "coffee": ["front_held"],
+      "thermos": ["front_held"],
+      "lantern": ["rear_held", "front_held", "light_effect"],
+      "map": ["front_held"],
+      "blanket": ["front_held"]
+    },
+    "legs": {
+      "short-legs": ["rear_leg", "legs"]
+    }
   },
   "occlusion_rules": [
-    "Background is the only opaque layer.",
-    "Rear accessory is always behind the body (backpacks, bedrolls, extra tent fly).",
-    "Pattern clips to the body mask during registration, not during compositing.",
-    "Structural details (poles, zipper, seams, door trim) sit on top of pattern so they stay readable.",
-    "Legs sit under footwear. Footwear never floats above baseline_y.",
-    "Face stack is face > eyes > brows > mouth > facial. Sunglasses live in facial and require sunglasses-compatible eyes.",
-    "Front arm occludes the torso. A held mug never slides behind the body unless it is the rear_held portion of a split asset.",
-    "Headwear occludes the crown/peak and never the mouth. Brim sits at headwear_brim_y.",
-    "Atmosphere may overlay the scene but is punched out of the inflated face oval so snow cannot blind the character.",
-    "Logo is last and is not generated until Phase 10."
+    "Rear arm includes extra shoulder that overlaps the body interior. Body paints over that overlap and hides the attachment.",
+    "Rear leg includes extra length that overlaps the hem. Body/skirt paints over the root.",
+    "Visible lower leg and footwear sit in front of the hem, still kissing baseline Y=896.",
+    "Lodge face is the D-door panel, never a circle sticker.",
+    "Pup face is the A-frame door panel.",
+    "Snug face is the hood opening.",
+    "Headwear uses headwear_preferred, not the legal zone.",
+    "Lantern: handle/rear on rear_held, gripping hand on front_arm, lantern body on front_held, optional warm light_effect.",
+    "Rear atmosphere carries most snow. Front atmosphere is a few flakes only, face punched out.",
+    "Logo deferred."
   ]
 }

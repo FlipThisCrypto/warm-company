@@ -131,7 +131,7 @@ Random generation will produce plenty of quieter sentences. Specials author the 
 
 ## 12. What "one illustrator" means in production
 
-After the three canonicals exist, **do not `image_gen` a hat from nothing.** `image_edit` the canonical Snug / Pup / Lodge, ask for the hat in the headwear zone, extract it, register it.
+After the three canonicals exist, **do not `image_gen` a hat from nothing.** `image_edit` the canonical Snug / Pup / Lodge, ask for a human-scale hat at `headwear_preferred` (not the legal maximum zone), extract it, register it. If the model inflates the hat to fill the hood, composite a standalone hat at the preferred pixel size instead.
 
 Recolors are edits of the master body, not new drawings of a different tent.
 

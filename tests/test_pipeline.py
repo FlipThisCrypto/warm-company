@@ -25,6 +25,34 @@ class RngTests(unittest.TestCase):
         self.assertEqual(parent.counter, 0)
 
 
+class RefinementConfigTests(unittest.TestCase):
+    def test_preferred_headwear_is_smaller_than_legal_zone(self):
+        for class_id, max_w in (("sleeping-bag", 190), ("small-tent", 150), ("large-tent", 170)):
+            spec = config.class_spec(class_id)
+            pref = spec["headwear_preferred"]
+            legal = spec["headwear_zone"]
+            self.assertLessEqual(pref["w"], max_w)
+            self.assertLess(pref["w"], legal["w"])
+            self.assertTrue(spec["arm_root_behind"])
+            self.assertEqual(spec["hem_y"], 848)
+
+    def test_lodge_face_is_d_door(self):
+        lodge = config.class_spec("large-tent")
+        self.assertEqual(lodge["face_shape"], "d-door")
+        self.assertIn("face_door", lodge)
+        self.assertGreaterEqual(lodge["face_door"]["h"], 300)
+
+    def test_layer_stack_v2_hides_limb_roots(self):
+        stack = config.layer_stack()
+        self.assertGreaterEqual(stack["version"], 2)
+        slots = [row["slot"] for row in stack["stack"]]
+        self.assertLess(slots.index("rear_arm"), slots.index("body"))
+        self.assertLess(slots.index("rear_leg"), slots.index("body"))
+        self.assertGreater(slots.index("front_arm"), slots.index("body"))
+        self.assertIn("rear_atmosphere", slots)
+        self.assertIn("light_effect", slots)
+
+
 class CompatibilityTests(unittest.TestCase):
     def test_sunglasses_force_eyes(self):
         traits = {

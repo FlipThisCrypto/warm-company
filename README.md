@@ -12,7 +12,7 @@ Exactly **800** illustrated winter-shelter companions.
 | Small Tent | Pup | 200 | 1 three-person tent |
 | Large Tent | Lodge | 200 | 1 six-person tent |
 
-**Phase 0 (design bible + generator) is in this repository.** Nine layered review composites are in `build/review-samples/`. Production trait libraries are not locked yet — geometry lives in `config/anchors.json` so art can be revised without guessing coordinates.
+**Phase 0 (design bible + generator) is in this repository.** Three locked v3 canonicals live in `references/approved/`. The refinement-pass 12-sample gate is in `build/review-v3/`. Production trait libraries are not locked yet — geometry lives in `config/anchors.json` so art can be revised without guessing coordinates.
 
 ## Do not start with random layers
 
@@ -87,6 +87,8 @@ The development seed is `warm-company-dev-seed-v0`. Replace it before Phase 11 a
 | Generator / compositor skeleton | Implemented |
 | Layer validation / contact sheets | Implemented |
 | Grok Image prompt framework | Implemented |
-| 9 layered review composites | In `build/review-samples/` |
-| Production trait library | **Not locked — review first** |
+| 9 layered review composites | In `build/review-samples/` (first prototype gate) |
+| v3 canonical masters | `references/approved/canonical-*-v3.jpg` |
+| Refinement 12-sample gate | `build/review-v3/` (contact sheet + 3 reconstruction strips) |
+| Production trait library | **Not locked — review the v3 gate against 6aa596f first** |
 | Logo | **Deferred to Phase 10** |
