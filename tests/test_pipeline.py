@@ -13,6 +13,8 @@ from warm_company.composite import (  # noqa: E402
     clamp_headwear,
     clip_to_face_region,
     is_blank_face_panel,
+    is_pose_master,
+    pose_master_slot,
     resolved_stack,
     slot_is_active,
     umber_ink,
@@ -191,10 +193,12 @@ class CompositorStackTests(unittest.TestCase):
         traits = self._bare_snug()
         traits["held_item"] = "lantern"
         traits["arm_pose"] = "hold-item"
+        traits["body"] = "royal-blue"
         slots = [s for s, _ in resolved_stack("large-tent", traits)]
-        self.assertIn("front_arm", slots)
-        self.assertIn("rear_arm", slots)
+        self.assertIn("front_held", slots)
         self.assertIn("light_effect", slots)
+        self.assertNotIn("front_arm", slots)
+        self.assertNotIn("body", slots)
 
     def test_snow_splits_rear_and_front_atmosphere(self):
         traits = self._bare_snug()
@@ -439,19 +443,16 @@ class GenerationTests(unittest.TestCase):
 
 class ReviewStripTests(unittest.TestCase):
     def test_strip_slots_match_resolved_stack_of_same_token(self):
-        from pathlib import Path
-
+        from warm_company.review import STRIP_TOKENS, visible_stack_slots, _strip_layer_visible
         from warm_company.composite import resolved_stack
-        from warm_company.review import STRIP_TOKENS, reconstruction_composite, visible_stack_slots
 
         for name, tok in STRIP_TOKENS.items():
             shown = visible_stack_slots(tok)
-            expected = []
-            for slot, source in resolved_stack(tok["class_id"], tok["traits"]):
-                if source in ("procedural", "procedural-glow"):
-                    continue
-                if Path(source).exists():
-                    expected.append(slot)
+            expected = [
+                slot
+                for slot, source in resolved_stack(tok["class_id"], tok["traits"])
+                if _strip_layer_visible(tok["class_id"], slot, source)
+            ]
             self.assertEqual(shown, expected, msg=name)
 
     def test_snug_strip_token_includes_beanie_and_differs_from_bare(self):
@@ -467,28 +468,61 @@ class ReviewStripTests(unittest.TestCase):
         self.assertNotEqual(hat_img.tobytes(), bare_img.tobytes())
 
     def test_lodge_strip_token_includes_lantern_hold(self):
+        from warm_company.composite import pose_master_slot
         from warm_company.review import STRIP_TOKENS, reconstruction_composite, review_token, visible_stack_slots
 
         lodge = STRIP_TOKENS["lodge"]
         self.assertEqual(lodge["traits"]["held_item"], "lantern")
         self.assertEqual(lodge["traits"]["arm_pose"], "hold-item")
+        self.assertEqual(pose_master_slot(lodge["class_id"], lodge["traits"]), "front_held")
         slots = visible_stack_slots(lodge)
         self.assertIn("front_held", slots)
+        self.assertNotIn("front_arm", slots)
         lit = reconstruction_composite(lodge)
         bare = reconstruction_composite(review_token("large-tent"))
         self.assertNotEqual(lit.tobytes(), bare.tobytes())
 
-    def test_coffee_hold_resolves_front_held(self):
-        from pathlib import Path
+    def test_pose_master_is_item_specific(self):
+        from warm_company.composite import pose_master_slot
+        from warm_company.review import review_token
 
-        from warm_company.composite import resolved_stack
+        coffee = review_token("sleeping-bag", held_item="coffee", arm_pose="hold-item")
+        lantern = review_token("sleeping-bag", held_item="lantern", arm_pose="hold-item")
+        thermos = review_token("sleeping-bag", held_item="thermos", arm_pose="hold-item")
+        self.assertEqual(pose_master_slot(coffee["class_id"], coffee["traits"]), "front_arm")
+        self.assertIsNone(pose_master_slot(lantern["class_id"], lantern["traits"]))
+        self.assertIsNone(pose_master_slot(thermos["class_id"], thermos["traits"]))
+        lodge = review_token("large-tent", held_item="lantern", arm_pose="hold-item")
+        self.assertEqual(pose_master_slot(lodge["class_id"], lodge["traits"]), "front_held")
+        lodge_coffee = review_token("large-tent", held_item="coffee", arm_pose="hold-item")
+        self.assertIsNone(pose_master_slot(lodge_coffee["class_id"], lodge_coffee["traits"]))
+
+    def test_map_hold_uses_pose_master(self):
+        from warm_company.composite import pose_master_slot, resolved_stack
+        from warm_company.review import review_token
+
+        tok = review_token("small-tent", held_item="map", arm_pose="hold-two-hand")
+        self.assertEqual(pose_master_slot(tok["class_id"], tok["traits"]), "front_arm")
+        slots = [s for s, _src in resolved_stack(tok["class_id"], tok["traits"])]
+        self.assertIn("front_arm", slots)
+        self.assertNotIn("front_held", slots)
+        self.assertNotIn("body", slots)
+
+    def test_coffee_hold_uses_pose_master_not_clipart(self):
+        from warm_company.composite import is_pose_master, layer_path, pose_master_slot, resolved_stack
         from warm_company.review import review_token
 
         tok = review_token("sleeping-bag", held_item="coffee", arm_pose="hold-item")
-        slots = [s for s, src in resolved_stack(tok["class_id"], tok["traits"]) if s == "front_held"]
-        self.assertEqual(slots, ["front_held"])
-        path = ROOT / "layers" / "sleeping-bag" / "handheld" / "coffee.png"
-        self.assertTrue(path.exists())
+        self.assertEqual(pose_master_slot(tok["class_id"], tok["traits"]), "front_arm")
+        path = layer_path("sleeping-bag", "front_arm", "hold-item")
+        self.assertIsNotNone(path)
+        self.assertTrue(is_pose_master(path))
+        slots = [s for s, _src in resolved_stack(tok["class_id"], tok["traits"])]
+        self.assertIn("front_arm", slots)
+        self.assertNotIn("front_held", slots)
+        self.assertNotIn("body", slots)
+        clipart = ROOT / "layers" / "sleeping-bag" / "handheld" / "coffee.png"
+        self.assertTrue(clipart.exists())
 
     def test_beanie_file_within_preferred_width(self):
         from warm_company.composite import clamp_headwear

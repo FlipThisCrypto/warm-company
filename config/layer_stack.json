@@ -72,6 +72,7 @@
     "Snug face is the hood opening.",
     "Headwear uses headwear_preferred, not the legal zone.",
     "Lantern: handle/rear on rear_held, gripping hand on front_arm, lantern body on front_held, optional warm light_effect.",
+    "Canonical hold edits (coffee, map, lantern) may ship as full-character pose masters. When a front_arm or front_held PNG is a pose master, skip rest limbs, body, face stickers, and clip-art held overlays so the grip is not double-drawn.",
     "Rear atmosphere carries most snow. Front atmosphere is a few flakes only, face punched out.",
     "Logo deferred."
   ]

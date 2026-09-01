@@ -40,6 +40,26 @@ SECONDARY_SLOTS = {
 # Cartoon feet already painted on rear_leg. These ids are not distinct boot overlays.
 DEFAULT_FOOTWEAR = {"basic-shoes", "sneakers", "bare-feet"}
 
+# Canonical hold edits are full-character PNG masters. Stacking rest limbs +
+# clip-art props on top of them produces a second mug / extra human hand.
+POSE_MASTER_SKIP = {
+    "rear_arm",
+    "rear_held",
+    "rear_leg",
+    "body",
+    "pattern",
+    "structural",
+    "face",
+    "eyes",
+    "eyebrows",
+    "mouth",
+    "facial",
+    "legs",
+    "footwear",
+}
+
+_POSE_MASTER_CACHE: dict[str, bool] = {}
+
 
 def _open_rgba(path: Path) -> Image.Image:
     image = Image.open(path)
@@ -138,6 +158,54 @@ def layer_path(class_id: str, slot: str, trait_id: str) -> Path | None:
     return folder / f"{trait_id}.png"
 
 
+def is_pose_master(path: Path) -> bool:
+    """True when a layer is a full-character canonical hold, not an arm crop."""
+    key = str(path)
+    cached = _POSE_MASTER_CACHE.get(key)
+    if cached is not None:
+        return cached
+    if not path.exists():
+        _POSE_MASTER_CACHE[key] = False
+        return False
+    with Image.open(path) as im:
+        alpha = im.getchannel("A")
+        box = alpha.getbbox()
+        if not box:
+            _POSE_MASTER_CACHE[key] = False
+            return False
+        width, height = box[2] - box[0], box[3] - box[1]
+        opaque = sum(alpha.histogram()[80:])
+    ok = width >= 380 and height >= 620 and opaque >= 180_000
+    _POSE_MASTER_CACHE[key] = ok
+    return ok
+
+
+def pose_master_slot(class_id: str, traits: dict[str, str]) -> str | None:
+    """Which compositor slot carries a canonical hold edit, if any.
+
+    A pose master is item-specific. Snug hold-item.png is the coffee canonical,
+    so it must not replace lantern or thermos.
+    """
+    held = traits.get("held_item") or "none"
+    pose = traits.get("arm_pose") or "rest"
+    if held == "lantern":
+        path = layer_path(class_id, "front_held", "lantern")
+        if path is not None and is_pose_master(path):
+            return "front_held"
+        return None
+    if held == "coffee" and pose == "hold-item":
+        path = layer_path(class_id, "front_arm", "hold-item")
+        if path is not None and is_pose_master(path):
+            return "front_arm"
+        return None
+    if held == "map" and pose == "hold-two-hand":
+        path = layer_path(class_id, "front_arm", "hold-two-hand")
+        if path is not None and is_pose_master(path):
+            return "front_arm"
+        return None
+    return None
+
+
 def _trait_id_for(layer: dict, traits: dict[str, str]) -> tuple[str | None, str]:
     slot = layer["slot"]
     driven = layer.get("driven_by") or SLOT_TRAIT.get(slot, slot)
@@ -175,6 +243,7 @@ def slot_is_active(compositor_slot: str, driven_slot: str, trait_id: str | None)
 def resolved_stack(class_id: str, traits: dict[str, str]) -> list[tuple[str, Path | str]]:
     """Return compositing sources in z order from layer_stack.json."""
     stack: list[tuple[str, Path | str]] = []
+    master = pose_master_slot(class_id, traits)
     for layer in config.layer_stack()["stack"]:
         slot = layer["slot"]
         if layer.get("deferred"):
@@ -185,6 +254,13 @@ def resolved_stack(class_id: str, traits: dict[str, str]) -> list[tuple[str, Pat
         trait_id, driven = _trait_id_for(layer, traits)
         if not slot_is_active(slot, driven, trait_id):
             continue
+        if master:
+            if slot in POSE_MASTER_SKIP:
+                continue
+            if master == "front_arm" and slot == "front_held":
+                continue
+            if master == "front_held" and slot in {"front_arm", "rear_arm"}:
+                continue
         if (
             slot == "footwear"
             and trait_id in DEFAULT_FOOTWEAR
@@ -311,7 +387,14 @@ def tint_toward(im: Image.Image, target: tuple[int, int, int], strength: float =
     return out
 
 
-def _prepare_layer(slot: str, image: Image.Image, class_id: str, body_rgb: tuple[int, int, int] | None = None) -> Image.Image | None:
+def _prepare_layer(
+    slot: str,
+    image: Image.Image,
+    class_id: str,
+    body_rgb: tuple[int, int, int] | None = None,
+    *,
+    pose_master: bool = False,
+) -> Image.Image | None:
     if slot == "face" and is_blank_face_panel(image, class_id):
         return None
     image = strip_key_fringe(image)
@@ -326,7 +409,11 @@ def _prepare_layer(slot: str, image: Image.Image, class_id: str, body_rgb: tuple
         image = punch_face(image, class_id)
     if slot == "headwear":
         image = clamp_headwear(image, class_id)
-    if slot == "rear_arm" and class_id != "sleeping-bag" and body_rgb:
+    if pose_master and body_rgb:
+        from .library import recolor_fabric
+
+        image = recolor_fabric(image, body_rgb, class_id=class_id)
+    elif slot == "rear_arm" and class_id != "sleeping-bag" and body_rgb:
         image = tint_toward(image, body_rgb)
     return image
 
@@ -346,6 +433,10 @@ def composite_with_report(
     skipped: list[str] = []
     body_path = layer_path(class_id, "body", traits.get("body", "none"))
     body_rgb = median_opaque_rgb(_open_rgba(body_path)) if body_path and body_path.exists() else None
+    from .library import BODY_COLORS
+
+    body_rgb = BODY_COLORS.get(traits.get("body", "")) or body_rgb
+    master = pose_master_slot(class_id, traits)
     for slot, source in resolved_stack(class_id, traits):
         if slot in skip_slots:
             skipped.append(slot)
@@ -362,7 +453,13 @@ def composite_with_report(
         if not path.exists():
             missing_files.append(str(path.relative_to(ROOT)))
             continue
-        layer = _prepare_layer(slot, _open_rgba(path), class_id, body_rgb=body_rgb)
+        layer = _prepare_layer(
+            slot,
+            _open_rgba(path),
+            class_id,
+            body_rgb=body_rgb,
+            pose_master=master is not None and slot == master,
+        )
         if layer is None:
             skipped.append(slot)
             continue

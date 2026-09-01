@@ -6,7 +6,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
-from .composite import CANVAS, composite_token, resolved_stack
+from .composite import CANVAS, composite_token, is_blank_face_panel, resolved_stack
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -50,13 +50,24 @@ STRIP_TOKENS: dict[str, dict] = {
 }
 
 
+def _strip_layer_visible(class_id: str, slot: str, source: Path | str) -> bool:
+    if source in ("procedural", "procedural-glow"):
+        return False
+    path = Path(source)
+    if not path.exists():
+        return False
+    if slot == "face":
+        with Image.open(path) as im:
+            if is_blank_face_panel(im.convert("RGBA"), class_id):
+                return False
+    return True
+
+
 def visible_stack_slots(token: dict) -> list[str]:
     """PNG layer slots a reconstruction strip shows, in compositor order."""
     slots: list[str] = []
     for slot, source in resolved_stack(token["class_id"], token["traits"]):
-        if source in ("procedural", "procedural-glow"):
-            continue
-        if Path(source).exists():
+        if _strip_layer_visible(token["class_id"], slot, source):
             slots.append(slot)
     return slots
 
@@ -71,11 +82,9 @@ def reconstruction_strip(title: str, token: dict) -> Image.Image:
     thumb = 140
     parts: list[tuple[str, Image.Image]] = []
     for slot, source in resolved_stack(token["class_id"], token["traits"]):
-        if source in ("procedural", "procedural-glow"):
+        if not _strip_layer_visible(token["class_id"], slot, source):
             continue
-        path = Path(source)
-        if path.exists():
-            parts.append((slot, Image.open(path).convert("RGBA")))
+        parts.append((slot, Image.open(Path(source)).convert("RGBA")))
     assert [name for name, _ in parts] == visible_stack_slots(token)
     items = parts + [("composite", final)]
     try:
