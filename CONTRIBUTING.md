@@ -19,7 +19,7 @@ Commit:
 - docs, config, source, tests, prompts
 - `templates/` blueprints and occupancy masks
 - accepted `layers/**/*.png` (full 1024×1024, never cropped)
-- review composites under `build/review-samples/` and `build/review-v3/`
+- review composites under `build/review-samples/`, `build/review-v3/`, and candidate inventory sheets under `build/review-inventory/`
 
 Do not commit:
 

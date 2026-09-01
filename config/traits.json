@@ -50,7 +50,7 @@
     { "id": "ridge-line", "slot": "rear_environment", "name": "Ridge Line", "phase": 9, "band": "uncommon", "weight": 60, "classes": ["shared"] },
 
     { "id": "none", "slot": "rear_accessory", "name": "None", "phase": 3, "band": "common", "weight": 820, "classes": ["sleeping-bag", "small-tent", "large-tent"] },
-    { "id": "backpack", "slot": "rear_accessory", "name": "Backpack", "phase": 6, "band": "rare", "weight": 90, "classes": ["sleeping-bag", "small-tent", "large-tent"], "files": ["rear_accessory", "body_accessory"], "paired_front": "backpack-straps" },
+    { "id": "backpack", "slot": "rear_accessory", "name": "Backpack", "phase": 6, "band": "rare", "weight": 90, "classes": ["sleeping-bag", "small-tent", "large-tent"], "files": ["rear_accessory"], "paired_front": "backpack-straps" },
     { "id": "bedroll", "slot": "rear_accessory", "name": "Bedroll", "phase": 6, "band": "uncommon", "weight": 60, "classes": ["small-tent", "large-tent"] },
     { "id": "extra-fly", "slot": "rear_accessory", "name": "Rain Fly", "phase": 9, "band": "rare", "weight": 30, "classes": ["small-tent", "large-tent"] },
 
@@ -80,6 +80,7 @@
     { "id": "ember-rust", "slot": "body", "name": "Ember Rust", "phase": 3, "band": "common", "weight": 100, "classes": ["sleeping-bag", "small-tent", "large-tent"] },
     { "id": "navy-night", "slot": "body", "name": "Navy Night", "phase": 3, "band": "common", "weight": 100, "classes": ["sleeping-bag", "small-tent", "large-tent"] },
     { "id": "camp-orange", "slot": "body", "name": "Camp Orange", "phase": 3, "band": "common", "weight": 90, "classes": ["sleeping-bag", "small-tent", "large-tent"] },
+    { "id": "dusty-rose", "slot": "body", "name": "Dusty Rose", "phase": 3, "band": "common", "weight": 85, "classes": ["sleeping-bag", "small-tent", "large-tent"], "notes": "Raspberry pink. Reads as pink, not purple. Outdoor-compatible with cream and charcoal trim." },
     { "id": "burgundy-quilt", "slot": "body", "name": "Burgundy", "phase": 6, "band": "uncommon", "weight": 70, "classes": ["sleeping-bag"] },
     { "id": "mustard-seed", "slot": "body", "name": "Mustard Seed", "phase": 6, "band": "uncommon", "weight": 70, "classes": ["sleeping-bag"] },
     { "id": "cream-fleece", "slot": "body", "name": "Cream Fleece", "phase": 6, "band": "uncommon", "weight": 60, "classes": ["sleeping-bag"] },

@@ -523,5 +523,47 @@ class ReviewStripTests(unittest.TestCase):
         self.assertEqual(args.limit, 1)
 
 
+class InventoryLibraryTests(unittest.TestCase):
+    def test_dusty_rose_is_pink_not_purple(self):
+        row = config.trait_by_id("body", "dusty-rose")
+        self.assertIsNotNone(row)
+        blob = f"{row['name']} {row.get('notes', '')}".lower()
+        self.assertTrue("rose" in blob or "pink" in blob or "raspberry" in blob)
+        self.assertNotIn("purple", row["name"].lower())
+        path = ROOT / "layers" / "sleeping-bag" / "body" / "dusty-rose.png"
+        self.assertTrue(path.exists(), msg=str(path))
+        im = Image.open(path).convert("RGBA")
+        self.assertEqual(im.size, (1024, 1024))
+        px = im.load()
+        reds = []
+        blues = []
+        for y in range(200, 800, 12):
+            for x in range(360, 660, 12):
+                r, g, b, a = px[x, y]
+                if a < 180:
+                    continue
+                if (r + g + b) / 3 > 210:
+                    continue
+                reds.append(r)
+                blues.append(b)
+        self.assertTrue(reds)
+        self.assertGreater(sum(reds) / len(reds), sum(blues) / len(blues))
+        self.assertGreater(sum(reds) / len(reds), 130)
+
+    def test_rollable_traits_have_declared_pngs(self):
+        from warm_company.library import required_paths
+
+        missing = [str(p.relative_to(ROOT)) for p in required_paths() if not p.exists()]
+        self.assertEqual(missing, [], msg=f"missing {missing[:12]}")
+
+    def test_no_extra_layer_pngs(self):
+        from warm_company.library import required_paths
+        from warm_company.paths import LAYERS
+
+        needed = {p.resolve() for p in required_paths()}
+        extras = [str(p.relative_to(ROOT)) for p in LAYERS.rglob("*.png") if p.resolve() not in needed]
+        self.assertEqual(extras, [], msg=f"extras {extras[:12]}")
+
+
 if __name__ == "__main__":
     unittest.main()
