@@ -85,15 +85,20 @@ def main() -> None:
             cells.append((t["name"], compose(class_id, body=t["id"])))
         for t in traits_in("pattern", class_id):
             cells.append((f"pattern:{t['name']}", compose(class_id, pattern=t["id"])))
+        for t in traits_in("structural", class_id):
+            cells.append((f"struct:{t['name']}", compose(class_id, structural=t["id"])))
         sheet(title, cells, cols=4, size=200).save(OUT / fname)
 
-    # E faces on canonical
+    # E faces on canonical hood/door of each class
     cells = []
-    for slot, key in (("eyes", "eyes"), ("eyebrows", "eyebrows"), ("mouth", "mouth"), ("facial", "facial")):
-        for t in traits_in(slot, "sleeping-bag"):
-            kw = {key: t["id"]}
-            cells.append((f"{slot}/{t['name']}", compose("sleeping-bag", **kw)))
-    sheet("E. Expressions on Snug hood", cells, cols=5, size=180).save(OUT / "E-faces.png")
+    for class_id, label in (("sleeping-bag", "Snug"), ("small-tent", "Pup"), ("large-tent", "Lodge")):
+        for t in traits_in("eyes", class_id):
+            cells.append((f"{label} eyes/{t['name']}", compose(class_id, eyes=t["id"])))
+        for t in traits_in("mouth", class_id):
+            cells.append((f"{label} mouth/{t['name']}", compose(class_id, mouth=t["id"])))
+        for t in traits_in("facial", class_id):
+            cells.append((f"{label} facial/{t['name']}", compose(class_id, facial=t["id"])))
+    sheet("E. Expressions on hood/door (not floating crops)", cells, cols=5, size=180).save(OUT / "E-faces.png")
 
     # F arms
     cells = []
@@ -111,9 +116,10 @@ def main() -> None:
 
     # G footwear
     cells = []
-    for t in traits_in("footwear", "sleeping-bag"):
-        cells.append((t["name"], compose("sleeping-bag", footwear=t["id"])))
-    sheet("G. Footwear on Snug", cells, cols=4, size=200).save(OUT / "G-footwear.png")
+    for class_id, label in (("sleeping-bag", "Snug"), ("small-tent", "Pup"), ("large-tent", "Lodge")):
+        for t in traits_in("footwear", class_id):
+            cells.append((f"{label} {t['name']}", compose(class_id, footwear=t["id"])))
+    sheet("G. Footwear on each class", cells, cols=3, size=200).save(OUT / "G-footwear.png")
 
     # H headwear on three classes
     cells = []
@@ -124,21 +130,28 @@ def main() -> None:
             cells.append((f"{label} {t['name']}", compose(class_id, headwear=t["id"])))
     sheet("H. Headwear on each class", cells, cols=3, size=210).save(OUT / "H-headwear.png")
 
-    # I handhelds
+    # I handhelds — each class, with the matching hold pose
     cells = []
-    for t in traits_in("held_item", "sleeping-bag"):
-        pose = "hold-two-hand" if t.get("two_handed") else "hold-item"
-        cells.append((t["name"], compose("sleeping-bag", held_item=t["id"], arm_pose=pose)))
-    sheet("I. Handheld items with hold pose", cells, cols=4, size=200).save(OUT / "I-handheld.png")
+    for class_id, label in (("sleeping-bag", "Snug"), ("small-tent", "Pup"), ("large-tent", "Lodge")):
+        for t in traits_in("held_item", class_id):
+            pose = "hold-two-hand" if t.get("two_handed") else "hold-item"
+            cells.append((f"{label} {t['name']}", compose(class_id, held_item=t["id"], arm_pose=pose)))
+    sheet("I. Handheld items with the holding pose", cells, cols=4, size=200).save(OUT / "I-handheld.png")
 
-    # J accessories
+    # J accessories — body accessories were pruned as clip-art; show remaining ground/rear env
     cells = []
-    for t in traits_in("body_accessory", "sleeping-bag"):
+    for t in traits_in("body_accessory"):
         extra = {"body_accessory": t["id"]}
         if t["id"] == "backpack-straps":
             extra["rear_accessory"] = "backpack"
-        cells.append((t["name"], compose("sleeping-bag", **extra)))
-    sheet("J. Body accessories", cells, cols=4, size=200).save(OUT / "J-accessories.png")
+        cells.append((f"body {t['name']}", compose("sleeping-bag", **extra)))
+    for t in traits_in("ground_accessory"):
+        cells.append((f"ground {t['name']}", compose("sleeping-bag", ground_accessory=t["id"])))
+    for t in traits_in("rear_environment"):
+        cells.append((f"rear {t['name']}", compose("sleeping-bag", rear_environment=t["id"])))
+    if not cells:
+        cells.append(("none retained", compose("sleeping-bag")))
+    sheet("J. Accessories (body pruned; ground + rear env)", cells, cols=4, size=200).save(OUT / "J-accessories.png")
 
     # K atmosphere
     cells = []
@@ -155,7 +168,19 @@ def main() -> None:
     sheet("L. Specials", cells, cols=4, size=220).save(OUT / "L-specials.png")
 
     # M master index
-    lines = ["# Warm Company candidate trait index", "", "| Category | Name | Id | Classes | Weight | Band | Dependencies | PNG path(s) |", "| --- | --- | --- | --- | ---: | --- | --- | --- |"]
+    exclude_map: dict[str, list[str]] = {}
+    for rule in config.compatibility().get("rules", []):
+        if "excludes" in rule:
+            slot = rule["excludes"].get("slot", "")
+            ids = rule["excludes"].get("ids") or []
+            for tid in ids:
+                exclude_map.setdefault(f"{slot}/{tid}", []).append(rule["id"])
+    lines = [
+        "# Warm Company candidate trait index",
+        "",
+        "| Category | Name | Id | Classes | Weight | Band | Dependencies | Exclusions | PNG path(s) |",
+        "| --- | --- | --- | --- | ---: | --- | --- | --- | --- |",
+    ]
     from warm_company.library import required_paths as req
     for t in config.traits()["traits"]:
         if t.get("not_a_layer"):
@@ -163,9 +188,27 @@ def main() -> None:
         paths = req(t)
         rel = ", ".join(str(p.relative_to(ROOT)).replace("\\", "/") for p in paths[:6])
         deps = t.get("requires_pose") or t.get("files") or ""
+        excl = ", ".join(exclude_map.get(f"{t['slot']}/{t['id']}", []))
         lines.append(
-            f"| {t['slot']} | {t['name']} | `{t['id']}` | {', '.join(t.get('classes') or [])} | {t.get('weight', 0)} | {t.get('band', '')} | {deps} | {rel} |"
+            f"| {t['slot']} | {t['name']} | `{t['id']}` | {', '.join(t.get('classes') or [])} | {t.get('weight', 0)} | {t.get('band', '')} | {deps} | {excl} | {rel} |"
         )
+    lines.extend(
+        [
+            "",
+            "## Human-review flags (pre-approval)",
+            "",
+            "- Dusty Rose: confirm it reads pink, not mauve, especially on Pup/Lodge.",
+            "- Body colors are fabric recolors of one silhouette per class; plaid/patchwork/two-tone-panel are the non-recolor treatments.",
+            "- Stars overlay is thin compared with baked diamond quilting.",
+            "- Pose-master grips: Snug coffee, Pup map, Lodge lantern. Other class/item pairs still use clip-art props.",
+            "- Thermos has no illustrated grip.",
+            "- Body accessories were pruned (clip-art). J sheet shows ground/rear-environment only.",
+            "- Rest-pose rear arms still crop hard against the body (Snug/Pup).",
+            "- Some hats are class-restricted (bucket Pup-only, trapper/crown/halo Lodge-only).",
+            "- Quiet Overpass background: dignified empty infrastructure; confirm it is not too literal.",
+            "- Wild Purple on tents is not a pink substitute; easy to cut.",
+        ]
+    )
     (OUT / "M-trait-index.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     # 100 review composites

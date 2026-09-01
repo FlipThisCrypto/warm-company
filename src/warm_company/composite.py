@@ -261,6 +261,23 @@ def resolved_stack(class_id: str, traits: dict[str, str]) -> list[tuple[str, Pat
                 continue
             if master == "front_held" and slot in {"front_arm", "rear_arm"}:
                 continue
+        # hold-item.png may be the coffee canonical. Do not paint it for thermos/lantern.
+        if (
+            slot == "front_arm"
+            and (traits.get("arm_pose") or "rest") == "hold-item"
+            and (traits.get("held_item") or "none") != "coffee"
+        ):
+            path_probe = layer_path(class_id, "front_arm", "hold-item")
+            if path_probe is not None and is_pose_master(path_probe):
+                continue
+        if (
+            slot == "front_arm"
+            and (traits.get("arm_pose") or "rest") == "hold-two-hand"
+            and (traits.get("held_item") or "none") != "map"
+        ):
+            path_probe = layer_path(class_id, "front_arm", "hold-two-hand")
+            if path_probe is not None and is_pose_master(path_probe):
+                continue
         if (
             slot == "footwear"
             and trait_id in DEFAULT_FOOTWEAR

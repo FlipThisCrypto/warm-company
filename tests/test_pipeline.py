@@ -482,6 +482,17 @@ class ReviewStripTests(unittest.TestCase):
         bare = reconstruction_composite(review_token("large-tent"))
         self.assertNotEqual(lit.tobytes(), bare.tobytes())
 
+    def test_thermos_does_not_paint_coffee_pose_master(self):
+        from warm_company.composite import pose_master_slot, resolved_stack
+        from warm_company.review import review_token
+
+        tok = review_token("sleeping-bag", held_item="thermos", arm_pose="hold-item")
+        self.assertIsNone(pose_master_slot(tok["class_id"], tok["traits"]))
+        slots = [s for s, _src in resolved_stack(tok["class_id"], tok["traits"])]
+        self.assertIn("body", slots)
+        self.assertIn("front_held", slots)
+        self.assertNotIn("front_arm", slots)
+
     def test_pose_master_is_item_specific(self):
         from warm_company.composite import pose_master_slot
         from warm_company.review import review_token
@@ -621,6 +632,33 @@ class InventoryLibraryTests(unittest.TestCase):
         needed = {p.resolve() for p in required_paths()}
         extras = [str(p.relative_to(ROOT)) for p in LAYERS.rglob("*.png") if p.resolve() not in needed]
         self.assertEqual(extras, [], msg=f"extras {extras[:12]}")
+
+    def test_review_inventory_sheets_exist(self):
+        review = ROOT / "build" / "review-inventory"
+        required = [
+            "A-backgrounds.png",
+            "B-snug-bodies.png",
+            "C-pup-bodies.png",
+            "D-lodge-bodies.png",
+            "E-faces.png",
+            "F-arms.png",
+            "G-footwear.png",
+            "H-headwear.png",
+            "I-handheld.png",
+            "J-accessories.png",
+            "K-atmosphere.png",
+            "L-specials.png",
+            "M-trait-index.md",
+            "N-review-100-a.png",
+            "N-review-100-b.png",
+        ]
+        for name in required:
+            path = review / name
+            self.assertTrue(path.exists(), msg=str(path))
+            self.assertGreater(path.stat().st_size, 2000, msg=str(path))
+        index = (review / "M-trait-index.md").read_text(encoding="utf-8")
+        self.assertIn("Dusty Rose", index)
+        self.assertIn("`dusty-rose`", index)
 
 
 if __name__ == "__main__":
