@@ -50,6 +50,11 @@ def prompts() -> dict[str, Any]:
     return load_json(CONFIG / "prompts.json")
 
 
+@lru_cache(maxsize=None)
+def resources() -> dict[str, Any]:
+    return load_json(CONFIG / "resources.json")
+
+
 def class_spec(class_id: str) -> dict[str, Any]:
     spec = anchors()["classes"].get(class_id)
     if spec is None:

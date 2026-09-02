@@ -26,7 +26,7 @@ def review_token(class_id: str, **traits: str) -> dict:
         "pattern": "none",
         "structural": "none",
         "legs": "short-legs",
-        "footwear": "basic-shoes",
+        "footwear": "basic-shoes" if class_id == "sleeping-bag" else "work-boots",
         "face": "standard-face",
         "eyes": "normal",
         "eyebrows": "none",

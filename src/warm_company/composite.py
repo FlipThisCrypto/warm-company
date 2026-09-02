@@ -242,11 +242,16 @@ def slot_is_active(compositor_slot: str, driven_slot: str, trait_id: str | None)
 
 def resolved_stack(class_id: str, traits: dict[str, str]) -> list[tuple[str, Path | str]]:
     """Return compositing sources in z order from layer_stack.json."""
+    from .resolve import resolve_plan
+
     stack: list[tuple[str, Path | str]] = []
     master = pose_master_slot(class_id, traits)
+    suppress = set(resolve_plan(class_id, traits).get("suppress") or [])
     for layer in config.layer_stack()["stack"]:
         slot = layer["slot"]
         if layer.get("deferred"):
+            continue
+        if slot in suppress:
             continue
         if slot == "contact_shadow" or layer.get("source") == "procedural":
             stack.append((slot, "procedural"))

@@ -1,0 +1,709 @@
+{
+  "pairwise": [
+    {
+      "class_id": "sleeping-bag",
+      "traits": 54,
+      "pairs": 1485,
+      "legal": 1331,
+      "illegal": 154,
+      "illegal_samples": [
+        {
+          "a": "background/winter-sunrise",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/winter-sunrise",
+          "b": "held_item/coffee",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/coffee",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/winter-sunrise",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/snowy-camp",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/snowy-camp",
+          "b": "held_item/coffee",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/coffee",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/snowy-camp",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/forest-clearing",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/forest-clearing",
+          "b": "held_item/coffee",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/coffee",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/forest-clearing",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/cold-blue-night",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/cold-blue-night",
+          "b": "held_item/coffee",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/coffee",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/winter-sunset",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/winter-sunset",
+          "b": "held_item/coffee",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/coffee",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/winter-sunset",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/warm-dawn",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/warm-dawn",
+          "b": "held_item/coffee",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/coffee",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/warm-dawn",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/starry-night",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/starry-night",
+          "b": "held_item/coffee",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/coffee",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/campground",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/campground",
+          "b": "held_item/coffee",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/coffee",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/campground",
+          "b": "body/aurora",
+          "violations": [
+            "aurora-not-noon-camp: background=campground excluded"
+          ]
+        },
+        {
+          "a": "background/campground",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/appalachian-ridge",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/appalachian-ridge",
+          "b": "held_item/coffee",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/coffee",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        }
+      ]
+    },
+    {
+      "class_id": "small-tent",
+      "traits": 52,
+      "pairs": 1378,
+      "legal": 1229,
+      "illegal": 149,
+      "illegal_samples": [
+        {
+          "a": "background/winter-sunrise",
+          "b": "arm_pose/hold-two-hand",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-two-hand excluded"
+          ]
+        },
+        {
+          "a": "background/winter-sunrise",
+          "b": "held_item/map",
+          "violations": [
+            "held item without grip pose",
+            "resource left_hand owned by arm_pose/rest and held_item/map",
+            "resource right_hand owned by arm_pose/rest and held_item/map",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "two-hand-items: arm_pose must be hold-two-hand"
+          ]
+        },
+        {
+          "a": "background/winter-sunrise",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/snowy-camp",
+          "b": "arm_pose/hold-two-hand",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-two-hand excluded"
+          ]
+        },
+        {
+          "a": "background/snowy-camp",
+          "b": "held_item/map",
+          "violations": [
+            "held item without grip pose",
+            "resource left_hand owned by arm_pose/rest and held_item/map",
+            "resource right_hand owned by arm_pose/rest and held_item/map",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "two-hand-items: arm_pose must be hold-two-hand"
+          ]
+        },
+        {
+          "a": "background/snowy-camp",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/forest-clearing",
+          "b": "arm_pose/hold-two-hand",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-two-hand excluded"
+          ]
+        },
+        {
+          "a": "background/forest-clearing",
+          "b": "held_item/map",
+          "violations": [
+            "held item without grip pose",
+            "resource left_hand owned by arm_pose/rest and held_item/map",
+            "resource right_hand owned by arm_pose/rest and held_item/map",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "two-hand-items: arm_pose must be hold-two-hand"
+          ]
+        },
+        {
+          "a": "background/forest-clearing",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/cold-blue-night",
+          "b": "arm_pose/hold-two-hand",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-two-hand excluded"
+          ]
+        },
+        {
+          "a": "background/cold-blue-night",
+          "b": "held_item/map",
+          "violations": [
+            "held item without grip pose",
+            "resource left_hand owned by arm_pose/rest and held_item/map",
+            "resource right_hand owned by arm_pose/rest and held_item/map",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "two-hand-items: arm_pose must be hold-two-hand"
+          ]
+        },
+        {
+          "a": "background/winter-sunset",
+          "b": "arm_pose/hold-two-hand",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-two-hand excluded"
+          ]
+        },
+        {
+          "a": "background/winter-sunset",
+          "b": "held_item/map",
+          "violations": [
+            "held item without grip pose",
+            "resource left_hand owned by arm_pose/rest and held_item/map",
+            "resource right_hand owned by arm_pose/rest and held_item/map",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "two-hand-items: arm_pose must be hold-two-hand"
+          ]
+        },
+        {
+          "a": "background/winter-sunset",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/warm-dawn",
+          "b": "arm_pose/hold-two-hand",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-two-hand excluded"
+          ]
+        },
+        {
+          "a": "background/warm-dawn",
+          "b": "held_item/map",
+          "violations": [
+            "held item without grip pose",
+            "resource left_hand owned by arm_pose/rest and held_item/map",
+            "resource right_hand owned by arm_pose/rest and held_item/map",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "two-hand-items: arm_pose must be hold-two-hand"
+          ]
+        },
+        {
+          "a": "background/warm-dawn",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/starry-night",
+          "b": "arm_pose/hold-two-hand",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-two-hand excluded"
+          ]
+        },
+        {
+          "a": "background/starry-night",
+          "b": "held_item/map",
+          "violations": [
+            "held item without grip pose",
+            "resource left_hand owned by arm_pose/rest and held_item/map",
+            "resource right_hand owned by arm_pose/rest and held_item/map",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "two-hand-items: arm_pose must be hold-two-hand"
+          ]
+        },
+        {
+          "a": "background/campground",
+          "b": "arm_pose/hold-two-hand",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-two-hand excluded"
+          ]
+        },
+        {
+          "a": "background/campground",
+          "b": "held_item/map",
+          "violations": [
+            "held item without grip pose",
+            "resource left_hand owned by arm_pose/rest and held_item/map",
+            "resource right_hand owned by arm_pose/rest and held_item/map",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "two-hand-items: arm_pose must be hold-two-hand"
+          ]
+        },
+        {
+          "a": "background/campground",
+          "b": "body/aurora",
+          "violations": [
+            "aurora-not-noon-camp: background=campground excluded"
+          ]
+        },
+        {
+          "a": "background/campground",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/appalachian-ridge",
+          "b": "arm_pose/hold-two-hand",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-two-hand excluded"
+          ]
+        },
+        {
+          "a": "background/appalachian-ridge",
+          "b": "held_item/map",
+          "violations": [
+            "held item without grip pose",
+            "resource left_hand owned by arm_pose/rest and held_item/map",
+            "resource right_hand owned by arm_pose/rest and held_item/map",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "two-hand-items: arm_pose must be hold-two-hand"
+          ]
+        }
+      ]
+    },
+    {
+      "class_id": "large-tent",
+      "traits": 54,
+      "pairs": 1485,
+      "legal": 1330,
+      "illegal": 155,
+      "illegal_samples": [
+        {
+          "a": "background/winter-sunrise",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/winter-sunrise",
+          "b": "held_item/lantern",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/lantern",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/winter-sunrise",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/snowy-camp",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/snowy-camp",
+          "b": "held_item/lantern",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/lantern",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/snowy-camp",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/forest-clearing",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/forest-clearing",
+          "b": "held_item/lantern",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/lantern",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/forest-clearing",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/cold-blue-night",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/cold-blue-night",
+          "b": "held_item/lantern",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/lantern",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/winter-sunset",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/winter-sunset",
+          "b": "held_item/lantern",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/lantern",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/winter-sunset",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/warm-dawn",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/warm-dawn",
+          "b": "held_item/lantern",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/lantern",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/warm-dawn",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/starry-night",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/starry-night",
+          "b": "held_item/lantern",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/lantern",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/campground",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/campground",
+          "b": "held_item/lantern",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/lantern",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        },
+        {
+          "a": "background/campground",
+          "b": "body/aurora",
+          "violations": [
+            "aurora-not-noon-camp: background=campground excluded"
+          ]
+        },
+        {
+          "a": "background/campground",
+          "b": "body/north-star-navy",
+          "violations": [
+            "north-star-body-prefers-night: background must be one of ['abstract-snow', 'cold-blue-night', 'first-light', 'starry-night']"
+          ]
+        },
+        {
+          "a": "background/appalachian-ridge",
+          "b": "arm_pose/hold-item",
+          "violations": [
+            "empty grip pose",
+            "empty-hands-no-hold: arm_pose=hold-item excluded"
+          ]
+        },
+        {
+          "a": "background/appalachian-ridge",
+          "b": "held_item/lantern",
+          "violations": [
+            "held item without grip pose",
+            "resource right_hand owned by arm_pose/rest and held_item/lantern",
+            "held-item-needs-hold-pose: arm_pose must be one of ['hold-item', 'hold-two-hand']",
+            "one-hand-items: arm_pose must be hold-item"
+          ]
+        }
+      ]
+    }
+  ],
+  "stress": [
+    {
+      "class_id": "sleeping-bag",
+      "tested": 1000,
+      "ok": 1000,
+      "unresolved": 0,
+      "hand_violations": 0,
+      "leg_violations": 0,
+      "foot_violations": 0
+    },
+    {
+      "class_id": "small-tent",
+      "tested": 1000,
+      "ok": 1000,
+      "unresolved": 0,
+      "hand_violations": 0,
+      "leg_violations": 0,
+      "foot_violations": 0
+    },
+    {
+      "class_id": "large-tent",
+      "tested": 1000,
+      "ok": 1000,
+      "unresolved": 0,
+      "hand_violations": 0,
+      "leg_violations": 0,
+      "foot_violations": 0
+    }
+  ],
+  "combinations_tested": 3000,
+  "pairwise_pairs": 4348,
+  "unresolved_physical_resource_violations": 0,
+  "hand_violations": 0,
+  "leg_violations": 0,
+  "foot_violations": 0,
+  "ok": true
+}

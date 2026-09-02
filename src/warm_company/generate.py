@@ -4,19 +4,17 @@ import json
 from typing import Any
 
 from . import compatibility, config
+from .resolve import resolve_plan
 from .paths import BUILD, ensure_build
 from .rng import SeededStream, dna_hash
 
 MAX_TOKEN_ATTEMPTS = 80
 ROLL_SLOTS = [
-    "background",
-    "rear_environment",
-    "rear_accessory",
-    "arm_pose",
-    "held_item",
     "body",
     "pattern",
     "structural",
+    "arm_pose",
+    "held_item",
     "legs",
     "footwear",
     "face",
@@ -24,10 +22,13 @@ ROLL_SLOTS = [
     "eyebrows",
     "mouth",
     "facial",
-    "body_accessory",
     "headwear",
+    "rear_accessory",
+    "body_accessory",
     "ground_accessory",
+    "rear_environment",
     "atmosphere",
+    "background",
     "special",
 ]
 
@@ -41,13 +42,35 @@ def _choose(slot: str, class_id: str, phase: int, rng: SeededStream) -> str:
 
 def roll_traits(class_id: str, phase: int, rng: SeededStream) -> dict[str, str]:
     last_error = "unknown"
+    traits = {slot: "none" for slot in ROLL_SLOTS}
+    for slot in ROLL_SLOTS:
+        pick = _choose(slot, class_id, phase, rng)
+        trial = dict(traits)
+        trial[slot] = pick
+        trial = compatibility.apply_forces(trial)
+        plan = resolve_plan(class_id, trial)
+        if plan["ok"] or slot not in " ".join(plan["violations"]):
+            traits = trial
+        else:
+            for _ in range(8):
+                trial[slot] = _choose(slot, class_id, phase, rng)
+                trial = compatibility.apply_forces(trial)
+                plan = resolve_plan(class_id, trial)
+                if plan["ok"] or slot not in " ".join(plan["violations"]):
+                    traits = trial
+                    break
+            else:
+                traits = compatibility.apply_forces(traits)
+    plan = resolve_plan(class_id, traits)
+    if plan["ok"]:
+        return traits
     for _ in range(MAX_TOKEN_ATTEMPTS):
         traits = {slot: _choose(slot, class_id, phase, rng) for slot in ROLL_SLOTS}
         traits = compatibility.apply_forces(traits)
-        problems = compatibility.violations(class_id, traits)
-        if not problems:
+        plan = resolve_plan(class_id, traits)
+        if plan["ok"]:
             return traits
-        last_error = "; ".join(problems)
+        last_error = "; ".join(plan["violations"])
     raise RuntimeError(f"could not roll a legal {class_id} token: {last_error}")
 
 
@@ -74,9 +97,9 @@ def _special_complete(class_id: str, spec: dict[str, Any], phase: int, rng: Seed
     traits.update(spec["traits"])
     traits["special"] = spec["id"]
     traits = _sanitize(class_id, traits)
-    problems = compatibility.violations(class_id, traits)
-    if problems:
-        raise RuntimeError(f"special {spec['id']} is illegal on {class_id}: {problems}")
+    plan = resolve_plan(class_id, traits)
+    if plan["violations"]:
+        raise RuntimeError(f"special {spec['id']} is illegal on {class_id}: {plan['violations']}")
     return traits
 
 

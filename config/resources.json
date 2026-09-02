@@ -1,0 +1,159 @@
+{
+  "version": 1,
+  "note": "Physical resource occupancy. Aliases expand before collision checks. Composites coordinate multi-slot interactions so pose masters do not stack ordinary limbs.",
+  "atomic": [
+    "left_hand",
+    "right_hand",
+    "left_arm",
+    "right_arm",
+    "left_leg",
+    "right_leg",
+    "left_foot",
+    "right_foot",
+    "headwear_space",
+    "face_space",
+    "eye_space",
+    "mouth_space",
+    "front_body_space",
+    "rear_body_space",
+    "center_ground_space",
+    "overhead_space",
+    "foreground_space",
+    "held_prop"
+  ],
+  "aliases": {
+    "both_hands": ["left_hand", "right_hand"],
+    "both_arms": ["left_arm", "right_arm"],
+    "both_legs": ["left_leg", "right_leg"],
+    "both_feet": ["left_foot", "right_foot"]
+  },
+  "limits": {
+    "hands": 2,
+    "legs": 2,
+    "feet": 2
+  },
+  "defaults": {
+    "arm_pose/rest": {
+      "occupies": ["both_arms", "both_hands"],
+      "contains": ["both_hands"]
+    },
+    "arm_pose/wave": {
+      "occupies": ["both_arms", "both_hands"],
+      "contains": ["both_hands"]
+    },
+    "arm_pose/hold-item": {
+      "occupies": ["both_arms", "right_hand"],
+      "contains": ["right_hand"]
+    },
+    "arm_pose/hold-two-hand": {
+      "occupies": ["both_arms", "both_hands"],
+      "contains": ["both_hands"]
+    },
+    "held_item/coffee": {
+      "occupies": ["held_prop", "right_hand"],
+      "requires_pose": ["hold-item"]
+    },
+    "held_item/map": {
+      "occupies": ["held_prop", "both_hands"],
+      "requires_pose": ["hold-two-hand"]
+    },
+    "held_item/lantern": {
+      "occupies": ["held_prop", "right_hand"],
+      "requires_pose": ["hold-item"]
+    },
+    "legs/short-legs": {
+      "occupies": ["both_legs", "both_feet"],
+      "contains": ["both_feet"]
+    },
+    "footwear/basic-shoes": {
+      "occupies": ["both_feet"],
+      "mode": "duplicate"
+    },
+    "footwear/work-boots": {
+      "occupies": ["both_feet"],
+      "mode": "overlay"
+    },
+    "footwear/snow-boots": {
+      "occupies": ["both_feet"],
+      "mode": "overlay"
+    },
+    "headwear/halo": {
+      "occupies": ["headwear_space", "overhead_space"]
+    },
+    "headwear/crown": {
+      "occupies": ["headwear_space", "overhead_space"]
+    },
+    "headwear/santa-hat": {
+      "occupies": ["headwear_space", "overhead_space"]
+    },
+    "headwear/beanie": { "occupies": ["headwear_space"] },
+    "headwear/knit-cap": { "occupies": ["headwear_space"] },
+    "headwear/baseball-cap": { "occupies": ["headwear_space"] },
+    "headwear/bucket-hat": { "occupies": ["headwear_space"] },
+    "headwear/trapper-hat": { "occupies": ["headwear_space"] },
+    "headwear/earflap-beanie": { "occupies": ["headwear_space"] },
+    "rear_environment/campfire-glow": {
+      "occupies": ["center_ground_space"]
+    },
+    "atmosphere/light-snow": {
+      "occupies": ["foreground_space"]
+    },
+    "facial/blush": {
+      "occupies": ["face_space"]
+    },
+    "structural/extra-panels": {
+      "occupies": ["front_body_space"]
+    },
+    "eyes/sunglasses-compatible": {
+      "occupies": ["eye_space"]
+    },
+    "eyes/normal": { "occupies": ["eye_space"] },
+    "eyes/happy": { "occupies": ["eye_space"] },
+    "eyes/sleepy": { "occupies": ["eye_space"] },
+    "eyes/determined": { "occupies": ["eye_space"] },
+    "mouth/smile": { "occupies": ["mouth_space"] },
+    "mouth/grin": { "occupies": ["mouth_space"] },
+    "mouth/determined": { "occupies": ["mouth_space"] }
+  },
+  "composites": [
+    {
+      "id": "hold-coffee",
+      "when": { "held_item": "coffee", "arm_pose": "hold-item" },
+      "occupies": ["both_hands", "both_arms", "held_prop", "both_legs", "both_feet", "front_body_space"],
+      "contains": ["both_hands", "both_arms", "held_prop", "both_legs", "both_feet", "body", "face"],
+      "suppresses_slots": [
+        "rear_arm", "rear_held", "rear_leg", "body", "pattern", "structural",
+        "face", "eyes", "eyebrows", "mouth", "facial", "legs", "footwear", "front_held"
+      ],
+      "hands": 2,
+      "legs": 2,
+      "feet": 2
+    },
+    {
+      "id": "hold-map",
+      "when": { "held_item": "map", "arm_pose": "hold-two-hand" },
+      "occupies": ["both_hands", "both_arms", "held_prop", "both_legs", "both_feet", "front_body_space"],
+      "contains": ["both_hands", "both_arms", "held_prop", "both_legs", "both_feet", "body", "face"],
+      "suppresses_slots": [
+        "rear_arm", "rear_held", "rear_leg", "body", "pattern", "structural",
+        "face", "eyes", "eyebrows", "mouth", "facial", "legs", "footwear", "front_held"
+      ],
+      "hands": 2,
+      "legs": 2,
+      "feet": 2
+    },
+    {
+      "id": "hold-lantern",
+      "when": { "held_item": "lantern", "arm_pose": "hold-item" },
+      "occupies": ["both_hands", "both_arms", "held_prop", "both_legs", "both_feet", "front_body_space"],
+      "contains": ["both_hands", "both_arms", "held_prop", "both_legs", "both_feet", "body", "face"],
+      "suppresses_slots": [
+        "rear_arm", "front_arm", "rear_held", "rear_leg", "body", "pattern", "structural",
+        "face", "eyes", "eyebrows", "mouth", "facial", "legs", "footwear"
+      ],
+      "hands": 2,
+      "legs": 2,
+      "feet": 2
+    }
+  ]
+}

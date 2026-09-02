@@ -68,4 +68,8 @@ def violations(class_id: str, traits: dict[str, str]) -> list[str]:
 
 
 def is_legal(class_id: str, traits: dict[str, str]) -> bool:
-    return not violations(class_id, traits)
+    from .resolve import resolve_plan
+
+    if violations(class_id, traits):
+        return False
+    return resolve_plan(class_id, traits)["ok"]

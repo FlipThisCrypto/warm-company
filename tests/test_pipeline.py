@@ -564,6 +564,98 @@ class ReviewStripTests(unittest.TestCase):
         self.assertEqual(args.limit, 1)
 
 
+class ResourcePlanTests(unittest.TestCase):
+    def test_visible_hands_at_most_two(self):
+        from warm_company.resolve import resolve_plan
+        from warm_company.review import review_token
+
+        for class_id, extra in (
+            ("sleeping-bag", {}),
+            ("sleeping-bag", {"held_item": "coffee", "arm_pose": "hold-item"}),
+            ("small-tent", {"held_item": "map", "arm_pose": "hold-two-hand"}),
+            ("large-tent", {"held_item": "lantern", "arm_pose": "hold-item"}),
+        ):
+            plan = resolve_plan(class_id, review_token(class_id, **extra)["traits"])
+            self.assertLessEqual(plan["hands"], 2, msg=str(extra))
+            self.assertTrue(plan["ok"], msg=plan["violations"])
+
+    def test_two_hand_prop_consumes_both_hands(self):
+        from warm_company.resolve import resolve_plan
+        from warm_company.review import review_token
+
+        plan = resolve_plan("small-tent", review_token("small-tent", held_item="map", arm_pose="hold-two-hand")["traits"])
+        self.assertEqual(plan["hands"], 2)
+        self.assertIn("hold-map", plan["composites"])
+        self.assertIn("front_held", plan["suppress"])
+
+    def test_empty_grip_is_illegal(self):
+        from warm_company.resolve import resolve_plan
+        from warm_company.review import review_token
+
+        plan = resolve_plan("sleeping-bag", review_token("sleeping-bag", arm_pose="hold-item", held_item="none")["traits"])
+        self.assertFalse(plan["ok"])
+        self.assertTrue(any("empty grip" in v for v in plan["violations"]))
+
+    def test_short_legs_suppress_duplicate_footwear(self):
+        from warm_company.composite import resolved_stack
+        from warm_company.resolve import resolve_plan
+        from warm_company.review import review_token
+
+        tok = review_token("sleeping-bag", legs="short-legs", footwear="basic-shoes")
+        plan = resolve_plan("sleeping-bag", tok["traits"])
+        self.assertIn("footwear", plan["suppress"])
+        slots = [s for s, _src in resolved_stack("sleeping-bag", tok["traits"])]
+        self.assertNotIn("footwear", slots)
+        self.assertIn("rear_leg", slots)
+
+    def test_trait_definitions_have_no_cycles_or_unknowns(self):
+        from warm_company.resolve import definition_problems
+
+        self.assertEqual(definition_problems(), [])
+
+    def test_one_hand_prop_consumes_a_hand(self):
+        from warm_company.resolve import resolve_plan
+        from warm_company.review import review_token
+
+        plan = resolve_plan("sleeping-bag", review_token("sleeping-bag", held_item="coffee", arm_pose="hold-item")["traits"])
+        self.assertGreaterEqual(plan["hands"], 1)
+        self.assertIn("right_hand", plan["occupancy"])
+
+    def test_generated_tokens_all_resource_ok(self):
+        from warm_company.generate import generate_collection
+        from warm_company.resolve import resolve_plan
+
+        result = generate_collection(seed="warm-company-dev-seed-v0", phase=9)
+        for token in result["tokens"][::17]:
+            plan = resolve_plan(token["class_id"], token["traits"])
+            self.assertTrue(plan["ok"], msg=f"#{token['token_id']} {plan['violations']}")
+            self.assertLessEqual(plan["hands"], 2)
+            self.assertLessEqual(plan["legs"], 2)
+            self.assertLessEqual(plan["feet"], 2)
+
+    def test_pairwise_and_stress_zero_unresolved(self):
+        from warm_company.logic_qa import full_audit
+
+        audit = full_audit(n_per_class=80)
+        self.assertTrue(audit["ok"], msg=str(audit["stress"]))
+        self.assertEqual(audit["unresolved_physical_resource_violations"], 0)
+        self.assertGreater(audit["pairwise_pairs"], 100)
+
+    def test_coffee_composite_drops_replaced_body_slots(self):
+        from warm_company.composite import resolved_stack
+        from warm_company.resolve import resolve_plan
+        from warm_company.review import review_token
+
+        tok = review_token("sleeping-bag", held_item="coffee", arm_pose="hold-item")
+        plan = resolve_plan("sleeping-bag", tok["traits"])
+        self.assertIn("hold-coffee", plan["composites"])
+        self.assertIn("body", plan["suppress"])
+        slots = [s for s, _src in resolved_stack("sleeping-bag", tok["traits"])]
+        self.assertNotIn("body", slots)
+        self.assertNotIn("rear_leg", slots)
+        self.assertNotIn("footwear", slots)
+
+
 class InventoryLibraryTests(unittest.TestCase):
     def test_illustrated_eyes_not_factory_dots(self):
         path = ROOT / "layers" / "sleeping-bag" / "eyes" / "normal.png"
