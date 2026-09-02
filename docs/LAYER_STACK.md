@@ -2,11 +2,11 @@
 
 Canonical file: `config/layer_stack.json`.
 
-The compositor is a painter's algorithm. Lower z is drawn first. Every file is 1024×1024. Pixels are already in the right place.
+The compositor is a painter's algorithm. Lower z is drawn first. Every file is 1024×1024. Rear-leg and footwear pairs are registered to class anatomy in `config/anchors.json` (two distinct feet on the class foot anchors, soles on the shared baseline). Overlay boots replace contained feet.
 
 ## Final stack (v2)
 
-Limb roots live **behind** the body so the silhouette hides the seam. Headwear is drawn to `headwear_preferred` in `anchors.json`, never to the legal maximum zone.
+Limb roots live **behind** the body so the silhouette hides the seam. Headwear is drawn to `headwear_preferred` in `anchors.json`, never filling the legal maximum zone. Hats already inside the legal zone are not crushed to beanie size.
 
 | Z | Slot | Scope | Notes |
 | --: | --- | --- | --- |

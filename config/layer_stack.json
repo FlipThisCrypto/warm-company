@@ -252,6 +252,7 @@
     "Rear arm includes extra shoulder that overlaps the body interior. Body paints over that overlap and hides the attachment.",
     "Rear leg includes extra length that overlaps the hem. Body/skirt paints over the root.",
     "Visible lower leg and footwear sit in front of the hem, still kissing baseline Y=896.",
+    "Compositor registers rear_leg and footwear pairs to class anatomy in anchors.json (left/right foot anchors, sole baseline). Overlay boots replace contained feet so a token never shows a foot through a boot or a central boot pile.",
     "Lodge face is the D-door panel, never a circle sticker.",
     "Pup face is the A-frame door panel.",
     "Snug face is the hood opening.",

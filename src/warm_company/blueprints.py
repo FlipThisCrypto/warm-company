@@ -443,6 +443,7 @@ def render_all() -> list[Path]:
                 "right_arm_anchor",
                 "left_foot_anchor",
                 "right_foot_anchor",
+                "anatomy",
                 "headwear_zone",
                 "handheld_left_zone",
                 "handheld_right_zone",

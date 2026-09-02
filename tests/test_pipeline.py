@@ -103,6 +103,8 @@ class RefinementConfigTests(unittest.TestCase):
         snug_block = geometry_block("sleeping-bag")
         self.assertIn("PREFERRED", lodge_block)
         self.assertIn("d-door", lodge_block)
+        self.assertIn("Anatomy", lodge_block)
+        self.assertIn("LEFT BOOT", lodge_block)
         self.assertIn("PREFERRED", snug_block)
         self.assertIn("PREFERRED", LAYER_INSTRUCTIONS["headwear"].upper())
 
@@ -220,7 +222,9 @@ class CompositorStackTests(unittest.TestCase):
         out = clamp_headwear(im, "sleeping-bag")
         box = out.getchannel("A").getbbox()
         self.assertIsNotNone(box)
-        self.assertLessEqual(box[2] - box[0], config.class_spec("sleeping-bag")["headwear_preferred"]["w"] + 2)
+        legal = config.class_spec("sleeping-bag")["headwear_zone"]
+        self.assertLessEqual(box[2] - box[0], legal["w"] + 2)
+        self.assertGreater(box[2] - box[0], config.class_spec("sleeping-bag")["headwear_preferred"]["w"])
 
     def test_clamp_headwear_does_not_upscale_small_hats(self):
         from PIL import Image, ImageDraw
@@ -744,6 +748,92 @@ class InventoryLibraryTests(unittest.TestCase):
         needed = {p.resolve() for p in required_paths()}
         extras = [str(p.relative_to(ROOT)) for p in LAYERS.rglob("*.png") if p.resolve() not in needed]
         self.assertEqual(extras, [], msg=f"extras {extras[:12]}")
+
+    def test_class_anatomy_names_two_feet(self):
+        for class_id, stance in (("sleeping-bag", 128), ("small-tent", 224), ("large-tent", 304)):
+            spec = config.class_spec(class_id)
+            anatomy = config.class_anatomy(class_id)
+            self.assertEqual(anatomy["sole_baseline_y"], spec["character_baseline_y"])
+            self.assertEqual(spec["stance_width"], stance)
+            self.assertEqual(anatomy["left_foot_center"]["x"], spec["left_foot_anchor"]["x"])
+            self.assertEqual(anatomy["right_foot_center"]["x"], spec["right_foot_anchor"]["x"])
+            self.assertEqual(
+                anatomy["right_foot_center"]["x"] - anatomy["left_foot_center"]["x"],
+                stance,
+            )
+            self.assertLess(anatomy["left_leg_origin"]["y"], anatomy["sole_baseline_y"])
+
+    def test_overlay_footwear_registers_to_foot_anchors(self):
+        from warm_company.composite import place_pair_at_feet
+
+        path = ROOT / "layers" / "small-tent" / "footwear" / "snow-boots.png"
+        src = Image.open(path).convert("RGBA")
+        for class_id in ("sleeping-bag", "small-tent", "large-tent"):
+            out = place_pair_at_feet(src, class_id, kind="boot")
+            spec = config.class_spec(class_id)
+            alpha = out.getchannel("A")
+            box = alpha.getbbox()
+            self.assertIsNotNone(box)
+            mid = (box[0] + box[2]) // 2
+            left = out.crop((0, 0, mid, 1024)).getchannel("A").getbbox()
+            right = out.crop((mid, 0, 1024, 1024)).getchannel("A").getbbox()
+            self.assertIsNotNone(left)
+            self.assertIsNotNone(right)
+            left_cx = (left[0] + left[2]) / 2
+            right_cx = mid + (right[0] + right[2]) / 2
+            self.assertAlmostEqual(left_cx, spec["left_foot_anchor"]["x"], delta=24)
+            self.assertAlmostEqual(right_cx, spec["right_foot_anchor"]["x"], delta=24)
+            self.assertGreaterEqual(right_cx - left_cx, spec["stance_width"] - 28)
+            self.assertLessEqual(box[3], spec["character_baseline_y"] + 6)
+
+    def test_overlay_hides_contained_feet(self):
+        from warm_company.composite import footwear_replaces_feet, hide_contained_feet, place_pair_at_feet
+        from warm_company.review import review_token
+
+        tok = review_token("large-tent", footwear="snow-boots")
+        self.assertTrue(footwear_replaces_feet(tok["traits"]))
+        src = Image.open(ROOT / "layers" / "large-tent" / "legs-rear" / "short-legs.png").convert("RGBA")
+        placed = place_pair_at_feet(src, "large-tent", kind="legs")
+        hidden = hide_contained_feet(placed, "large-tent")
+        sole = config.class_anatomy("large-tent")["sole_baseline_y"]
+        replace_h = config.class_anatomy("large-tent")["foot_replace_h"]
+        # A pixel on the original sole should be gone; a shaft pixel should remain.
+        self.assertEqual(hidden.getpixel((360, sole - 4))[3], 0)
+        self.assertGreater(hidden.getpixel((360, sole - replace_h - 16))[3], 40)
+
+    def test_duplicate_shoes_do_not_replace_snug_feet(self):
+        from warm_company.composite import footwear_replaces_feet, resolved_stack
+        from warm_company.review import review_token
+
+        tok = review_token("sleeping-bag", legs="short-legs", footwear="basic-shoes")
+        self.assertFalse(footwear_replaces_feet(tok["traits"]))
+        slots = [s for s, _src in resolved_stack("sleeping-bag", tok["traits"])]
+        self.assertNotIn("footwear", slots)
+        self.assertIn("rear_leg", slots)
+
+    def test_trapper_hat_is_not_crushed_to_beanie(self):
+        from warm_company.composite import clamp_headwear
+
+        path = ROOT / "layers" / "large-tent" / "headwear" / "trapper-hat.png"
+        im = Image.open(path).convert("RGBA")
+        out = clamp_headwear(im, "large-tent")
+        box = out.getchannel("A").getbbox()
+        self.assertIsNotNone(box)
+        pref = config.class_spec("large-tent")["headwear_preferred"]
+        legal = config.class_spec("large-tent")["headwear_zone"]
+        self.assertGreater(box[2] - box[0], pref["w"] + 20)
+        self.assertLessEqual(box[2] - box[0], legal["w"] + 12)
+
+    def test_lodge_baseball_stays_inside_legal_zone(self):
+        from warm_company.composite import clamp_headwear
+
+        path = ROOT / "layers" / "large-tent" / "headwear" / "baseball-cap.png"
+        im = Image.open(path).convert("RGBA")
+        before = im.getchannel("A").getbbox()
+        out = clamp_headwear(im, "large-tent")
+        after = out.getchannel("A").getbbox()
+        self.assertEqual(before, after)
+        self.assertGreater(after[2] - after[0], 180)
 
     def test_review_inventory_sheets_exist(self):
         review = ROOT / "build" / "review-inventory"

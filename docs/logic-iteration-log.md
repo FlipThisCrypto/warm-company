@@ -588,3 +588,11 @@ Each entry is chosen from the then-current system. Not a predetermined roadmap.
 - **Verdict:** RETAIN
 - **Files:** `build/logic-review-final/resolved-resource-audit.json`
 - **Remaining concern:** Rest-pose isolation crop; pose-master baked expressions. No mint.
+
+## Final polish (post 50) — footwear anatomy and hat clamp
+
+- **Selected issue:** Overlay work/snow boots composited as a central pile; Lodge/Pup contained feet showed through. Clamp crushed legal hats (Lodge trapper, Lodge baseball, Snug baseball) to beanie size.
+- **Change:** Class anatomy in `config/anchors.json`. Compositor splits rear_leg/footwear pairs onto foot anchors and hides contained feet when overlay footwear replaces them. Headwear clamp uses the legal zone and scales in place.
+- **Visual:** Two distinct boots at class stance; trapper/baseball read as hats.
+- **Verdict:** RETAIN
+- **Remaining concern:** Lodge work-boots are small L-boots; Pup rest mittens still match flap green. No 800 mint.

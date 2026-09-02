@@ -71,11 +71,13 @@
     },
     "footwear/work-boots": {
       "occupies": ["both_feet"],
-      "mode": "overlay"
+      "mode": "overlay",
+      "replaces": ["both_feet"]
     },
     "footwear/snow-boots": {
       "occupies": ["both_feet"],
-      "mode": "overlay"
+      "mode": "overlay",
+      "replaces": ["both_feet"]
     },
     "headwear/halo": {
       "occupies": ["headwear_space", "overhead_space"]

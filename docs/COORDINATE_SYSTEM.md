@@ -62,6 +62,11 @@ Right hand raised       = (768, 280)
 Left foot anchor        = (448, 896)
 Right foot anchor       = (576, 896)
 Stance width            = 128
+Anatomy sole Y          = 896
+Left / right leg origin = (448, 848) / (576, 848)
+Left / right lower-leg  = (448, 872) / (576, 872)
+Left / right foot center= (448, 884) / (576, 884)
+Foot replace height     = 40  (overlay boots hide contained feet)
 Headwear zone (legal max) = x=360 y=64 w=304 h=168
 Headwear preferred      = x=426 y=88 w=172 h=100   (draw target, ~150–190 px wide)
 Headwear brim Y         = 200
@@ -104,6 +109,11 @@ Right hand raised       = (824, 320)
 Left foot anchor        = (400, 896)
 Right foot anchor       = (624, 896)
 Stance width            = 224
+Anatomy sole Y          = 896
+Left / right leg origin = (400, 848) / (624, 848)
+Left / right lower-leg  = (400, 872) / (624, 872)
+Left / right foot center= (400, 884) / (624, 884)
+Foot replace height     = 56  (overlay boots hide contained stub feet)
 Headwear zone (legal max) = x=400 y=176 w=224 h=160
 Headwear preferred      = x=444 y=196 w=136 h=84    (draw target, ~120–150 px wide)
 Headwear brim Y         = 268
@@ -147,6 +157,11 @@ Right hand raised       = (880, 268)
 Left foot anchor        = (360, 896)
 Right foot anchor       = (664, 896)
 Stance width            = 304
+Anatomy sole Y          = 896
+Left / right leg origin = (360, 848) / (664, 848)
+Left / right lower-leg  = (360, 868) / (664, 868)
+Left / right foot center= (360, 884) / (664, 884)
+Foot replace height     = 72  (overlay boots hide contained feet; no central pile)
 Headwear zone (legal max) = x=360 y=80 w=304 h=176
 Headwear preferred      = x=436 y=100 w=152 h=88    (draw target, ~135–170 px wide)
 Headwear brim Y         = 188

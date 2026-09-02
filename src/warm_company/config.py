@@ -62,6 +62,14 @@ def class_spec(class_id: str) -> dict[str, Any]:
     return spec
 
 
+def class_anatomy(class_id: str) -> dict[str, Any]:
+    spec = class_spec(class_id)
+    anatomy = spec.get("anatomy")
+    if not isinstance(anatomy, dict):
+        raise KeyError(f"{class_id} missing anatomy")
+    return anatomy
+
+
 def slots() -> list[dict[str, Any]]:
     return list(traits()["slots"])
 

@@ -63,6 +63,14 @@ def geometry_block(class_id: str | None) -> str:
             f"right arm anchor=({spec['right_arm_anchor']['x']},{spec['right_arm_anchor']['y']}).",
             f"Left foot=({spec['left_foot_anchor']['x']},{spec['left_foot_anchor']['y']}); "
             f"right foot=({spec['right_foot_anchor']['x']},{spec['right_foot_anchor']['y']}).",
+            (
+                f"Anatomy: sole Y={spec['anatomy']['sole_baseline_y']}; "
+                f"left foot center=({spec['anatomy']['left_foot_center']['x']},{spec['anatomy']['left_foot_center']['y']}); "
+                f"right foot center=({spec['anatomy']['right_foot_center']['x']},{spec['anatomy']['right_foot_center']['y']}); "
+                f"left lower-leg=({spec['anatomy']['left_lower_leg_center']['x']},{spec['anatomy']['left_lower_leg_center']['y']}); "
+                f"right lower-leg=({spec['anatomy']['right_lower_leg_center']['x']},{spec['anatomy']['right_lower_leg_center']['y']}). "
+                "Paint LEFT BOOT and RIGHT BOOT as two distinct feet on those anchors. Overlay footwear replaces contained feet."
+            ),
             f"Headwear legal zone x={spec['headwear_zone']['x']} y={spec['headwear_zone']['y']} "
             f"w={spec['headwear_zone']['w']} h={spec['headwear_zone']['h']}.",
             f"Headwear PREFERRED draw size x={spec['headwear_preferred']['x']} y={spec['headwear_preferred']['y']} "

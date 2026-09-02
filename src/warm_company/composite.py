@@ -1,6 +1,7 @@
 """Painter's algorithm compositor driven by config/layer_stack.json.
 
-Limb roots load behind the body. Headwear is clamped to headwear_preferred.
+Limb roots load behind the body. Footwear and rear legs register to class
+anatomy. Headwear that exceeds the legal zone is scaled down.
 Atmosphere punches the face/door. Lantern may emit a procedural warm glow
 when an illustrated light layer is absent.
 """
@@ -9,7 +10,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 from . import config
 from .matte import strip_key_fringe
@@ -127,17 +128,16 @@ def punch_face(im: Image.Image, class_id: str) -> Image.Image:
 
 
 def clamp_headwear(im: Image.Image, class_id: str) -> Image.Image:
-    """Scale a hat down to headwear_preferred if it fills the legal zone."""
+    """Shrink hats that exceed the legal zone. Do not crush legal hats to beanie size."""
     spec = config.class_spec(class_id)
-    pref = spec["headwear_preferred"]
-    peak = spec["peak"]
+    legal = spec["headwear_zone"]
     alpha = im.getchannel("A")
     box = alpha.getbbox()
     if not box:
         return im
     w, h = box[2] - box[0], box[3] - box[1]
-    max_w = pref["w"]
-    max_h = pref["h"] + 40
+    max_w = legal["w"]
+    max_h = legal["h"] + 24
     if w <= max_w + 12 and h <= max_h + 12:
         return im
     crop = im.crop(box)
@@ -145,10 +145,114 @@ def clamp_headwear(im: Image.Image, class_id: str) -> Image.Image:
     nw, nh = max(1, int(w * scale)), max(1, int(h * scale))
     crop = crop.resize((nw, nh), Image.Resampling.LANCZOS)
     canvas = empty()
-    cx = spec["character_center_x"]
-    cy = peak["y"] + pref["h"] // 2 + 20
+    cx = (box[0] + box[2]) / 2
+    cy = (box[1] + box[3]) / 2
     canvas.paste(crop, (int(cx - nw / 2), int(cy - nh / 2)), crop)
     return canvas
+
+
+def split_left_right(im: Image.Image) -> tuple[Image.Image, Image.Image]:
+    """Split a two-limb layer on the widest gap near the pair's center."""
+    alpha = im.getchannel("A")
+    box = alpha.getbbox()
+    left_c, right_c = empty(), empty()
+    if not box:
+        return left_c, right_c
+    x0, y0, x1, y1 = box
+    px = alpha.load()
+    hits: list[bool] = []
+    for x in range(x0, x1):
+        found = False
+        for y in range(y0, y1, 2):
+            if px[x, y] > 40:
+                found = True
+                break
+        hits.append(found)
+    mid_i = (x1 - x0) // 2
+    best: tuple[int, int] | None = None
+    run = 0
+    run_start = 0
+    for i, hit in enumerate(hits):
+        if not hit:
+            if run == 0:
+                run_start = i
+            run += 1
+            continue
+        if run > 0:
+            center = run_start + run / 2
+            if best is None or run > best[0] or (
+                run == best[0] and abs(center - mid_i) < abs(best[1] + best[0] / 2 - mid_i)
+            ):
+                best = (run, run_start)
+            run = 0
+    if run > 0 and (best is None or run > best[0]):
+        best = (run, run_start)
+    if best is not None and best[0] >= 2:
+        split_x = x0 + best[1] + best[0] // 2
+    else:
+        split_x = (x0 + x1) // 2
+    left_c.paste(im.crop((0, 0, split_x, CANVAS[1])), (0, 0))
+    right_c.paste(im.crop((split_x, 0, CANVAS[0], CANVAS[1])), (split_x, 0))
+    return left_c, right_c
+
+
+def _paste_sole(
+    canvas: Image.Image,
+    piece: Image.Image,
+    anchor_x: int,
+    sole_y: int,
+    max_h: int | None = None,
+) -> None:
+    box = piece.getchannel("A").getbbox()
+    if not box:
+        return
+    crop = piece.crop(box)
+    cw, ch = crop.size
+    if max_h and ch > max_h:
+        scale = max_h / ch
+        crop = crop.resize((max(1, int(cw * scale)), max(1, int(ch * scale))), Image.Resampling.LANCZOS)
+        cw, ch = crop.size
+    canvas.paste(crop, (int(anchor_x - cw / 2), int(sole_y - ch)), crop)
+
+
+def place_pair_at_feet(im: Image.Image, class_id: str, *, kind: str) -> Image.Image:
+    """Register a left/right pair so soles sit on the class foot anchors."""
+    spec = config.class_spec(class_id)
+    anatomy = config.class_anatomy(class_id)
+    sole = int(anatomy.get("sole_baseline_y") or spec["character_baseline_y"])
+    left, right = split_left_right(im)
+    canvas = empty()
+    max_h = 280 if kind == "legs" else 160
+    _paste_sole(canvas, left, int(spec["left_foot_anchor"]["x"]), sole, max_h)
+    _paste_sole(canvas, right, int(spec["right_foot_anchor"]["x"]), sole, max_h)
+    return canvas
+
+
+def hide_contained_feet(im: Image.Image, class_id: str) -> Image.Image:
+    """Drop ordinary feet so overlay footwear can replace them."""
+    spec = config.class_spec(class_id)
+    anatomy = config.class_anatomy(class_id)
+    sole = int(anatomy.get("sole_baseline_y") or spec["character_baseline_y"])
+    replace_h = int(anatomy.get("foot_replace_h") or 48)
+    mask = Image.new("L", CANVAS, 255)
+    ImageDraw.Draw(mask).rectangle([0, max(0, sole - replace_h), CANVAS[0], CANVAS[1]], fill=0)
+    mask = mask.filter(ImageFilter.GaussianBlur(4))
+    out = im.copy()
+    out.putalpha(ImageChops.darker(im.getchannel("A"), mask))
+    return out
+
+
+def footwear_replaces_feet(traits: dict[str, str]) -> bool:
+    from .resolve import expand, spec_for
+
+    fw = traits.get("footwear") or "none"
+    if fw in {None, "none"} or fw in DEFAULT_FOOTWEAR:
+        return False
+    spec = spec_for("footwear", fw)
+    if spec.get("mode") == "overlay":
+        return True
+    replaced = set(expand(spec.get("replaces") or []))
+    return "left_foot" in replaced or "right_foot" in replaced
 
 
 def layer_path(class_id: str, slot: str, trait_id: str) -> Path | None:
@@ -416,7 +520,9 @@ def _prepare_layer(
     body_rgb: tuple[int, int, int] | None = None,
     *,
     pose_master: bool = False,
+    traits: dict[str, str] | None = None,
 ) -> Image.Image | None:
+    traits = traits or {}
     if slot == "face" and is_blank_face_panel(image, class_id):
         return None
     image = strip_key_fringe(image)
@@ -429,14 +535,18 @@ def _prepare_layer(
     elif slot == "atmosphere":
         image = mul_opacity(image, 0.28)
         image = punch_face(image, class_id)
+    if slot in {"rear_leg", "legs"}:
+        image = place_pair_at_feet(image, class_id, kind="legs")
+        if footwear_replaces_feet(traits):
+            image = hide_contained_feet(image, class_id)
+    if slot == "footwear":
+        image = place_pair_at_feet(image, class_id, kind="boot")
     if slot == "headwear":
         image = clamp_headwear(image, class_id)
     if pose_master and body_rgb:
         from .library import recolor_fabric
 
         image = recolor_fabric(image, body_rgb, class_id=class_id)
-    elif slot == "rear_arm" and class_id != "sleeping-bag" and body_rgb:
-        image = tint_toward(image, body_rgb)
     return image
 
 
@@ -481,6 +591,7 @@ def composite_with_report(
             class_id,
             body_rgb=body_rgb,
             pose_master=master is not None and slot == master,
+            traits=traits,
         )
         if layer is None:
             skipped.append(slot)

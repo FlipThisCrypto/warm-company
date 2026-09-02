@@ -24,6 +24,7 @@ Geometry
 - [ ] Lodge face is the D-door panel, never a circular sticker
 - [ ] Handheld in the hand zone, actually gripped (correct occlusion), not hovering beside a closed fist
 - [ ] Footwear soles on baseline Y=896; leg roots hidden by hem/footbox
+- [ ] Two distinct feet at class foot anchors (not a central boot pile); overlay boots replace contained feet; max two legs and two feet
 - [ ] Shoulder/arm roots begin behind the body
 - [ ] Tent poles and bag width match the master, not a new silhouette
 - [ ] No cyan/teal extraction fringe; magenta matte fully keyed
