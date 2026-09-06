@@ -108,12 +108,18 @@ def cmd_prompts(args: argparse.Namespace) -> int:
     return 0
 
 
+def composite_missing_report(count: int, rows: list[dict]) -> dict:
+    return {"composited": count, "missing_token_count": len(rows), "tokens_with_missing": rows}
+
+
 def cmd_composite(args: argparse.Namespace) -> int:
     from .composite import composite_with_report, write_token_png
+    from .paths import BUILD, atomic_write_text
 
     result = _load_tokens()
     missing = "allow" if args.allow_missing else "error"
     count = 0
+    missing_rows: list[dict] = []
     for token in result["tokens"]:
         if args.token_id and token["token_id"] != args.token_id:
             continue
@@ -123,12 +129,20 @@ def cmd_composite(args: argparse.Namespace) -> int:
             print(exc, file=sys.stderr)
             return 1
         write_token_png(token, image)
-        if args.report_missing and report["missing"]:
-            print(f"#{token.get('token_id')} missing: {', '.join(report['missing'])}")
+        if report["missing"]:
+            missing_rows.append({"token_id": token.get("token_id"), "missing": report["missing"]})
+            if args.report_missing:
+                print(f"#{token.get('token_id')} missing: {', '.join(report['missing'])}")
         count += 1
         if args.limit and count >= args.limit:
             break
+    atomic_write_text(
+        BUILD / "reports" / "composite_missing.json",
+        json.dumps(composite_missing_report(count, missing_rows), indent=2),
+    )
     print(f"composited {count} tokens")
+    if missing_rows:
+        print(f"missing layers on {len(missing_rows)} tokens; see {BUILD / 'reports' / 'composite_missing.json'}")
     return 0
 
 

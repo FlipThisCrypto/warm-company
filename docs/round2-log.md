@@ -139,3 +139,8 @@
 - Evolution: CI caches pip from requirements.txt so Pillow install is not repeated every run.
 - Bottleneck: Every GitHub Actions job re-downloaded pinned Pillow from scratch.
 - Verification: workflow contains cache: pip.
+
+## Iteration 26/50
+- Evolution: Composite writes build/reports/composite_missing.json for every run.
+- Bottleneck: Missing layers were stdout-only and vanished after an 800-token composite.
+- Verification: CLI still accepts --report-missing; report payload shape is documented in tests.

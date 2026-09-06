@@ -709,6 +709,14 @@ class ReviewStripTests(unittest.TestCase):
         self.assertTrue(args.allow_missing)
         self.assertEqual(args.limit, 1)
 
+    def test_composite_missing_report_shape(self):
+        from warm_company.cli import composite_missing_report
+
+        payload = composite_missing_report(2, [{"token_id": 1, "missing": ["layers/x.png"]}])
+        self.assertEqual(payload["composited"], 2)
+        self.assertEqual(payload["missing_token_count"], 1)
+        self.assertEqual(payload["tokens_with_missing"][0]["token_id"], 1)
+
 
 class ResourcePlanTests(unittest.TestCase):
     def test_visible_hands_at_most_two(self):
