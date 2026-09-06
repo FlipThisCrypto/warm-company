@@ -25,6 +25,21 @@ from warm_company.prompts import LAYER_INSTRUCTIONS, geometry_block  # noqa: E40
 from warm_company.rng import SeededStream, dna_hash  # noqa: E402
 
 
+class ConfigLoadTests(unittest.TestCase):
+    def test_invalid_json_names_the_file(self):
+        import tempfile
+
+        from warm_company.config import load_json
+
+        with tempfile.TemporaryDirectory() as raw:
+            path = Path(raw) / "traits.json"
+            path.write_text("{not json", encoding="utf-8")
+            with self.assertRaises(ValueError) as ctx:
+                load_json(path)
+            self.assertIn("traits.json", str(ctx.exception))
+            self.assertIn("invalid JSON", str(ctx.exception))
+
+
 class DignityTests(unittest.TestCase):
     def test_library_labels_are_clean(self):
         from warm_company.dignity import dignity_problems, label_problems

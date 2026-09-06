@@ -64,3 +64,8 @@
 - Evolution: Frozen SHA-256 fingerprint of the 800 token_id:class:dna lines for the development seed.
 - Bottleneck: Uniqueness tests still passed if roll weights or specials silently retargeted every token.
 - Verification: fingerprint 81da0c01… and token 1 DNA locked.
+
+## Iteration 11/50
+- Evolution: Config JSON loader names the file and rejects non-objects.
+- Bottleneck: A broken traits.json raised a raw JSONDecodeError with no path, stalling generate.
+- Verification: invalid JSON in traits.json raises ValueError naming the file.

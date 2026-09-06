@@ -11,8 +11,16 @@ CLASS_IDS = ("sleeping-bag", "small-tent", "large-tent")
 
 
 def load_json(path: Path) -> dict[str, Any]:
-    with path.open(encoding="utf-8") as handle:
-        return json.load(handle)
+    try:
+        with path.open(encoding="utf-8") as handle:
+            data = json.load(handle)
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"invalid JSON in {path}: {exc}") from exc
+    except OSError as exc:
+        raise ValueError(f"cannot read {path}: {exc}") from exc
+    if not isinstance(data, dict):
+        raise ValueError(f"{path} must be a JSON object")
+    return data
 
 
 @lru_cache(maxsize=None)
