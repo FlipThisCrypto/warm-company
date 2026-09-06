@@ -819,6 +819,18 @@ class SpecialCatalogTests(unittest.TestCase):
         self.assertEqual(special_catalog_problems(), [])
 
 
+class RarityReportTests(unittest.TestCase):
+    def test_rarity_report_includes_fingerprint_and_budget(self):
+        from warm_company.generate import generate_collection
+        from warm_company.rarity_report import build_report
+
+        result = generate_collection(seed="warm-company-dev-seed-v0", phase=9)
+        report = build_report(result)
+        self.assertEqual(report["collection_fingerprint"], result["collection_fingerprint"])
+        self.assertEqual(report["token_goods_usd"], 12000)
+        self.assertEqual(report["campaign"]["gross_usd"], 13200)
+
+
 class FundraiserTests(unittest.TestCase):
     def test_goods_table_is_twelve_thousand(self):
         from warm_company.fundraiser import campaign_totals, fundraiser_problems

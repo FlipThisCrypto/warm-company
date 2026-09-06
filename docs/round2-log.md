@@ -149,3 +149,8 @@
 - Evolution: generate CLI JSON includes collection_fingerprint so operators can record DNA identity at generate time.
 - Bottleneck: Fingerprint was inside tokens.json only after opening the file.
 - Verification: generate print payload key is collection_fingerprint.
+
+## Iteration 28/50
+- Evolution: Rarity report records collection fingerprint and the $12,000 goods rollup.
+- Bottleneck: Rarity audit could look healthy while DNA identity or campaign math had drifted.
+- Verification: build_report includes fingerprint and token_goods_usd 12000.

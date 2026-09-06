@@ -5,7 +5,8 @@ import math
 from collections import Counter, defaultdict
 
 from . import config
-from .paths import BUILD, ensure_build
+from .fundraiser import campaign_totals, token_goods_usd
+from .paths import BUILD, atomic_write_text, ensure_build
 
 
 def score_token(token: dict, class_counts: dict[str, Counter]) -> float:
@@ -73,10 +74,11 @@ def build_report(result: dict) -> dict:
         "most_common_tokens": list(reversed(token_rows[-25:])),
         "model": config.rarity()["model"],
         "scoring": config.rarity()["scoring"],
+        "collection_fingerprint": result.get("collection_fingerprint"),
+        "campaign": campaign_totals(),
+        "token_goods_usd": token_goods_usd(result),
     }
-    (BUILD / "reports" / "rarity_report.json").write_text(
-        json.dumps(report, indent=2), encoding="utf-8"
-    )
+    atomic_write_text(BUILD / "reports" / "rarity_report.json", json.dumps(report, indent=2))
     _write_markdown(report)
     return report
 
@@ -91,6 +93,8 @@ def _write_markdown(report: dict) -> None:
         f"- Class counts: `{report['class_counts']}`",
         f"- Unique DNA: {report['unique_dna']} ({report['duplicate_check']})",
         f"- Specials: {report['special_count']}",
+        f"- Collection fingerprint: `{report.get('collection_fingerprint')}`",
+        f"- Goods budget: ${report.get('token_goods_usd')}",
         "",
         "## Rarest tokens by information score",
         "",
@@ -102,4 +106,4 @@ def _write_markdown(report: dict) -> None:
             f"| {row['token_id']:04d} | {row['class_id']} | {row.get('special_name') or ''} | {row['score']} |"
         )
     lines += ["", "_This score is an audit tool. It is not a rigid NFT rarity tier._", ""]
-    (BUILD / "reports" / "rarity_report.md").write_text("\n".join(lines), encoding="utf-8")
+    atomic_write_text(BUILD / "reports" / "rarity_report.md", "\n".join(lines))
