@@ -44,7 +44,7 @@ python -m warm_company generate --phase 9
 python tests/test_pipeline.py
 ```
 
-GitHub Actions (`.github/workflows/ci.yml`) runs the same tests plus `validate-layers`, `provenance`, `generate --phase 9`, and `validate-collection` on every push and pull request to `main`.
+GitHub Actions (`.github/workflows/ci.yml`) runs the unit tests and `python -m warm_company preflight --phase 9` on every push and pull request to `main`.
 
 Before a mint-quality run: `python -m warm_company preflight`. It fails closed on config integrity, illegal resource definitions, layer errors, or provenance drift.
 

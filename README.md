@@ -73,7 +73,7 @@ python -m warm_company prompts
 python tests/test_pipeline.py
 ```
 
-CI: `.github/workflows/ci.yml` runs those checks on every push and pull request to `main`.
+CI: `.github/workflows/ci.yml` runs the unit tests and `python -m warm_company preflight --phase 9` on every push and pull request to `main`.
 
 Equivalent scripts live in `scripts/`.
 

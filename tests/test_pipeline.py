@@ -690,12 +690,10 @@ class CiWorkflowTests(unittest.TestCase):
         text = path.read_text(encoding="utf-8")
         for needle in (
             "python tests/test_pipeline.py",
-            "python -m warm_company validate-layers",
-            "python -m warm_company provenance",
-            "python -m warm_company generate --phase 9",
-            "python -m warm_company validate-collection",
+            "python -m warm_company preflight --phase 9",
         ):
             self.assertIn(needle, text)
+        self.assertNotIn("python -m warm_company generate --phase 9\n", text)
 
 
 class ProvenanceTests(unittest.TestCase):

@@ -34,3 +34,8 @@
 - Evolution: `warm-company preflight` fail-closed operator path (config, layers, generate, provenance).
 - Bottleneck: Mint checks were four separate commands; a missed step could ship illegal DNA.
 - Verification: preflight passes on the current tree; CLI wired.
+
+## Iteration 5/50
+- Evolution: CI mint gate is `preflight`, not four duplicated commands.
+- Bottleneck: GitHub Actions could stay green while the operator preflight path drifted.
+- Verification: workflow contract test requires preflight.
