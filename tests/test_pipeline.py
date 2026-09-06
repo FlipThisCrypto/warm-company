@@ -462,6 +462,18 @@ class GenerationTests(unittest.TestCase):
         self.assertEqual(report["unique_dna"], 800)
         self.assertEqual(report["special_count"], 13)
 
+    def test_no_specials_still_fills_supply(self):
+        from warm_company.fundraiser import token_goods_usd
+        from warm_company.generate import generate_collection
+
+        result = generate_collection(seed="warm-company-dev-seed-v0", phase=9, inject_specials=False)
+        self.assertEqual(result["supply"], 800)
+        self.assertEqual(result["unique_dna"], 800)
+        self.assertEqual(result["special_count"], 0)
+        self.assertEqual(result["class_counts"]["sleeping-bag"], 400)
+        self.assertEqual(token_goods_usd(result), 12000)
+        self.assertNotEqual(result["collection_fingerprint"], self.result["collection_fingerprint"])
+
     def test_collection_fingerprint_is_stable(self):
         from warm_company.generate import collection_fingerprint
 

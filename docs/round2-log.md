@@ -189,3 +189,8 @@
 - Evolution: CONTRIBUTING start-here now requires status and preflight before a mint-quality generate.
 - Bottleneck: Onboarding listed docs and tests but not the fail-closed operator path.
 - Verification: CONTRIBUTING names both commands.
+
+## Iteration 36/50
+- Evolution: generate --no-specials still yields 800 unique DNA and the $12,000 goods mix, with a different fingerprint.
+- Bottleneck: The no-specials operator path was untested; a quota bug could hide behind special injection.
+- Verification: special_count 0, supply 800, goods 12000, fingerprint differs from the specials run.
