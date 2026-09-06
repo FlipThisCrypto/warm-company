@@ -229,3 +229,8 @@
 - Evolution: generate CLI JSON includes token_goods_usd so a run that does not sum to $12,000 is visible immediately.
 - Bottleneck: Campaign math was only inside rarity/validate reports.
 - Verification: generate print payload includes token_goods_usd.
+
+## Iteration 44/50
+- Evolution: Tests require prompts/MASTER_STYLE.md to keep the magenta #FF00FF matte contract.
+- Bottleneck: Style prefix could be emptied without failing generate.
+- Verification: MASTER_STYLE.md contains #FF00FF and is non-trivial.

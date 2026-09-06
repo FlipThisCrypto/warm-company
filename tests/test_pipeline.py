@@ -85,6 +85,13 @@ class DependencyPinTests(unittest.TestCase):
         self.assertEqual(PIL.__version__, "12.1.0")
 
 
+class StyleBibleTests(unittest.TestCase):
+    def test_master_style_names_magenta_matte(self):
+        text = (ROOT / "prompts" / "MASTER_STYLE.md").read_text(encoding="utf-8")
+        self.assertGreater(len(text), 200)
+        self.assertIn("#FF00FF", text)
+
+
 class TemplateTests(unittest.TestCase):
     def test_occupancy_templates_exist(self):
         from warm_company.paths import TEMPLATES
