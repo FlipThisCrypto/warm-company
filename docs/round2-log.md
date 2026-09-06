@@ -194,3 +194,8 @@
 - Evolution: generate --no-specials still yields 800 unique DNA and the $12,000 goods mix, with a different fingerprint.
 - Bottleneck: The no-specials operator path was untested; a quota bug could hide behind special injection.
 - Verification: special_count 0, supply 800, goods 12000, fingerprint differs from the specials run.
+
+## Iteration 37/50
+- Evolution: Preflight requires CHIP-0007 collection_id to be a UUID and forbids populated marketplace URLs.
+- Bottleneck: Invented website/IPFS fields could ship in collection.json before they exist.
+- Verification: collection_id is a UUID; website is null; image_uris is empty.

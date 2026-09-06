@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import uuid
 from typing import Any
 
 from . import config
@@ -47,6 +48,16 @@ def config_integrity_problems() -> list[str]:
     seed = (col.get("production_seed") or {}).get("value")
     if not seed:
         problems.append("production_seed.value is empty")
+    try:
+        uuid.UUID(str(col["chip0007"]["collection_id"]))
+    except (KeyError, ValueError, TypeError):
+        problems.append("chip0007.collection_id is not a UUID")
+    urls = col.get("urls") or {}
+    for key, value in urls.items():
+        if key == "note":
+            continue
+        if value not in (None, [], ""):
+            problems.append(f"url {key} is populated before it exists: {value!r}")
     slot_ids = {row["id"] for row in config.slots()}
     for slot in ROLL_SLOTS:
         if slot not in slot_ids:

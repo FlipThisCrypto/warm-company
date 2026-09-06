@@ -76,6 +76,17 @@ class DependencyPinTests(unittest.TestCase):
         self.assertEqual(PIL.__version__, "12.1.0")
 
 
+class CollectionIdentityTests(unittest.TestCase):
+    def test_collection_uuid_and_urls_are_placeholders(self):
+        from warm_company.preflight import config_integrity_problems
+
+        self.assertEqual(config_integrity_problems(), [])
+        col = config.collection()
+        self.assertEqual(len(col["chip0007"]["collection_id"]), 36)
+        self.assertIsNone(col["urls"]["website"])
+        self.assertEqual(col["urls"]["image_uris"], [])
+
+
 class ConfigLoadTests(unittest.TestCase):
     def test_invalid_json_names_the_file(self):
         import tempfile
