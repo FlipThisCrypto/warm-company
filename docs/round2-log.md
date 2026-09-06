@@ -234,3 +234,8 @@
 - Evolution: Tests require prompts/MASTER_STYLE.md to keep the magenta #FF00FF matte contract.
 - Bottleneck: Style prefix could be emptied without failing generate.
 - Verification: MASTER_STYLE.md contains #FF00FF and is non-trivial.
+
+## Iteration 45/50
+- Evolution: MASTER_STYLE.md now states the magenta #FF00FF matte contract used by production layers.
+- Bottleneck: The style bible omitted the matte rule that prompts.json already required, so a failing test in 44 was evidence of a real gap.
+- Verification: StyleBibleTests passes.
