@@ -85,15 +85,21 @@ The development seed is `warm-company-dev-seed-v0`. Replace it before Phase 11 a
 | Item | Status |
 | --- | --- |
 | Design bible | Written |
-| Coordinate system | Locked in `config/anchors.json` |
-| Master silhouettes / blueprints | Generated from config (not illustrated art) |
+| Coordinate system | Locked in `config/anchors.json` with class anatomy |
+| Master silhouettes / blueprints | Generated from config |
 | Trait matrix | Specified, phased 3 / 6 / 9 |
-| Compatibility engine | Implemented |
-| Generator / compositor skeleton | Implemented |
-| Layer validation / contact sheets | Implemented |
-| Grok Image prompt framework | Implemented |
-| 9 layered review composites | In `build/review-samples/` (first prototype gate) |
+| Compatibility engine | Live-trait rules only; forces are idempotent |
+| Generator / compositor | Deterministic DNA + production compositor |
+| Layer validation | 129 production PNGs; duplicate-folder hashes reported |
+| Grok Image prompt framework | Implemented; magenta matte in MASTER_STYLE |
+| 9 layered review composites | Legacy v1 in `config/review_samples.json` |
 | v3 canonical masters | `references/approved/canonical-*-v3.jpg` |
-| Refinement 12-sample gate | `build/review-v3/` (contact sheet + 3 reconstruction strips) |
-| Production trait library | **Not locked — review the v3 gate against 6aa596f first** |
+| Refinement 12-sample gate | `build/review-v3/` (resource-legal samples + reconstruction strips) |
+| Provenance | `tree_digest` of config, generator source, and layer hashes |
+| Operator path | `status`, `preflight`, `preflight --mint`; see `docs/OPERATOR.md` |
+| CI | GitHub Actions: status, tests, preflight |
+| CHIP-0007 | Legal title false; invented URLs rejected |
+| Campaign math | 800 tokens = $12,000 goods / $13,200 gross |
+| Production trait library | **Not art-locked — review the v3 gate against 6aa596f first** |
+| 800-image mint | **Not started** |
 | Logo | **Deferred to Phase 10** |

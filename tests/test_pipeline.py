@@ -45,6 +45,14 @@ class OperatorDocTests(unittest.TestCase):
         self.assertIn("6aa596f", text)
 
 
+class ReadmeStatusTests(unittest.TestCase):
+    def test_readme_status_names_operator_path(self):
+        text = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("docs/OPERATOR.md", text)
+        self.assertIn("tree_digest", text)
+        self.assertIn("800-image mint", text)
+
+
 class ContributingTests(unittest.TestCase):
     def test_contributing_requires_status_and_preflight(self):
         text = (ROOT / "CONTRIBUTING.md").read_text(encoding="utf-8")

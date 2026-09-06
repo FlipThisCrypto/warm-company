@@ -254,3 +254,13 @@
 - Evolution: CI runs `status` before the slow test suite so missing layers or config identity fail in seconds.
 - Bottleneck: A broken collection.json still paid for a full unittest generate cycle.
 - Verification: workflow lists status before tests.
+
+## Iteration 49/50
+- Evolution: README status table matches the operator-grade pipeline (provenance, preflight, CI, campaign math, no 800 mint).
+- Bottleneck: README still described a skeleton generator and only the 9-sample prototype.
+- Verification: status table names provenance, OPERATOR.md, and "800-image mint not started".
+
+## Iteration 50/50
+- Evolution: `status` reports the locked specials count of 13 alongside seed, campaign, and tree digest.
+- Bottleneck: The cheap operator snapshot omitted the named-character catalog size.
+- Verification: status specials == 13; full test suite and preflight run after this change.
