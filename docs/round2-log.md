@@ -214,3 +214,8 @@
 - Evolution: Occupancy, allowed-full, and blueprint templates must exist for every class.
 - Bottleneck: Layer occupancy checks silently warn when templates are missing.
 - Verification: three files per class in templates/.
+
+## Iteration 41/50
+- Evolution: CI cancels stale runs on the same branch so overlapping pushes do not race.
+- Bottleneck: Sequential pushes queued duplicate 20-minute jobs.
+- Verification: workflow concurrency cancel-in-progress.
