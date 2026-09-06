@@ -446,6 +446,14 @@ class GenerationTests(unittest.TestCase):
         self.assertTrue(payload["data"]["symbolic_item"])
         self.assertEqual(payload["collection"]["id"], config.collection()["chip0007"]["collection_id"])
         json.dumps(payload)
+        self.assertEqual(metadata.chip0007_problems(payload), [])
+        bad = dict(payload)
+        bad["data"] = dict(payload["data"])
+        bad["data"]["legal_title_to_physical_item"] = True
+        bad["uri"] = "ipfs://not-real"
+        problems = metadata.chip0007_problems(bad)
+        self.assertTrue(any("legal_title" in p for p in problems))
+        self.assertTrue(any("uri" in p or "ipfs" in p for p in problems))
 
     def test_dna_changes_with_trait(self):
         token = self.result["tokens"][0]

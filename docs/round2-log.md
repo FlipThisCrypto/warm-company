@@ -44,3 +44,8 @@
 - Evolution: `--mint` refuses the well-known development seed and placeholder production_seed status.
 - Bottleneck: generate/preflight would happily emit 800 DNA that looks production-ready with the public dev seed.
 - Verification: mint_seed_problems and preflight --mint fail on the placeholder.
+
+## Iteration 7/50
+- Evolution: CHIP-0007 validator requires symbolic title, forbids invented IPFS/HTTP media URLs, and runs in preflight.
+- Bottleneck: Legal-title and URL rules lived only in comments; a metadata change could mint the opposite.
+- Verification: chip0007_problems flags legal_title=true and ipfs URIs; clean payloads pass.

@@ -32,3 +32,5 @@ Used: `minting_tool`, `sensitive_content=false`, `series_number`, `series_total=
 `data.legal_title_to_physical_item` must remain `false` unless counsel later says otherwise.
 
 Do not add live image URLs until they exist.
+
+`warm_company.metadata.chip0007_problems` and preflight enforce those two rules plus `format=CHIP-0007`, `series_total=800`, and `symbolic_item=true`.

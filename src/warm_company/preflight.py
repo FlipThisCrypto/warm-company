@@ -6,6 +6,7 @@ from typing import Any
 
 from . import config
 from .generate import ROLL_SLOTS, generate_collection
+from .metadata import metadata_problems
 from .resolve import definition_problems
 from .validate_collection import validate_result
 from .validate_layers import validate_library
@@ -106,6 +107,7 @@ def run_preflight(*, seed: str | None = None, phase: int = 9, mint: bool = False
     report = validate_result(result)
     if not report.get("ok"):
         problems.extend(report.get("problems") or [])
+    problems.extend(metadata_problems(result["tokens"]))
     return {
         "ok": not problems,
         "problems": problems,
