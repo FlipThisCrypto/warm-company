@@ -1010,6 +1010,7 @@ class StatusTests(unittest.TestCase):
         self.assertGreaterEqual(report["layer_count"], 100)
         self.assertEqual(len(report["tree_digest"]), 64)
         self.assertEqual(report["missing_layers"], [])
+        self.assertEqual(report["specials"], 13)
 
     def test_cli_exposes_status(self):
         from warm_company.cli import build_parser

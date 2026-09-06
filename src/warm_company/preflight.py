@@ -179,6 +179,7 @@ def status_report() -> dict[str, Any]:
         "missing_layers": missing,
         "git_revision": manifest.get("git_revision"),
         "runtime": manifest.get("runtime"),
+        "specials": int(config.rarity()["specials"]["count"]),
         "generator_version": manifest["generator_version"],
         "campaign": campaign_totals(),
         "duplicate_layer_pairs": duplicate_layer_pairs(),
