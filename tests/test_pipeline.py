@@ -773,6 +773,13 @@ class ResourcePlanTests(unittest.TestCase):
         self.assertNotIn("footwear", slots)
 
 
+class SpecialCatalogTests(unittest.TestCase):
+    def test_thirteen_unique_named_specials(self):
+        from warm_company.preflight import special_catalog_problems
+
+        self.assertEqual(special_catalog_problems(), [])
+
+
 class FundraiserTests(unittest.TestCase):
     def test_goods_table_is_twelve_thousand(self):
         from warm_company.fundraiser import campaign_totals, fundraiser_problems

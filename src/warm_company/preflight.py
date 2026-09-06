@@ -79,6 +79,28 @@ def config_integrity_problems() -> list[str]:
     return problems
 
 
+def special_catalog_problems() -> list[str]:
+    problems: list[str] = []
+    specials = config.rarity()["specials"]["characters"]
+    expected = int(config.rarity()["specials"].get("count") or 0)
+    if len(specials) != expected:
+        problems.append(f"specials listed {len(specials)} != count {expected}")
+    if expected != 13:
+        problems.append(f"specials count {expected} != 13")
+    ids = [row.get("id") for row in specials]
+    names = [row.get("name") for row in specials]
+    if len(ids) != len(set(ids)):
+        problems.append("duplicate special ids")
+    if len(names) != len(set(names)):
+        problems.append("duplicate special names")
+    for row in specials:
+        if not row.get("story"):
+            problems.append(f"special {row.get('id')} missing story")
+        if not isinstance(row.get("traits"), dict) or not row.get("traits"):
+            problems.append(f"special {row.get('id')} missing traits")
+    return problems
+
+
 def status_report() -> dict[str, Any]:
     """Cheap operator snapshot. Does not generate the collection."""
     from .fundraiser import campaign_totals, fundraiser_problems
@@ -93,7 +115,13 @@ def status_report() -> dict[str, Any]:
     mint_problems = mint_seed_problems(seed, mint=True)
     required = list(required_paths())
     missing = [path.relative_to(ROOT).as_posix() for path in required if not path.exists()]
-    integrity = config_integrity_problems() + dignity_problems() + definition_problems() + fundraiser_problems()
+    integrity = (
+        config_integrity_problems()
+        + special_catalog_problems()
+        + dignity_problems()
+        + definition_problems()
+        + fundraiser_problems()
+    )
     manifest = build_manifest(seed, 9)
     return {
         "ok": not missing and not integrity,
@@ -139,6 +167,7 @@ def run_preflight(*, seed: str | None = None, phase: int = 9, mint: bool = False
             "mint": mint,
         }
     problems.extend(config_integrity_problems())
+    problems.extend(special_catalog_problems())
     problems.extend(dignity_problems())
     problems.extend(definition_problems())
     layers = validate_library()

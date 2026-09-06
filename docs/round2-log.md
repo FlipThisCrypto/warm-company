@@ -124,3 +124,8 @@
 - Evolution: Lock production layer PNG count at 129 so silent library growth or deletion fails tests.
 - Bottleneck: Extra/missing path tests did not assert the known accepted library size.
 - Verification: LAYERS rglob count == 129.
+
+## Iteration 23/50
+- Evolution: Special catalog must be exactly 13 unique ids and names with stories and traits.
+- Bottleneck: Duplicate or story-less specials could ship while generate still injected 13 rows.
+- Verification: special_catalog_problems is empty.
