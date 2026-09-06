@@ -25,6 +25,20 @@ from warm_company.prompts import LAYER_INSTRUCTIONS, geometry_block  # noqa: E40
 from warm_company.rng import SeededStream, dna_hash  # noqa: E402
 
 
+class AtomicWriteTests(unittest.TestCase):
+    def test_atomic_write_replaces_complete_file(self):
+        import tempfile
+
+        from warm_company.paths import atomic_write_text
+
+        with tempfile.TemporaryDirectory() as raw:
+            path = Path(raw) / "tokens.json"
+            atomic_write_text(path, '{"ok": false}')
+            atomic_write_text(path, '{"ok": true}')
+            self.assertEqual(path.read_text(encoding="utf-8"), '{"ok": true}')
+            self.assertFalse((path.parent / "tokens.json.tmp").exists())
+
+
 class RngTests(unittest.TestCase):
     def test_deterministic(self):
         a = SeededStream("warm-company-dev-seed-v0")

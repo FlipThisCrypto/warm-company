@@ -4,7 +4,7 @@ import json
 from collections import Counter, defaultdict
 
 from . import config
-from .paths import BUILD, ensure_build
+from .paths import BUILD, atomic_write_text, ensure_build
 
 
 def validate_result(result: dict) -> dict:
@@ -57,9 +57,7 @@ def validate_result(result: dict) -> dict:
         "live_tree_digest": live.get("tree_digest"),
         "provenance_ok": not provenance_problems,
     }
-    (BUILD / "reports" / "collection_validation.json").write_text(
-        json.dumps(report, indent=2), encoding="utf-8"
-    )
+    atomic_write_text(BUILD / "reports" / "collection_validation.json", json.dumps(report, indent=2))
     return report
 
 
@@ -72,7 +70,5 @@ def trait_histogram(result: dict) -> dict:
         class_id: {slot: dict(counter) for slot, counter in slots.items()}
         for class_id, slots in per_class.items()
     }
-    (BUILD / "reports" / "trait_histogram.json").write_text(
-        json.dumps(serializable, indent=2), encoding="utf-8"
-    )
+    atomic_write_text(BUILD / "reports" / "trait_histogram.json", json.dumps(serializable, indent=2))
     return serializable

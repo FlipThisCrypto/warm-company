@@ -5,7 +5,7 @@ from typing import Any
 
 from . import compatibility, config
 from .resolve import resolve_plan
-from .paths import BUILD, ensure_build
+from .paths import BUILD, atomic_write_text, ensure_build
 from .rng import SeededStream, dna_hash
 
 MAX_TOKEN_ATTEMPTS = 80
@@ -235,11 +235,10 @@ def write_generation(result: dict[str, Any]) -> None:
     slim = [{k: v for k, v in token.items()} for token in result["tokens"]]
     payload = {k: v for k, v in result.items() if k != "tokens"}
     payload["tokens"] = slim
-    tokens_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    atomic_write_text(tokens_path, json.dumps(payload, indent=2))
     jsonl = BUILD / "dna" / "collection.jsonl"
-    with jsonl.open("w", encoding="utf-8") as handle:
-        for token in result["tokens"]:
-            handle.write(json.dumps(token, sort_keys=True) + "\n")
+    jsonl_body = "".join(json.dumps(token, sort_keys=True) + "\n" for token in result["tokens"])
+    atomic_write_text(jsonl, jsonl_body)
     summary = {
         "seed": result["seed"],
         "phase": result["phase"],
@@ -261,9 +260,5 @@ def write_generation(result: dict[str, Any]) -> None:
     }
     provenance = result.get("provenance") or {}
     summary["tree_digest"] = provenance.get("tree_digest")
-    (BUILD / "reports" / "generation_summary.json").write_text(
-        json.dumps(summary, indent=2), encoding="utf-8"
-    )
-    (BUILD / "dna" / "provenance.json").write_text(
-        json.dumps(provenance, indent=2), encoding="utf-8"
-    )
+    atomic_write_text(BUILD / "reports" / "generation_summary.json", json.dumps(summary, indent=2))
+    atomic_write_text(BUILD / "dna" / "provenance.json", json.dumps(provenance, indent=2))

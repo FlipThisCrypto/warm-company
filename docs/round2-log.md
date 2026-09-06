@@ -49,3 +49,8 @@
 - Evolution: CHIP-0007 validator requires symbolic title, forbids invented IPFS/HTTP media URLs, and runs in preflight.
 - Bottleneck: Legal-title and URL rules lived only in comments; a metadata change could mint the opposite.
 - Verification: chip0007_problems flags legal_title=true and ipfs URIs; clean payloads pass.
+
+## Iteration 8/50
+- Evolution: Atomic writes for generation, provenance, validation, and metadata JSON.
+- Bottleneck: An interrupted generate could leave truncated tokens.json that validate-collection would misread as a mint.
+- Verification: atomic_write_text replaces a complete file and leaves no .tmp sibling.

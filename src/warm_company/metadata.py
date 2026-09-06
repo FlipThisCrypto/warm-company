@@ -4,7 +4,7 @@ import json
 from typing import Any
 
 from . import config
-from .paths import BUILD, ensure_build
+from .paths import BUILD, atomic_write_text, ensure_build
 
 SKIP_IF_NONE = {
     "rear_environment",
@@ -178,4 +178,4 @@ def write_metadata(tokens: list[dict[str, Any]]) -> None:
     for token in tokens:
         payload = chip0007(token)
         path = out / f"{token['token_id']:04d}.json"
-        path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        atomic_write_text(path, json.dumps(payload, indent=2))
