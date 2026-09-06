@@ -109,3 +109,8 @@
 - Evolution: Generation result includes collection_fingerprint next to provenance so DNA identity is stored with the run.
 - Bottleneck: Fingerprint lived in tests and a gitignored summary; tokens.json did not record it.
 - Verification: generate_collection result fingerprint equals the frozen digest.
+
+## Iteration 20/50
+- Evolution: CLI subcommand set is a contract test covering generate through status/preflight/provenance.
+- Bottleneck: New operator commands could be omitted from the parser without a failing test.
+- Verification: 12 registered commands match the expected set.

@@ -780,6 +780,29 @@ class FundraiserTests(unittest.TestCase):
         self.assertEqual(token_goods_usd(result), 12000)
 
 
+class CliSurfaceTests(unittest.TestCase):
+    def test_operator_commands_are_registered(self):
+        from warm_company.cli import build_parser
+
+        parser = build_parser()
+        choices = parser._subparsers._group_actions[0].choices
+        expected = {
+            "generate",
+            "metadata",
+            "validate-layers",
+            "validate-collection",
+            "rarity",
+            "contact-sheet",
+            "blueprints",
+            "prompts",
+            "composite",
+            "provenance",
+            "preflight",
+            "status",
+        }
+        self.assertEqual(expected, set(choices))
+
+
 class StatusTests(unittest.TestCase):
     def test_status_is_cheap_and_blocks_mint(self):
         from warm_company.preflight import status_report
