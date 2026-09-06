@@ -244,3 +244,8 @@
 - Evolution: Tests require docs/blueprints/index.html to exist and name the shared center/baseline.
 - Bottleneck: Blueprint HTML could go missing while anchors.json stayed; contributors open a dead page.
 - Verification: index.html contains 512 and 896.
+
+## Iteration 47/50
+- Evolution: Preflight requires collection.organization to remain Not By Chance Outreach.
+- Bottleneck: A rename in collection.json would mint metadata for the wrong charity without failing generate.
+- Verification: organization string is locked.

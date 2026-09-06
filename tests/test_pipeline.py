@@ -134,6 +134,7 @@ class CollectionIdentityTests(unittest.TestCase):
         self.assertIsNone(col["urls"]["website"])
         self.assertEqual(col["urls"]["image_uris"], [])
         self.assertEqual(col["logo_status"], "deferred-until-phase-10")
+        self.assertEqual(col["organization"], "Not By Chance Outreach")
 
 
 class ConfigLoadTests(unittest.TestCase):

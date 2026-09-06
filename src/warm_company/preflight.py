@@ -39,6 +39,8 @@ def config_integrity_problems() -> list[str]:
     classes = col.get("classes") or []
     class_ids = [row.get("id") for row in classes]
     counted = sum(int(row.get("supply") or 0) for row in classes)
+    if col.get("organization") != "Not By Chance Outreach":
+        problems.append("organization must remain Not By Chance Outreach")
     if supply != 800:
         problems.append(f"collection supply {supply} != 800")
     if counted != supply:
