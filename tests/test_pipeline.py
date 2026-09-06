@@ -25,6 +25,16 @@ from warm_company.prompts import LAYER_INSTRUCTIONS, geometry_block  # noqa: E40
 from warm_company.rng import SeededStream, dna_hash  # noqa: E402
 
 
+class DignityTests(unittest.TestCase):
+    def test_library_labels_are_clean(self):
+        from warm_company.dignity import dignity_problems, label_problems
+
+        self.assertEqual(dignity_problems(), [])
+        hits = label_problems("trait", "body/homeless-chic", "Homeless Chic")
+        self.assertTrue(any("homeless" in p for p in hits))
+        self.assertEqual(label_problems("trait", "body/ember-rust", "Ember Rust"), [])
+
+
 class AtomicWriteTests(unittest.TestCase):
     def test_atomic_write_replaces_complete_file(self):
         import tempfile

@@ -52,4 +52,4 @@ The dev seed is `warm-company-dev-seed-v0`. Do not rotate a production seed once
 
 ## Dignity
 
-No poverty-as-costume traits, no begging-sign gags, no dirt-as-rarity. Patchwork means care. Worried eyes mean weather.
+No poverty-as-costume traits, no begging-sign gags, no dirt-as-rarity. Patchwork means care. Worried eyes mean weather. `python -m warm_company preflight` scans trait and special **ids and names** for banned dignity terms.

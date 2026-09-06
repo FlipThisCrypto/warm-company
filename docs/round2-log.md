@@ -54,3 +54,8 @@
 - Evolution: Atomic writes for generation, provenance, validation, and metadata JSON.
 - Bottleneck: An interrupted generate could leave truncated tokens.json that validate-collection would misread as a mint.
 - Verification: atomic_write_text replaces a complete file and leaves no .tmp sibling.
+
+## Iteration 9/50
+- Evolution: Dignity scanner rejects forbidden poverty-as-costume labels on traits and specials; preflight runs it.
+- Bottleneck: Dignity rules were comments. A new trait id could mint a banned name.
+- Verification: current library is clean; homeless-chic is rejected.

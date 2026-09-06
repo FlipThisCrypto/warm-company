@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from . import config
+from .dignity import dignity_problems
 from .generate import ROLL_SLOTS, generate_collection
 from .metadata import metadata_problems
 from .resolve import definition_problems
@@ -99,6 +100,7 @@ def run_preflight(*, seed: str | None = None, phase: int = 9, mint: bool = False
             "mint": mint,
         }
     problems.extend(config_integrity_problems())
+    problems.extend(dignity_problems())
     problems.extend(definition_problems())
     layers = validate_library()
     if not layers.get("ok"):
