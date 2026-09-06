@@ -878,6 +878,10 @@ def classes_for(trait: dict) -> list[str]:
     return [c for c in classes if c in config.CLASS_IDS]
 
 
+# Count of production layer PNGs on disk. Bump only when a trait PNG is accepted or removed.
+PRODUCTION_LAYER_PNG_COUNT = 129
+
+
 def required_paths(trait: dict | None = None) -> list[Path]:
     rows = [trait] if trait else [t for t in config.traits()["traits"]]
     paths: list[Path] = []

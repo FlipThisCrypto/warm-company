@@ -975,6 +975,14 @@ class InventoryLibraryTests(unittest.TestCase):
                         msg=f"{class_id} arms-rear/{name} must not be a rest copy",
                     )
 
+    def test_production_layer_png_count_is_locked(self):
+        from warm_company.library import PRODUCTION_LAYER_PNG_COUNT
+        from warm_company.paths import LAYERS
+
+        pngs = list(LAYERS.rglob("*.png"))
+        self.assertEqual(len(pngs), PRODUCTION_LAYER_PNG_COUNT)
+        self.assertEqual(PRODUCTION_LAYER_PNG_COUNT, 129)
+
     def test_no_tiny_factory_production_pngs(self):
         from warm_company.library import required_paths
 

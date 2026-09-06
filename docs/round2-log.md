@@ -119,3 +119,8 @@
 - Evolution: Mark config/review_samples.json as the legacy 9-sample prototype; production gate is the 12-sample catalog.
 - Bottleneck: Two sample lists existed; the cyan 9-sample file still looked current.
 - Verification: gate=legacy-v1; REFINEMENT_SAMPLES length 12.
+
+## Iteration 22/50
+- Evolution: Lock production layer PNG count at 129 so silent library growth or deletion fails tests.
+- Bottleneck: Extra/missing path tests did not assert the known accepted library size.
+- Verification: LAYERS rglob count == 129.
