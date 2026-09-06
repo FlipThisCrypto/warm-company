@@ -76,6 +76,17 @@ class DependencyPinTests(unittest.TestCase):
         self.assertEqual(PIL.__version__, "12.1.0")
 
 
+class TemplateTests(unittest.TestCase):
+    def test_occupancy_templates_exist(self):
+        from warm_company.paths import TEMPLATES
+
+        for class_id in config.CLASS_IDS:
+            for name in ("occupancy.png", "allowed-full.png", "blueprint.png"):
+                path = TEMPLATES / class_id / name
+                self.assertTrue(path.is_file(), msg=str(path))
+                self.assertGreater(path.stat().st_size, 1000)
+
+
 class CanonicalTests(unittest.TestCase):
     def test_v3_canonicals_are_present(self):
         approved = ROOT / "references" / "approved"

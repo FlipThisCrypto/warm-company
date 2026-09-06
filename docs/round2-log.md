@@ -209,3 +209,8 @@
 - Evolution: Tests require the three v3 canonical JPEGs to remain in references/approved.
 - Bottleneck: Art-direction SoT could be deleted without failing generate or preflight.
 - Verification: three v3 files exist and are larger than 20KB.
+
+## Iteration 40/50
+- Evolution: Occupancy, allowed-full, and blueprint templates must exist for every class.
+- Bottleneck: Layer occupancy checks silently warn when templates are missing.
+- Verification: three files per class in templates/.
