@@ -110,12 +110,18 @@ def build_manifest(seed: str, phase: int) -> dict[str, Any]:
         "layers": layers,
         "supply": int(config.collection()["supply"]),
     }
+    try:
+        import PIL
+        pillow = getattr(PIL, "__version__", "unknown")
+    except Exception:  # noqa: BLE001
+        pillow = "missing"
     return {
         **core,
         "tree_digest": tree_digest(core),
         "layer_count": len(layers),
         "git_revision": git_revision(),
-        "note": "tree_digest covers seed, phase, generator_version, config hashes, source hashes, layer hashes, supply. git_revision is informational.",
+        "runtime": {"pillow": pillow},
+        "note": "tree_digest covers seed, phase, generator_version, config hashes, source hashes, layer hashes, supply. git_revision and runtime are informational.",
     }
 
 

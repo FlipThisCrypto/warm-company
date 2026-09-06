@@ -25,6 +25,15 @@ from warm_company.prompts import LAYER_INSTRUCTIONS, geometry_block  # noqa: E40
 from warm_company.rng import SeededStream, dna_hash  # noqa: E402
 
 
+class DependencyPinTests(unittest.TestCase):
+    def test_pillow_is_pinned(self):
+        import PIL
+
+        req = (ROOT / "requirements.txt").read_text(encoding="utf-8")
+        self.assertIn("Pillow==12.1.0", req)
+        self.assertEqual(PIL.__version__, "12.1.0")
+
+
 class ConfigLoadTests(unittest.TestCase):
     def test_invalid_json_names_the_file(self):
         import tempfile

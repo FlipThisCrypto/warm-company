@@ -79,3 +79,8 @@
 - Evolution: validate-collection requires the frozen development-seed DNA fingerprint.
 - Bottleneck: Only a unit test locked DNA identity; preflight could still pass a retargeted 800.
 - Verification: fingerprint constant shared by generate, validate, and tests.
+
+## Iteration 14/50
+- Evolution: Pin Pillow 12.1.0 so local and CI compositing use the same library; record version in provenance runtime.
+- Bottleneck: `Pillow>=10` let CI install a different compositor than the machine that reviewed samples.
+- Verification: requirements pin matches installed PIL.__version__.
