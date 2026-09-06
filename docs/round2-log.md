@@ -74,3 +74,8 @@
 - Evolution: 12-sample catalog lives in review.py; every gate token must be resource-legal. Dropped illegal Pup determined mouth and nonexistent eyebrows.
 - Bottleneck: The review gate composited unknown traits (eyebrows/determined; Pup mouth/determined).
 - Verification: 12 samples + 3 strip tokens resolve_plan ok.
+
+## Iteration 13/50
+- Evolution: validate-collection requires the frozen development-seed DNA fingerprint.
+- Bottleneck: Only a unit test locked DNA identity; preflight could still pass a retargeted 800.
+- Verification: fingerprint constant shared by generate, validate, and tests.

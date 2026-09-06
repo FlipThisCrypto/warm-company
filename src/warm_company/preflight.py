@@ -12,7 +12,7 @@ from .resolve import definition_problems
 from .validate_collection import validate_result
 from .validate_layers import validate_library
 
-DEV_SEED = "warm-company-dev-seed-v0"
+from .generate import DEV_SEED
 
 
 def mint_seed_problems(seed: str, *, mint: bool) -> list[str]:

@@ -39,8 +39,15 @@ def validate_result(result: dict) -> dict:
     )
     if any(count > 1 for count in combos.values()):
         problems.append("duplicate trait combinations")
+    from .generate import DEV_COLLECTION_FINGERPRINT, DEV_SEED, collection_fingerprint
     from .provenance import build_manifest, compare_manifest
 
+    if result.get("seed") == DEV_SEED:
+        digest = collection_fingerprint(result)
+        if digest != DEV_COLLECTION_FINGERPRINT:
+            problems.append(
+                f"dev-seed collection fingerprint {digest} != {DEV_COLLECTION_FINGERPRINT}"
+            )
     stored = result.get("provenance")
     live = build_manifest(str(result.get("seed") or ""), int(result.get("phase") or 9))
     provenance_problems = compare_manifest(stored if isinstance(stored, dict) else None, live)

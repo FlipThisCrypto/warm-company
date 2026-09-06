@@ -10,6 +10,8 @@ from .paths import BUILD, atomic_write_text, ensure_build
 from .rng import SeededStream, dna_hash
 
 MAX_TOKEN_ATTEMPTS = 80
+DEV_SEED = "warm-company-dev-seed-v0"
+DEV_COLLECTION_FINGERPRINT = "81da0c01e76da56d89c41d16f1d4cacf3c513d20d8a208faa0e9e798ff02189b"
 ROLL_SLOTS = [
     "body",
     "pattern",
