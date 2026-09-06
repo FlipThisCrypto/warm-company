@@ -6,7 +6,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
-from .composite import CANVAS, composite_token, is_blank_face_panel, resolved_stack
+from .composite import CANVAS, _open_rgba, _prepare_layer, composite_token, is_blank_face_panel, resolved_stack
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -146,15 +146,24 @@ def reconstruction_composite(token: dict) -> Image.Image:
     return composite_token(token, missing="allow")
 
 
+def reconstruction_layer(token: dict, slot: str, source: Path | str) -> Image.Image | None:
+    """Layer as the compositor paints it, including foot registration."""
+    image = _open_rgba(Path(source))
+    return _prepare_layer(slot, image, token["class_id"], traits=token["traits"])
+
+
 def reconstruction_strip(title: str, token: dict) -> Image.Image:
-    """Show every existing PNG from this token's resolved_stack, then the composite of the same token."""
+    """Show prepared stack layers, then the composite of the same token."""
     final = reconstruction_composite(token)
     thumb = 140
     parts: list[tuple[str, Image.Image]] = []
     for slot, source in resolved_stack(token["class_id"], token["traits"]):
         if not _strip_layer_visible(token["class_id"], slot, source):
             continue
-        parts.append((slot, Image.open(Path(source)).convert("RGBA")))
+        prepared = reconstruction_layer(token, slot, source)
+        if prepared is None:
+            continue
+        parts.append((slot, prepared))
     assert [name for name, _ in parts] == visible_stack_slots(token)
     items = parts + [("composite", final)]
     try:

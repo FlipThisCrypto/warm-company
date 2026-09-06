@@ -567,6 +567,35 @@ class ReviewGateTests(unittest.TestCase):
             self.assertTrue(plan["ok"], msg=f"{name} {plan['violations']}")
 
 
+class ReviewStripPrepTests(unittest.TestCase):
+    def test_pup_strip_footwear_is_registered_to_anchors(self):
+        from warm_company.composite import resolved_stack
+        from warm_company.review import STRIP_TOKENS, reconstruction_layer
+
+        token = STRIP_TOKENS["pup"]
+        source = None
+        for slot, src in resolved_stack(token["class_id"], token["traits"]):
+            if slot == "footwear":
+                source = src
+                break
+        self.assertIsNotNone(source)
+        prepared = reconstruction_layer(token, "footwear", source)
+        self.assertIsNotNone(prepared)
+        spec = config.class_spec("small-tent")
+        alpha = prepared.getchannel("A")
+        box = alpha.getbbox()
+        self.assertIsNotNone(box)
+        mid = (box[0] + box[2]) // 2
+        left = prepared.crop((0, 0, mid, 1024)).getchannel("A").getbbox()
+        right = prepared.crop((mid, 0, 1024, 1024)).getchannel("A").getbbox()
+        self.assertIsNotNone(left)
+        self.assertIsNotNone(right)
+        left_cx = (left[0] + left[2]) / 2
+        right_cx = mid + (right[0] + right[2]) / 2
+        self.assertAlmostEqual(left_cx, spec["left_foot_anchor"]["x"], delta=30)
+        self.assertAlmostEqual(right_cx, spec["right_foot_anchor"]["x"], delta=30)
+
+
 class ReviewStripTests(unittest.TestCase):
     def test_strip_slots_match_resolved_stack_of_same_token(self):
         from warm_company.review import STRIP_TOKENS, visible_stack_slots, _strip_layer_visible

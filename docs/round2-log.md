@@ -129,3 +129,8 @@
 - Evolution: Special catalog must be exactly 13 unique ids and names with stories and traits.
 - Bottleneck: Duplicate or story-less specials could ship while generate still injected 13 rows.
 - Verification: special_catalog_problems is empty.
+
+## Iteration 24/50
+- Evolution: Reconstruction strips show compositor-prepared layers so overlay boots appear at class foot anchors.
+- Bottleneck: Strips showed source clip-art piles while the composite had registered feet.
+- Verification: Pup strip footwear centers match Pup foot anchors.
