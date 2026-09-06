@@ -184,3 +184,8 @@
 - Evolution: Dependabot watches GitHub Actions weekly and pip monthly so the pinned compositor and CI actions can be updated on purpose.
 - Bottleneck: Action and Pillow versions would only change when someone remembered.
 - Verification: dependabot.yml names both ecosystems.
+
+## Iteration 35/50
+- Evolution: CONTRIBUTING start-here now requires status and preflight before a mint-quality generate.
+- Bottleneck: Onboarding listed docs and tests but not the fail-closed operator path.
+- Verification: CONTRIBUTING names both commands.

@@ -36,6 +36,13 @@ class DuplicateLayerTests(unittest.TestCase):
         self.assertIn("snow-boots.png", blob)
 
 
+class ContributingTests(unittest.TestCase):
+    def test_contributing_requires_status_and_preflight(self):
+        text = (ROOT / "CONTRIBUTING.md").read_text(encoding="utf-8")
+        self.assertIn("python -m warm_company status", text)
+        self.assertIn("python -m warm_company preflight", text)
+
+
 class SecurityDocTests(unittest.TestCase):
     def test_security_doc_forbids_public_seed_and_legal_title(self):
         text = (ROOT / "SECURITY.md").read_text(encoding="utf-8").lower()
