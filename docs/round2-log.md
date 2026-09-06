@@ -89,3 +89,8 @@
 - Evolution: Ignore regenerable review dumps and atomic-write temp files so they cannot be committed by accident.
 - Bottleneck: `build/final-polish-review/` and `build/review-v2/` sat untracked beside the real review-v3 gate for the whole round.
 - Verification: gitignore test; review-v3 remains committable.
+
+## Iteration 16/50
+- Evolution: `warm-company status` reports seed lock, mint eligibility, layer completeness, and tree digest without generating 800 DNA.
+- Bottleneck: Operators had to run generate/preflight to learn whether the tree was mint-blocked.
+- Verification: status ok, mint_allowed false on the placeholder seed.

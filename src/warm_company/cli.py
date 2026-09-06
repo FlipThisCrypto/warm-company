@@ -132,6 +132,14 @@ def cmd_composite(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_status(_: argparse.Namespace) -> int:
+    from .preflight import status_report
+
+    report = status_report()
+    print(json.dumps(report, indent=2))
+    return 0 if report["ok"] else 1
+
+
 def cmd_preflight(args: argparse.Namespace) -> int:
     from .preflight import run_preflight
 
@@ -190,6 +198,9 @@ def build_parser() -> argparse.ArgumentParser:
     pr = sub.add_parser("prompts", help="Export the Grok Image prompt library")
     pr.add_argument("--phase", type=int, default=9)
     pr.set_defaults(func=cmd_prompts)
+
+    st = sub.add_parser("status", help="Snapshot seed, mint lock, layers, and tree digest without generating")
+    st.set_defaults(func=cmd_status)
 
     pf = sub.add_parser("preflight", help="Fail-closed mint check: config, layers, generate, provenance")
     pf.add_argument("--seed", default=None)

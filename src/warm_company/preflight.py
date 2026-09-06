@@ -79,6 +79,41 @@ def config_integrity_problems() -> list[str]:
     return problems
 
 
+def status_report() -> dict[str, Any]:
+    """Cheap operator snapshot. Does not generate the collection."""
+    from .generate import DEV_COLLECTION_FINGERPRINT, DEV_SEED
+    from .library import required_paths
+    from .paths import ROOT
+    from .provenance import build_manifest
+
+    seed = config.production_seed()
+    seed_status = (config.collection().get("production_seed") or {}).get("status")
+    mint_problems = mint_seed_problems(seed, mint=True)
+    required = list(required_paths())
+    missing = [path.relative_to(ROOT).as_posix() for path in required if not path.exists()]
+    integrity = config_integrity_problems() + dignity_problems() + definition_problems()
+    manifest = build_manifest(seed, 9)
+    return {
+        "ok": not missing and not integrity,
+        "problems": integrity + [f"missing {path}" for path in missing],
+        "seed": seed,
+        "seed_status": seed_status,
+        "mint_allowed": not mint_problems,
+        "mint_problems": mint_problems,
+        "supply": config.collection()["supply"],
+        "class_counts": {row["id"]: row["supply"] for row in config.collection()["classes"]},
+        "dev_seed": DEV_SEED,
+        "dev_collection_fingerprint": DEV_COLLECTION_FINGERPRINT,
+        "tree_digest": manifest["tree_digest"],
+        "layer_count": manifest["layer_count"],
+        "required_layers": len(required),
+        "missing_layers": missing,
+        "git_revision": manifest.get("git_revision"),
+        "runtime": manifest.get("runtime"),
+        "generator_version": manifest["generator_version"],
+    }
+
+
 def run_preflight(*, seed: str | None = None, phase: int = 9, mint: bool = False) -> dict[str, Any]:
     problems: list[str] = []
     seed = seed or config.production_seed()

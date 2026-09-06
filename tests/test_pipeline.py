@@ -750,6 +750,25 @@ class ResourcePlanTests(unittest.TestCase):
         self.assertNotIn("footwear", slots)
 
 
+class StatusTests(unittest.TestCase):
+    def test_status_is_cheap_and_blocks_mint(self):
+        from warm_company.preflight import status_report
+
+        report = status_report()
+        self.assertTrue(report["ok"], msg=report.get("problems"))
+        self.assertFalse(report["mint_allowed"])
+        self.assertEqual(report["supply"], 800)
+        self.assertGreaterEqual(report["layer_count"], 100)
+        self.assertEqual(len(report["tree_digest"]), 64)
+        self.assertEqual(report["missing_layers"], [])
+
+    def test_cli_exposes_status(self):
+        from warm_company.cli import build_parser
+
+        args = build_parser().parse_args(["status"])
+        self.assertEqual(args.func.__name__, "cmd_status")
+
+
 class PreflightTests(unittest.TestCase):
     def test_preflight_passes_current_tree(self):
         from warm_company.preflight import run_preflight

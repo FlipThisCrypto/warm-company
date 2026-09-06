@@ -67,6 +67,7 @@ python -m warm_company rarity
 python -m warm_company contact-sheet
 python -m warm_company validate-layers
 python -m warm_company provenance
+python -m warm_company status
 python -m warm_company preflight
 python -m warm_company prompts
 
