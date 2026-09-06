@@ -199,6 +199,8 @@ def generate_collection(
         if token.get("special"):
             special_count += 1
 
+    from .provenance import build_manifest
+
     result = {
         "seed": seed,
         "phase": phase,
@@ -208,6 +210,7 @@ def generate_collection(
         "duplicate_retries": failures,
         "special_count": special_count,
         "tokens": minted,
+        "provenance": build_manifest(seed, phase),
     }
     _assert_invariants(result)
     return result
@@ -256,6 +259,11 @@ def write_generation(result: dict[str, Any]) -> None:
             if token.get("special")
         ],
     }
+    provenance = result.get("provenance") or {}
+    summary["tree_digest"] = provenance.get("tree_digest")
     (BUILD / "reports" / "generation_summary.json").write_text(
         json.dumps(summary, indent=2), encoding="utf-8"
+    )
+    (BUILD / "dna" / "provenance.json").write_text(
+        json.dumps(provenance, indent=2), encoding="utf-8"
     )

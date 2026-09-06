@@ -660,6 +660,63 @@ class ResourcePlanTests(unittest.TestCase):
         self.assertNotIn("footwear", slots)
 
 
+class ProvenanceTests(unittest.TestCase):
+    def test_manifest_is_stable_and_bound_to_generation(self):
+        from warm_company.provenance import build_manifest, compare_manifest
+
+        a = build_manifest("warm-company-dev-seed-v0", 9)
+        b = build_manifest("warm-company-dev-seed-v0", 9)
+        self.assertEqual(a["tree_digest"], b["tree_digest"])
+        self.assertEqual(len(a["tree_digest"]), 64)
+        self.assertEqual(len(a["configs"]), 7)
+        self.assertGreaterEqual(a["layer_count"], 100)
+        self.assertEqual(compare_manifest(a, b), [])
+
+    def test_compare_detects_config_and_layer_drift(self):
+        from warm_company.provenance import compare_manifest
+
+        live = {
+            "seed": "s",
+            "phase": 9,
+            "generator_version": "0.1.0",
+            "supply": 800,
+            "tree_digest": "aaa",
+            "configs": {"traits.json": "1"},
+            "layers": {"layers/x.png": "ab"},
+        }
+        stored = dict(live)
+        stored["configs"] = {"traits.json": "2"}
+        stored["tree_digest"] = "bbb"
+        problems = compare_manifest(stored, live)
+        self.assertTrue(any("traits.json" in p for p in problems))
+        self.assertTrue(any("tree_digest" in p for p in problems))
+        stored = dict(live)
+        stored["layers"] = {"layers/x.png": "cd"}
+        problems = compare_manifest(stored, live)
+        self.assertTrue(any("layer changed" in p for p in problems))
+        self.assertTrue(compare_manifest(None, live))
+
+    def test_generated_collection_carries_matching_provenance(self):
+        from warm_company.generate import generate_collection
+        from warm_company.validate_collection import validate_result
+
+        result = generate_collection(seed="warm-company-dev-seed-v0", phase=9)
+        prov = result["provenance"]
+        self.assertEqual(prov["seed"], "warm-company-dev-seed-v0")
+        self.assertEqual(prov["phase"], 9)
+        self.assertEqual(len(prov["tree_digest"]), 64)
+        report = validate_result(result)
+        self.assertTrue(report["provenance_ok"], msg=report["problems"])
+        self.assertEqual(report["tree_digest"], report["live_tree_digest"])
+
+    def test_cli_exposes_provenance(self):
+        from warm_company.cli import build_parser
+
+        parser = build_parser()
+        args = parser.parse_args(["provenance"])
+        self.assertEqual(args.func.__name__, "cmd_provenance")
+
+
 class InventoryLibraryTests(unittest.TestCase):
     def test_illustrated_eyes_not_factory_dots(self):
         path = ROOT / "layers" / "sleeping-bag" / "eyes" / "normal.png"

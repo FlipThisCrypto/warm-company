@@ -15,6 +15,7 @@ python -m warm_company rarity
 python -m warm_company contact-sheet
 python -m warm_company validate-layers
 python -m warm_company validate-collection
+python -m warm_company provenance
 python -m warm_company composite --allow-missing   # skeleton only, until art exists
 python -m warm_company blueprints
 python -m warm_company prompts
@@ -28,8 +29,9 @@ Package: `src/warm_company/`. Wrappers: `scripts/`.
 2. Apply compatibility forces/excludes/requires; reroll failures and duplicate DNA.
 3. Inject 13 specials by replacing a token of the required class.
 4. Seeded Fisher–Yates shuffle assigns public `token_id` 1..800.
-5. Write `build/dna/tokens.json` and `collection.jsonl`.
+5. Write `build/dna/tokens.json`, `collection.jsonl`, and `provenance.json`.
 6. Assert 400 / 200 / 200, unique DNA, contiguous ids.
+7. Bind the run to SHA-256 hashes of DNA-affecting config and every `layers/**/*.png`. `validate-collection` fails if those files drift after generation.
 
 Compositing is a later step and is skipped until layers exist. Dry-run generation does not need any PNGs.
 

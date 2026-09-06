@@ -39,6 +39,12 @@ def validate_result(result: dict) -> dict:
     )
     if any(count > 1 for count in combos.values()):
         problems.append("duplicate trait combinations")
+    from .provenance import build_manifest, compare_manifest
+
+    stored = result.get("provenance")
+    live = build_manifest(str(result.get("seed") or ""), int(result.get("phase") or 9))
+    provenance_problems = compare_manifest(stored if isinstance(stored, dict) else None, live)
+    problems.extend(provenance_problems)
     report = {
         "ok": not problems,
         "problems": problems,
@@ -47,6 +53,9 @@ def validate_result(result: dict) -> dict:
         "special_count": len(specials),
         "seed": result.get("seed"),
         "phase": result.get("phase"),
+        "tree_digest": (stored or {}).get("tree_digest") if isinstance(stored, dict) else None,
+        "live_tree_digest": live.get("tree_digest"),
+        "provenance_ok": not provenance_problems,
     }
     (BUILD / "reports" / "collection_validation.json").write_text(
         json.dumps(report, indent=2), encoding="utf-8"

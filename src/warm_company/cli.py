@@ -34,6 +34,8 @@ def cmd_generate(args: argparse.Namespace) -> int:
         "duplicate_retries": result["duplicate_retries"],
         "seed": result["seed"],
         "phase": result["phase"],
+        "tree_digest": (result.get("provenance") or {}).get("tree_digest"),
+        "provenance_ok": report.get("provenance_ok"),
         "rarest": rarity["rarest_tokens"][:5],
     }, indent=2))
     return 0 if report["ok"] else 1
@@ -124,6 +126,22 @@ def cmd_composite(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_provenance(_: argparse.Namespace) -> int:
+    from .provenance import build_manifest
+
+    manifest = build_manifest(config.production_seed(), 9)
+    print(json.dumps({
+        "tree_digest": manifest["tree_digest"],
+        "seed": manifest["seed"],
+        "phase": manifest["phase"],
+        "generator_version": manifest["generator_version"],
+        "layer_count": manifest["layer_count"],
+        "git_revision": manifest["git_revision"],
+        "configs": manifest["configs"],
+    }, indent=2))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="warm-company", description="Warm Company generative pipeline")
     parser.add_argument("--version", action="version", version=__version__)
@@ -156,6 +174,9 @@ def build_parser() -> argparse.ArgumentParser:
     pr = sub.add_parser("prompts", help="Export the Grok Image prompt library")
     pr.add_argument("--phase", type=int, default=9)
     pr.set_defaults(func=cmd_prompts)
+
+    prov = sub.add_parser("provenance", help="Hash the config + layer tree that a generation must bind to")
+    prov.set_defaults(func=cmd_provenance)
 
     comp = sub.add_parser("composite", help="Composite tokens (requires layer PNGs)")
     comp.add_argument("--token-id", type=int, default=None)
