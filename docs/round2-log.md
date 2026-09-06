@@ -99,3 +99,8 @@
 - Evolution: Collection validation checks the 800 tokens still sum to the $12,000 goods table ($13,200 gross).
 - Bottleneck: Class supplies and unit costs could drift independently of the fundraiser document.
 - Verification: 400×7.50 + 200×15 + 200×30 = 12000 on config and generated tokens.
+
+## Iteration 18/50
+- Evolution: Report identical PNGs that share a folder (work-boots copied as snow-boots) without failing the library.
+- Bottleneck: Snug/Pup snow and work boots are byte-identical; operators had no machine-readable warning.
+- Verification: duplicate_layer_pairs includes work-boots.png and snow-boots.png.

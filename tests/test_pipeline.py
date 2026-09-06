@@ -25,6 +25,17 @@ from warm_company.prompts import LAYER_INSTRUCTIONS, geometry_block  # noqa: E40
 from warm_company.rng import SeededStream, dna_hash  # noqa: E402
 
 
+class DuplicateLayerTests(unittest.TestCase):
+    def test_same_folder_identical_pngs_are_reported(self):
+        from warm_company.validate_layers import duplicate_layer_pairs
+
+        pairs = duplicate_layer_pairs()
+        blob = " ".join(row["files"] for row in pairs)
+        self.assertTrue(pairs)
+        self.assertIn("work-boots.png", blob)
+        self.assertIn("snow-boots.png", blob)
+
+
 class GitignoreTests(unittest.TestCase):
     def test_regenerable_bulk_and_temp_files_are_ignored(self):
         text = (ROOT / ".gitignore").read_text(encoding="utf-8")

@@ -86,6 +86,7 @@ def status_report() -> dict[str, Any]:
     from .library import required_paths
     from .paths import ROOT
     from .provenance import build_manifest
+    from .validate_layers import duplicate_layer_pairs
 
     seed = config.production_seed()
     seed_status = (config.collection().get("production_seed") or {}).get("status")
@@ -113,6 +114,7 @@ def status_report() -> dict[str, Any]:
         "runtime": manifest.get("runtime"),
         "generator_version": manifest["generator_version"],
         "campaign": campaign_totals(),
+        "duplicate_layer_pairs": duplicate_layer_pairs(),
     }
 
 

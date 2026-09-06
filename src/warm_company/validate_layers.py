@@ -123,6 +123,24 @@ def occupancy_check(path: Path, class_id: str) -> list[str]:
     return errors
 
 
+def duplicate_layer_pairs() -> list[dict[str, str]]:
+    """Same-directory PNGs with identical bytes (e.g. work-boots copied as snow-boots)."""
+    from .provenance import layer_hashes
+
+    by_dir: dict[str, dict[str, list[str]]] = {}
+    for rel, digest in layer_hashes().items():
+        parent = str(Path(rel).parent).replace("\\", "/")
+        by_dir.setdefault(parent, {}).setdefault(digest, []).append(rel)
+    pairs: list[dict[str, str]] = []
+    for _parent, groups in sorted(by_dir.items()):
+        for digest, files in groups.items():
+            if len(files) < 2:
+                continue
+            ordered = sorted(files)
+            pairs.append({"directory": _parent, "sha256": digest, "files": ", ".join(ordered)})
+    return pairs
+
+
 def validate_library() -> dict:
     ensure_build()
     pngs = [path for path in LAYERS.rglob("*.png") if path.is_file()]
@@ -165,14 +183,16 @@ def validate_library() -> dict:
         if not item["ok"]:
             errors += 1
         reports.append(item)
+    duplicates = duplicate_layer_pairs()
     summary = {
         "png_count": len(pngs),
         "error_count": errors,
         "ok": errors == 0,
-        "note": "Every PNG must be 1024x1024. Extra files that are not trait ids are errors. Fringe is a warning until the library is fully recleaned.",
+        "duplicate_layer_pairs": duplicates,
+        "note": "Every PNG must be 1024x1024. Extra files that are not trait ids are errors. Fringe is a warning until the library is fully recleaned. Identical files in one folder are reported, not hard errors.",
         "reports": reports,
     }
-    (BUILD / "reports" / "layer_validation.json").write_text(
-        json.dumps(summary, indent=2), encoding="utf-8"
-    )
+    from .paths import atomic_write_text
+
+    atomic_write_text(BUILD / "reports" / "layer_validation.json", json.dumps(summary, indent=2))
     return summary
