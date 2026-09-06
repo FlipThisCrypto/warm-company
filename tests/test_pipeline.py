@@ -660,6 +660,21 @@ class ResourcePlanTests(unittest.TestCase):
         self.assertNotIn("footwear", slots)
 
 
+class CiWorkflowTests(unittest.TestCase):
+    def test_ci_workflow_runs_operator_path(self):
+        path = ROOT / ".github" / "workflows" / "ci.yml"
+        self.assertTrue(path.is_file(), msg=str(path))
+        text = path.read_text(encoding="utf-8")
+        for needle in (
+            "python tests/test_pipeline.py",
+            "python -m warm_company validate-layers",
+            "python -m warm_company provenance",
+            "python -m warm_company generate --phase 9",
+            "python -m warm_company validate-collection",
+        ):
+            self.assertIn(needle, text)
+
+
 class ProvenanceTests(unittest.TestCase):
     def test_manifest_is_stable_and_bound_to_generation(self):
         from warm_company.provenance import build_manifest, compare_manifest

@@ -71,6 +71,8 @@ python -m warm_company prompts
 python tests/test_pipeline.py
 ```
 
+CI: `.github/workflows/ci.yml` runs those checks on every push and pull request to `main`.
+
 Equivalent scripts live in `scripts/`.
 
 The development seed is `warm-company-dev-seed-v0`. Replace it before Phase 11 and never rotate it after final generation.

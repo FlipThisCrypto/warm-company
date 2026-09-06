@@ -44,6 +44,8 @@ python -m warm_company generate --phase 9
 python tests/test_pipeline.py
 ```
 
+GitHub Actions (`.github/workflows/ci.yml`) runs the same tests plus `validate-layers`, `provenance`, `generate --phase 9`, and `validate-collection` on every push and pull request to `main`.
+
 The dev seed is `warm-company-dev-seed-v0`. Do not rotate a production seed once Phase 11 starts. Every generation writes a provenance manifest (`tree_digest` of seed + config hashes + layer PNG hashes). `python -m warm_company validate-collection` must still match that digest before a mint.
 
 ## Dignity

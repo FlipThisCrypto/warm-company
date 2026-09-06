@@ -19,3 +19,8 @@
 - Bottleneck: DNA could not detect later config or art edits; mint would silently use a different tree.
 - Verification: 73 tests OK; `python -m warm_company provenance` prints `tree_digest`.
 - Commit: `round 2 iteration 1: bind generation DNA to config and layer hashes`
+
+## Iteration 2/50
+- Evolution: GitHub Actions CI runs tests, layer validation, provenance, generate, and collection validation on main.
+- Bottleneck: Nothing verified generation or layers on push; drift could land untested.
+- Verification: 74 tests include workflow contract; local operator commands already pass.
