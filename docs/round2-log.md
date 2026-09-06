@@ -249,3 +249,8 @@
 - Evolution: Preflight requires collection.organization to remain Not By Chance Outreach.
 - Bottleneck: A rename in collection.json would mint metadata for the wrong charity without failing generate.
 - Verification: organization string is locked.
+
+## Iteration 48/50
+- Evolution: CI runs `status` before the slow test suite so missing layers or config identity fail in seconds.
+- Bottleneck: A broken collection.json still paid for a full unittest generate cycle.
+- Verification: workflow lists status before tests.

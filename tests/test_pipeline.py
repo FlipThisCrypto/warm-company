@@ -1060,6 +1060,7 @@ class CiWorkflowTests(unittest.TestCase):
         self.assertTrue(path.is_file(), msg=str(path))
         text = path.read_text(encoding="utf-8")
         for needle in (
+            "python -m warm_company status",
             "python tests/test_pipeline.py",
             "python -m warm_company preflight --phase 9",
             "cache: pip",
