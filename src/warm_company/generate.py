@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from typing import Any
 
@@ -229,6 +230,12 @@ def _assert_invariants(result: dict[str, Any]) -> None:
         raise AssertionError("token ids are not 1..supply")
 
 
+def collection_fingerprint(result: dict[str, Any]) -> str:
+    """SHA-256 of token_id:class_id:dna lines in mint order."""
+    lines = [f"{token['token_id']}:{token['class_id']}:{token['dna']}" for token in result["tokens"]]
+    return hashlib.sha256("\n".join(lines).encode("utf-8")).hexdigest()
+
+
 def write_generation(result: dict[str, Any]) -> None:
     ensure_build()
     tokens_path = BUILD / "dna" / "tokens.json"
@@ -260,5 +267,6 @@ def write_generation(result: dict[str, Any]) -> None:
     }
     provenance = result.get("provenance") or {}
     summary["tree_digest"] = provenance.get("tree_digest")
+    summary["collection_fingerprint"] = collection_fingerprint(result)
     atomic_write_text(BUILD / "reports" / "generation_summary.json", json.dumps(summary, indent=2))
     atomic_write_text(BUILD / "dna" / "provenance.json", json.dumps(provenance, indent=2))

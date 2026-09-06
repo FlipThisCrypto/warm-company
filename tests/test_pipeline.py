@@ -374,6 +374,19 @@ class GenerationTests(unittest.TestCase):
         self.assertEqual(report["unique_dna"], 800)
         self.assertEqual(report["special_count"], 13)
 
+    def test_collection_fingerprint_is_stable(self):
+        from warm_company.generate import collection_fingerprint
+
+        digest = collection_fingerprint(self.result)
+        self.assertEqual(
+            digest,
+            "81da0c01e76da56d89c41d16f1d4cacf3c513d20d8a208faa0e9e798ff02189b",
+        )
+        self.assertEqual(
+            self.result["tokens"][0]["dna"],
+            "c556850a522685213f60d06553b65f80f0aa93e625b070d137dc5991c0f9b08c",
+        )
+
     def test_reproducible(self):
         again = generate_collection(seed="warm-company-dev-seed-v0", phase=9)
         self.assertEqual(

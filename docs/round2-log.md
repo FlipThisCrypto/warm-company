@@ -59,3 +59,8 @@
 - Evolution: Dignity scanner rejects forbidden poverty-as-costume labels on traits and specials; preflight runs it.
 - Bottleneck: Dignity rules were comments. A new trait id could mint a banned name.
 - Verification: current library is clean; homeless-chic is rejected.
+
+## Iteration 10/50
+- Evolution: Frozen SHA-256 fingerprint of the 800 token_id:class:dna lines for the development seed.
+- Bottleneck: Uniqueness tests still passed if roll weights or specials silently retargeted every token.
+- Verification: fingerprint 81da0c01… and token 1 DNA locked.
