@@ -159,3 +159,8 @@
 - Evolution: SECURITY.md tells reporters how to handle seed leaks, legal-title bugs, and mint bypasses.
 - Bottleneck: Public fundraiser repo had no vulnerability reporting path.
 - Verification: SECURITY.md names production seed, legal_title, and preflight --mint.
+
+## Iteration 30/50
+- Evolution: Compatibility forces must be idempotent (apply twice = apply once).
+- Bottleneck: Sequential force rules could oscillate; generate would depend on pass count.
+- Verification: review tokens and coffee/rest force are stable.

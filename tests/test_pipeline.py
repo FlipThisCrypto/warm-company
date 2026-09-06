@@ -373,6 +373,21 @@ class CompositorStackTests(unittest.TestCase):
         self.assertGreater(med[0], med[2])
 
 
+class ForceStabilityTests(unittest.TestCase):
+    def test_apply_forces_is_idempotent(self):
+        from warm_company.compatibility import apply_forces, forces_stable
+        from warm_company.review import STRIP_TOKENS, refinement_tokens
+
+        for _sample_id, _title, token in refinement_tokens():
+            self.assertTrue(forces_stable(token["traits"]), msg=_sample_id)
+        for name, token in STRIP_TOKENS.items():
+            self.assertTrue(forces_stable(token["traits"]), msg=name)
+        coffee = {"held_item": "coffee", "arm_pose": "rest", "facial": "none", "eyes": "normal"}
+        forced = apply_forces(coffee)
+        self.assertEqual(forced["arm_pose"], "hold-item")
+        self.assertTrue(forces_stable(coffee))
+
+
 class CompatibilityTests(unittest.TestCase):
     def test_held_item_forces_hold_pose(self):
         traits = {

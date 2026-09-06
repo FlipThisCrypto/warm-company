@@ -67,6 +67,12 @@ def violations(class_id: str, traits: dict[str, str]) -> list[str]:
     return problems
 
 
+def forces_stable(traits: dict[str, str]) -> bool:
+    once = apply_forces(traits)
+    twice = apply_forces(once)
+    return once == twice
+
+
 def is_legal(class_id: str, traits: dict[str, str]) -> bool:
     from .resolve import resolve_plan
 
