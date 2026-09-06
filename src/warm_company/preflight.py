@@ -60,11 +60,25 @@ def config_integrity_problems() -> list[str]:
         if key in seen:
             problems.append(f"duplicate trait {key[0]}/{key[1]}")
         seen.add(key)
+    needed = (
+        "sole_baseline_y",
+        "left_leg_origin",
+        "right_leg_origin",
+        "left_lower_leg_center",
+        "right_lower_leg_center",
+        "left_foot_center",
+        "right_foot_center",
+        "foot_replace_h",
+    )
     for class_id in config.CLASS_IDS:
         try:
-            config.class_anatomy(class_id)
+            anatomy = config.class_anatomy(class_id)
         except KeyError as exc:
             problems.append(str(exc))
+            continue
+        for key in needed:
+            if key not in anatomy:
+                problems.append(f"{class_id} anatomy missing {key}")
     for spec in config.rarity()["specials"]["characters"]:
         if spec.get("class") not in config.CLASS_IDS:
             problems.append(f"special {spec.get('id')} unknown class {spec.get('class')}")

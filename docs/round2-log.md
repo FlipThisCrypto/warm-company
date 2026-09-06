@@ -169,3 +169,8 @@
 - Evolution: Compatibility rules may only name live traits; pruned clip-art ids removed from the rule table.
 - Bottleneck: Dozens of rules still referenced backpack, umbrella, thermos, and other dropped traits.
 - Verification: orphan_rule_problems is empty; DNA fingerprint must still hold.
+
+## Iteration 32/50
+- Evolution: Config integrity requires every class anatomy block to include leg origins, lower-leg centers, foot centers, and foot_replace_h.
+- Bottleneck: Missing anatomy keys would fail compositing at runtime instead of preflight.
+- Verification: current three classes already have the keys; preflight checks them.
