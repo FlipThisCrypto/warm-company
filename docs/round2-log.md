@@ -104,3 +104,8 @@
 - Evolution: Report identical PNGs that share a folder (work-boots copied as snow-boots) without failing the library.
 - Bottleneck: Snug/Pup snow and work boots are byte-identical; operators had no machine-readable warning.
 - Verification: duplicate_layer_pairs includes work-boots.png and snow-boots.png.
+
+## Iteration 19/50
+- Evolution: Generation result includes collection_fingerprint next to provenance so DNA identity is stored with the run.
+- Bottleneck: Fingerprint lived in tests and a gitignored summary; tokens.json did not record it.
+- Verification: generate_collection result fingerprint equals the frozen digest.

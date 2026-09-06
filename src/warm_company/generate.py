@@ -215,6 +215,7 @@ def generate_collection(
         "tokens": minted,
         "provenance": build_manifest(seed, phase),
     }
+    result["collection_fingerprint"] = collection_fingerprint(result)
     _assert_invariants(result)
     return result
 
