@@ -16,5 +16,8 @@ build/contact-sheets/
 build/reports/
 build/qa/
 build/prompts/
+build/final-polish-review/
+build/review-v2/
+*.tmp
 *.egg-info/
 dist/

@@ -25,6 +25,14 @@ from warm_company.prompts import LAYER_INSTRUCTIONS, geometry_block  # noqa: E40
 from warm_company.rng import SeededStream, dna_hash  # noqa: E402
 
 
+class GitignoreTests(unittest.TestCase):
+    def test_regenerable_bulk_and_temp_files_are_ignored(self):
+        text = (ROOT / ".gitignore").read_text(encoding="utf-8")
+        for needle in ("build/dna/", "build/images/", "build/metadata/", "build/final-polish-review/", "build/review-v2/", "*.tmp"):
+            self.assertIn(needle, text)
+        self.assertNotIn("build/review-v3/", text)
+
+
 class DependencyPinTests(unittest.TestCase):
     def test_pillow_is_pinned(self):
         import PIL

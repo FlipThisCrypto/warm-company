@@ -84,3 +84,8 @@
 - Evolution: Pin Pillow 12.1.0 so local and CI compositing use the same library; record version in provenance runtime.
 - Bottleneck: `Pillow>=10` let CI install a different compositor than the machine that reviewed samples.
 - Verification: requirements pin matches installed PIL.__version__.
+
+## Iteration 15/50
+- Evolution: Ignore regenerable review dumps and atomic-write temp files so they cannot be committed by accident.
+- Bottleneck: `build/final-polish-review/` and `build/review-v2/` sat untracked beside the real review-v3 gate for the whole round.
+- Verification: gitignore test; review-v3 remains committable.
