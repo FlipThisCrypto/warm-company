@@ -660,6 +660,29 @@ class ResourcePlanTests(unittest.TestCase):
         self.assertNotIn("footwear", slots)
 
 
+class PreflightTests(unittest.TestCase):
+    def test_preflight_passes_current_tree(self):
+        from warm_company.preflight import run_preflight
+
+        report = run_preflight(seed="warm-company-dev-seed-v0", phase=9)
+        self.assertTrue(report["ok"], msg=report["problems"])
+        self.assertEqual(report["supply"], 800)
+        self.assertTrue(report["provenance_ok"])
+        self.assertTrue(report["layer_ok"])
+
+    def test_config_integrity_is_clean(self):
+        from warm_company.preflight import config_integrity_problems
+
+        self.assertEqual(config_integrity_problems(), [])
+
+    def test_cli_exposes_preflight(self):
+        from warm_company.cli import build_parser
+
+        args = build_parser().parse_args(["preflight", "--phase", "9"])
+        self.assertEqual(args.func.__name__, "cmd_preflight")
+        self.assertEqual(args.phase, 9)
+
+
 class CiWorkflowTests(unittest.TestCase):
     def test_ci_workflow_runs_operator_path(self):
         path = ROOT / ".github" / "workflows" / "ci.yml"

@@ -126,6 +126,14 @@ def cmd_composite(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_preflight(args: argparse.Namespace) -> int:
+    from .preflight import run_preflight
+
+    report = run_preflight(seed=args.seed, phase=args.phase)
+    print(json.dumps(report, indent=2))
+    return 0 if report["ok"] else 1
+
+
 def cmd_provenance(_: argparse.Namespace) -> int:
     from .provenance import build_manifest
 
@@ -175,6 +183,11 @@ def build_parser() -> argparse.ArgumentParser:
     pr = sub.add_parser("prompts", help="Export the Grok Image prompt library")
     pr.add_argument("--phase", type=int, default=9)
     pr.set_defaults(func=cmd_prompts)
+
+    pf = sub.add_parser("preflight", help="Fail-closed mint check: config, layers, generate, provenance")
+    pf.add_argument("--seed", default=None)
+    pf.add_argument("--phase", type=int, default=9)
+    pf.set_defaults(func=cmd_preflight)
 
     prov = sub.add_parser("provenance", help="Hash the config + layer tree that a generation must bind to")
     prov.set_defaults(func=cmd_provenance)

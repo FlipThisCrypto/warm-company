@@ -16,6 +16,7 @@ python -m warm_company contact-sheet
 python -m warm_company validate-layers
 python -m warm_company validate-collection
 python -m warm_company provenance
+python -m warm_company preflight
 python -m warm_company composite --allow-missing   # skeleton only, until art exists
 python -m warm_company blueprints
 python -m warm_company prompts

@@ -29,3 +29,8 @@
 - Evolution: Provenance digest also hashes DNA-affecting Python modules.
 - Bottleneck: Editing generate.py/rng/resolve could retarget the mint while config and layer hashes stayed green.
 - Verification: source drift is a validate-collection failure; 5 source files in the manifest.
+
+## Iteration 4/50
+- Evolution: `warm-company preflight` fail-closed operator path (config, layers, generate, provenance).
+- Bottleneck: Mint checks were four separate commands; a missed step could ship illegal DNA.
+- Verification: preflight passes on the current tree; CLI wired.

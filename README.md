@@ -66,6 +66,8 @@ python -m warm_company metadata
 python -m warm_company rarity
 python -m warm_company contact-sheet
 python -m warm_company validate-layers
+python -m warm_company provenance
+python -m warm_company preflight
 python -m warm_company prompts
 
 python tests/test_pipeline.py
