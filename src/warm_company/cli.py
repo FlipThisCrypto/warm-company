@@ -18,9 +18,15 @@ def _load_tokens(path: Path | None = None) -> dict:
 
 def cmd_generate(args: argparse.Namespace) -> int:
     from .generate import generate_collection, write_generation
+    from .preflight import mint_seed_problems
     from .validate_collection import validate_result
     from .rarity_report import build_report
 
+    seed = args.seed or config.production_seed()
+    mint_problems = mint_seed_problems(seed, mint=bool(args.mint))
+    if mint_problems:
+        print(json.dumps({"ok": False, "problems": mint_problems, "mint": True}, indent=2))
+        return 1
     result = generate_collection(seed=args.seed, phase=args.phase, inject_specials=not args.no_specials)
     write_generation(result)
     report = validate_result(result)
@@ -129,7 +135,7 @@ def cmd_composite(args: argparse.Namespace) -> int:
 def cmd_preflight(args: argparse.Namespace) -> int:
     from .preflight import run_preflight
 
-    report = run_preflight(seed=args.seed, phase=args.phase)
+    report = run_preflight(seed=args.seed, phase=args.phase, mint=bool(args.mint))
     print(json.dumps(report, indent=2))
     return 0 if report["ok"] else 1
 
@@ -160,6 +166,7 @@ def build_parser() -> argparse.ArgumentParser:
     gen.add_argument("--seed", default=None)
     gen.add_argument("--phase", type=int, default=9)
     gen.add_argument("--no-specials", action="store_true")
+    gen.add_argument("--mint", action="store_true", help="Refuse the development placeholder seed")
     gen.set_defaults(func=cmd_generate)
 
     meta = sub.add_parser("metadata", help="Write CHIP-0007 JSON for the last generation")
@@ -187,6 +194,7 @@ def build_parser() -> argparse.ArgumentParser:
     pf = sub.add_parser("preflight", help="Fail-closed mint check: config, layers, generate, provenance")
     pf.add_argument("--seed", default=None)
     pf.add_argument("--phase", type=int, default=9)
+    pf.add_argument("--mint", action="store_true", help="Refuse the development placeholder seed")
     pf.set_defaults(func=cmd_preflight)
 
     prov = sub.add_parser("provenance", help="Hash the config + layer tree that a generation must bind to")

@@ -46,7 +46,7 @@ python tests/test_pipeline.py
 
 GitHub Actions (`.github/workflows/ci.yml`) runs the unit tests and `python -m warm_company preflight --phase 9` on every push and pull request to `main`.
 
-Before a mint-quality run: `python -m warm_company preflight`. It fails closed on config integrity, illegal resource definitions, layer errors, or provenance drift.
+Before a mint-quality run: `python -m warm_company preflight`. It fails closed on config integrity, illegal resource definitions, layer errors, or provenance drift. Add `--mint` only after `production_seed.status` is no longer `placeholder-not-for-mint` and the seed is not `warm-company-dev-seed-v0`.
 
 The dev seed is `warm-company-dev-seed-v0`. Do not rotate a production seed once Phase 11 starts. Every generation writes a provenance manifest (`tree_digest` of seed + config hashes + layer PNG hashes). `python -m warm_company validate-collection` must still match that digest before a mint.
 

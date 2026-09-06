@@ -10,6 +10,23 @@ from .resolve import definition_problems
 from .validate_collection import validate_result
 from .validate_layers import validate_library
 
+DEV_SEED = "warm-company-dev-seed-v0"
+
+
+def mint_seed_problems(seed: str, *, mint: bool) -> list[str]:
+    """Refuse a production mint that still uses the development placeholder seed."""
+    if not mint:
+        return []
+    problems: list[str] = []
+    if not seed or len(seed) < 16:
+        problems.append("mint seed is missing or shorter than 16 characters")
+    if seed == DEV_SEED:
+        problems.append("refusing well-known development seed for mint")
+    status = (config.collection().get("production_seed") or {}).get("status")
+    if status == "placeholder-not-for-mint":
+        problems.append("production_seed.status is still placeholder-not-for-mint")
+    return problems
+
 
 def config_integrity_problems() -> list[str]:
     problems: list[str] = []
@@ -60,8 +77,26 @@ def config_integrity_problems() -> list[str]:
     return problems
 
 
-def run_preflight(*, seed: str | None = None, phase: int = 9) -> dict[str, Any]:
+def run_preflight(*, seed: str | None = None, phase: int = 9, mint: bool = False) -> dict[str, Any]:
     problems: list[str] = []
+    seed = seed or config.production_seed()
+    mint_problems = mint_seed_problems(seed, mint=mint)
+    problems.extend(mint_problems)
+    if mint_problems:
+        return {
+            "ok": False,
+            "problems": problems,
+            "supply": None,
+            "unique_dna": None,
+            "special_count": None,
+            "tree_digest": None,
+            "png_count": None,
+            "layer_ok": None,
+            "provenance_ok": None,
+            "seed": seed,
+            "phase": phase,
+            "mint": mint,
+        }
     problems.extend(config_integrity_problems())
     problems.extend(definition_problems())
     layers = validate_library()
@@ -83,4 +118,5 @@ def run_preflight(*, seed: str | None = None, phase: int = 9) -> dict[str, Any]:
         "provenance_ok": report.get("provenance_ok"),
         "seed": result["seed"],
         "phase": result["phase"],
+        "mint": mint,
     }

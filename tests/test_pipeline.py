@@ -675,12 +675,26 @@ class PreflightTests(unittest.TestCase):
 
         self.assertEqual(config_integrity_problems(), [])
 
+    def test_mint_mode_rejects_placeholder_dev_seed(self):
+        from warm_company.preflight import mint_seed_problems, run_preflight
+
+        self.assertEqual(mint_seed_problems("warm-company-dev-seed-v0", mint=False), [])
+        blocked = mint_seed_problems("warm-company-dev-seed-v0", mint=True)
+        self.assertTrue(any("development seed" in p for p in blocked))
+        self.assertTrue(any("placeholder-not-for-mint" in p for p in blocked))
+        report = run_preflight(seed="warm-company-dev-seed-v0", phase=9, mint=True)
+        self.assertFalse(report["ok"])
+        self.assertTrue(report["mint"])
+
     def test_cli_exposes_preflight(self):
         from warm_company.cli import build_parser
 
-        args = build_parser().parse_args(["preflight", "--phase", "9"])
+        args = build_parser().parse_args(["preflight", "--phase", "9", "--mint"])
         self.assertEqual(args.func.__name__, "cmd_preflight")
         self.assertEqual(args.phase, 9)
+        self.assertTrue(args.mint)
+        gen = build_parser().parse_args(["generate", "--mint"])
+        self.assertTrue(gen.mint)
 
 
 class CiWorkflowTests(unittest.TestCase):

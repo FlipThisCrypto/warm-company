@@ -10,6 +10,7 @@ CLI:
 
 ```
 python -m warm_company generate --seed <seed> --phase 9
+python -m warm_company generate --mint --phase 9   # refuses the development placeholder seed
 python -m warm_company metadata
 python -m warm_company rarity
 python -m warm_company contact-sheet

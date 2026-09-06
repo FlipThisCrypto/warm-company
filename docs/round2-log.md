@@ -39,3 +39,8 @@
 - Evolution: CI mint gate is `preflight`, not four duplicated commands.
 - Bottleneck: GitHub Actions could stay green while the operator preflight path drifted.
 - Verification: workflow contract test requires preflight.
+
+## Iteration 6/50
+- Evolution: `--mint` refuses the well-known development seed and placeholder production_seed status.
+- Bottleneck: generate/preflight would happily emit 800 DNA that looks production-ready with the public dev seed.
+- Verification: mint_seed_problems and preflight --mint fail on the placeholder.
