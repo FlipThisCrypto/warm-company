@@ -204,3 +204,8 @@
 - Evolution: Preflight fails if a logo PNG appears or the logo stack slot is no longer deferred.
 - Bottleneck: Phase 10 logo is easy to drop into layers/shared/logo and silently paint on every token.
 - Verification: logo_status deferred; no logo PNGs.
+
+## Iteration 39/50
+- Evolution: Tests require the three v3 canonical JPEGs to remain in references/approved.
+- Bottleneck: Art-direction SoT could be deleted without failing generate or preflight.
+- Verification: three v3 files exist and are larger than 20KB.

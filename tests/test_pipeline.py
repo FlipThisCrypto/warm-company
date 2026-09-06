@@ -76,6 +76,19 @@ class DependencyPinTests(unittest.TestCase):
         self.assertEqual(PIL.__version__, "12.1.0")
 
 
+class CanonicalTests(unittest.TestCase):
+    def test_v3_canonicals_are_present(self):
+        approved = ROOT / "references" / "approved"
+        for name in (
+            "canonical-sleeping-bag-v3.jpg",
+            "canonical-small-tent-v3.jpg",
+            "canonical-large-tent-v3.jpg",
+        ):
+            path = approved / name
+            self.assertTrue(path.is_file(), msg=str(path))
+            self.assertGreater(path.stat().st_size, 20_000)
+
+
 class CollectionIdentityTests(unittest.TestCase):
     def test_collection_uuid_and_urls_are_placeholders(self):
         from warm_company.preflight import config_integrity_problems
