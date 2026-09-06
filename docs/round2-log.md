@@ -144,3 +144,8 @@
 - Evolution: Composite writes build/reports/composite_missing.json for every run.
 - Bottleneck: Missing layers were stdout-only and vanished after an 800-token composite.
 - Verification: CLI still accepts --report-missing; report payload shape is documented in tests.
+
+## Iteration 27/50
+- Evolution: generate CLI JSON includes collection_fingerprint so operators can record DNA identity at generate time.
+- Bottleneck: Fingerprint was inside tokens.json only after opening the file.
+- Verification: generate print payload key is collection_fingerprint.

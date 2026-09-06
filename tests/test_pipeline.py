@@ -425,6 +425,8 @@ class GenerationTests(unittest.TestCase):
         digest = collection_fingerprint(self.result)
         self.assertEqual(digest, DEV_COLLECTION_FINGERPRINT)
         self.assertEqual(self.result["collection_fingerprint"], digest)
+        text = (ROOT / "src" / "warm_company" / "cli.py").read_text(encoding="utf-8")
+        self.assertIn("collection_fingerprint", text)
         self.assertEqual(
             self.result["tokens"][0]["dna"],
             "c556850a522685213f60d06553b65f80f0aa93e625b070d137dc5991c0f9b08c",
