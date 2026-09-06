@@ -17,6 +17,7 @@ def _load_tokens(path: Path | None = None) -> dict:
 
 
 def cmd_generate(args: argparse.Namespace) -> int:
+    from .fundraiser import token_goods_usd
     from .generate import generate_collection, write_generation
     from .preflight import mint_seed_problems
     from .validate_collection import validate_result
@@ -42,6 +43,7 @@ def cmd_generate(args: argparse.Namespace) -> int:
         "phase": result["phase"],
         "tree_digest": (result.get("provenance") or {}).get("tree_digest"),
         "collection_fingerprint": result.get("collection_fingerprint"),
+        "token_goods_usd": token_goods_usd(result),
         "provenance_ok": report.get("provenance_ok"),
         "rarest": rarity["rarest_tokens"][:5],
     }, indent=2))

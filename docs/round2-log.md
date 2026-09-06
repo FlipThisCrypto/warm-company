@@ -224,3 +224,8 @@
 - Evolution: Operator runbook documents status, preflight, mint seed lock, metadata, and the no-800-images rule.
 - Bottleneck: Mint steps lived across README, CONTRIBUTING, and SECURITY.
 - Verification: OPERATOR.md names preflight --mint, fingerprint, legal title, and 6aa596f.
+
+## Iteration 43/50
+- Evolution: generate CLI JSON includes token_goods_usd so a run that does not sum to $12,000 is visible immediately.
+- Bottleneck: Campaign math was only inside rarity/validate reports.
+- Verification: generate print payload includes token_goods_usd.
