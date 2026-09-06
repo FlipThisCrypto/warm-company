@@ -114,3 +114,8 @@
 - Evolution: CLI subcommand set is a contract test covering generate through status/preflight/provenance.
 - Bottleneck: New operator commands could be omitted from the parser without a failing test.
 - Verification: 12 registered commands match the expected set.
+
+## Iteration 21/50
+- Evolution: Mark config/review_samples.json as the legacy 9-sample prototype; production gate is the 12-sample catalog.
+- Bottleneck: Two sample lists existed; the cyan 9-sample file still looked current.
+- Verification: gate=legacy-v1; REFINEMENT_SAMPLES length 12.

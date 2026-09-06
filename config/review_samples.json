@@ -1,6 +1,7 @@
 {
   "version": 1,
-  "note": "Nine review composites. Each listed trait is its own Imagine layer, then composited.",
+  "gate": "legacy-v1",
+  "note": "LEGACY prototype 9-sample sheet (cyan matte). Production review gate is warm_company.review.REFINEMENT_SAMPLES (12 samples) rendered to build/review-v3/.",
   "matte": "#00FFFF",
   "samples": [
     {

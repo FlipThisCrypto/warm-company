@@ -542,6 +542,17 @@ class GenerationTests(unittest.TestCase):
         self.assertNotEqual(dna_hash(token["class_id"], token["traits"]), dna_hash(token["class_id"], mutated))
 
 
+class ReviewCatalogTests(unittest.TestCase):
+    def test_legacy_nine_sample_is_not_the_production_gate(self):
+        from warm_company.review import REFINEMENT_SAMPLES
+
+        data = json.loads((ROOT / "config" / "review_samples.json").read_text(encoding="utf-8"))
+        self.assertEqual(data.get("gate"), "legacy-v1")
+        self.assertIn("LEGACY", data["note"])
+        self.assertEqual(len(data["samples"]), 9)
+        self.assertEqual(len(REFINEMENT_SAMPLES), 12)
+
+
 class ReviewGateTests(unittest.TestCase):
     def test_refinement_and_strip_tokens_are_legal(self):
         from warm_company.resolve import resolve_plan
