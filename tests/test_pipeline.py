@@ -914,6 +914,7 @@ class CiWorkflowTests(unittest.TestCase):
         for needle in (
             "python tests/test_pipeline.py",
             "python -m warm_company preflight --phase 9",
+            "cache: pip",
         ):
             self.assertIn(needle, text)
         self.assertNotIn("python -m warm_company generate --phase 9\n", text)

@@ -134,3 +134,8 @@
 - Evolution: Reconstruction strips show compositor-prepared layers so overlay boots appear at class foot anchors.
 - Bottleneck: Strips showed source clip-art piles while the composite had registered feet.
 - Verification: Pup strip footwear centers match Pup foot anchors.
+
+## Iteration 25/50
+- Evolution: CI caches pip from requirements.txt so Pillow install is not repeated every run.
+- Bottleneck: Every GitHub Actions job re-downloaded pinned Pillow from scratch.
+- Verification: workflow contains cache: pip.
