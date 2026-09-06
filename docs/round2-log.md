@@ -154,3 +154,8 @@
 - Evolution: Rarity report records collection fingerprint and the $12,000 goods rollup.
 - Bottleneck: Rarity audit could look healthy while DNA identity or campaign math had drifted.
 - Verification: build_report includes fingerprint and token_goods_usd 12000.
+
+## Iteration 29/50
+- Evolution: SECURITY.md tells reporters how to handle seed leaks, legal-title bugs, and mint bypasses.
+- Bottleneck: Public fundraiser repo had no vulnerability reporting path.
+- Verification: SECURITY.md names production seed, legal_title, and preflight --mint.

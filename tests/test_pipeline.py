@@ -36,6 +36,14 @@ class DuplicateLayerTests(unittest.TestCase):
         self.assertIn("snow-boots.png", blob)
 
 
+class SecurityDocTests(unittest.TestCase):
+    def test_security_doc_forbids_public_seed_and_legal_title(self):
+        text = (ROOT / "SECURITY.md").read_text(encoding="utf-8").lower()
+        self.assertIn("production seed", text)
+        self.assertIn("legal_title_to_physical_item", text)
+        self.assertIn("preflight --mint", text)
+
+
 class GitignoreTests(unittest.TestCase):
     def test_regenerable_bulk_and_temp_files_are_ignored(self):
         text = (ROOT / ".gitignore").read_text(encoding="utf-8")
