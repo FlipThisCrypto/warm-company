@@ -36,6 +36,15 @@ class DuplicateLayerTests(unittest.TestCase):
         self.assertIn("snow-boots.png", blob)
 
 
+class OperatorDocTests(unittest.TestCase):
+    def test_operator_runbook_covers_mint_locks(self):
+        text = (ROOT / "docs" / "OPERATOR.md").read_text(encoding="utf-8")
+        self.assertIn("preflight --mint", text)
+        self.assertIn("collection_fingerprint", text)
+        self.assertIn("legal_title_to_physical_item", text)
+        self.assertIn("6aa596f", text)
+
+
 class ContributingTests(unittest.TestCase):
     def test_contributing_requires_status_and_preflight(self):
         text = (ROOT / "CONTRIBUTING.md").read_text(encoding="utf-8")

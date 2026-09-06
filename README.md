@@ -52,7 +52,7 @@ $env:PYTHONPATH = "src"
 python tests/test_pipeline.py
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) before adding layers. Do not invent per-asset coordinates.
+See [CONTRIBUTING.md](CONTRIBUTING.md) before adding layers. Do not invent per-asset coordinates. Mint-adjacent commands are in [docs/OPERATOR.md](docs/OPERATOR.md).
 
 ## Commands
 

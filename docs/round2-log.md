@@ -219,3 +219,8 @@
 - Evolution: CI cancels stale runs on the same branch so overlapping pushes do not race.
 - Bottleneck: Sequential pushes queued duplicate 20-minute jobs.
 - Verification: workflow concurrency cancel-in-progress.
+
+## Iteration 42/50
+- Evolution: Operator runbook documents status, preflight, mint seed lock, metadata, and the no-800-images rule.
+- Bottleneck: Mint steps lived across README, CONTRIBUTING, and SECURITY.
+- Verification: OPERATOR.md names preflight --mint, fingerprint, legal title, and 6aa596f.
