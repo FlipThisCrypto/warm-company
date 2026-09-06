@@ -373,6 +373,13 @@ class CompositorStackTests(unittest.TestCase):
         self.assertGreater(med[0], med[2])
 
 
+class CompatibilityOrphanTests(unittest.TestCase):
+    def test_rules_only_name_live_traits(self):
+        from warm_company.compatibility import orphan_rule_problems
+
+        self.assertEqual(orphan_rule_problems(), [])
+
+
 class ForceStabilityTests(unittest.TestCase):
     def test_apply_forces_is_idempotent(self):
         from warm_company.compatibility import apply_forces, forces_stable

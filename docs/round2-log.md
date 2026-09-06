@@ -164,3 +164,8 @@
 - Evolution: Compatibility forces must be idempotent (apply twice = apply once).
 - Bottleneck: Sequential force rules could oscillate; generate would depend on pass count.
 - Verification: review tokens and coffee/rest force are stable.
+
+## Iteration 31/50
+- Evolution: Compatibility rules may only name live traits; pruned clip-art ids removed from the rule table.
+- Bottleneck: Dozens of rules still referenced backpack, umbrella, thermos, and other dropped traits.
+- Verification: orphan_rule_problems is empty; DNA fingerprint must still hold.

@@ -67,6 +67,37 @@ def violations(class_id: str, traits: dict[str, str]) -> list[str]:
     return problems
 
 
+def _rule_trait_refs(rule: dict[str, Any]) -> list[tuple[str, str]]:
+    refs: list[tuple[str, str]] = []
+    cond = rule.get("if") or {}
+    slot = cond.get("slot")
+    if slot and "equals" in cond:
+        refs.append((slot, cond["equals"]))
+    if slot:
+        for trait_id in cond.get("in") or []:
+            refs.append((slot, trait_id))
+        for trait_id in cond.get("not_in") or []:
+            refs.append((slot, trait_id))
+    if "forces" in rule:
+        refs.append((rule["forces"]["slot"], rule["forces"]["id"]))
+    for key in ("excludes", "requires"):
+        if key in rule:
+            for trait_id in rule[key].get("ids") or []:
+                refs.append((rule[key]["slot"], trait_id))
+    return refs
+
+
+def orphan_rule_problems() -> list[str]:
+    problems: list[str] = []
+    for rule in config.compatibility()["rules"]:
+        for slot, trait_id in _rule_trait_refs(rule):
+            if trait_id == "none":
+                continue
+            if config.trait_by_id(slot, trait_id) is None:
+                problems.append(f"{rule.get('id')} references unknown {slot}/{trait_id}")
+    return problems
+
+
 def forces_stable(traits: dict[str, str]) -> bool:
     once = apply_forces(traits)
     twice = apply_forces(once)

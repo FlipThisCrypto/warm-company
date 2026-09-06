@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from . import config
+from .compatibility import orphan_rule_problems
 from .dignity import dignity_problems
 from .generate import ROLL_SLOTS, generate_collection
 from .metadata import metadata_problems
@@ -118,6 +119,7 @@ def status_report() -> dict[str, Any]:
     integrity = (
         config_integrity_problems()
         + special_catalog_problems()
+        + orphan_rule_problems()
         + dignity_problems()
         + definition_problems()
         + fundraiser_problems()
@@ -168,6 +170,7 @@ def run_preflight(*, seed: str | None = None, phase: int = 9, mint: bool = False
         }
     problems.extend(config_integrity_problems())
     problems.extend(special_catalog_problems())
+    problems.extend(orphan_rule_problems())
     problems.extend(dignity_problems())
     problems.extend(definition_problems())
     layers = validate_library()
