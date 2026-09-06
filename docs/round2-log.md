@@ -24,3 +24,8 @@
 - Evolution: GitHub Actions CI runs tests, layer validation, provenance, generate, and collection validation on main.
 - Bottleneck: Nothing verified generation or layers on push; drift could land untested.
 - Verification: 74 tests include workflow contract; local operator commands already pass.
+
+## Iteration 3/50
+- Evolution: Provenance digest also hashes DNA-affecting Python modules.
+- Bottleneck: Editing generate.py/rng/resolve could retarget the mint while config and layer hashes stayed green.
+- Verification: source drift is a validate-collection failure; 5 source files in the manifest.

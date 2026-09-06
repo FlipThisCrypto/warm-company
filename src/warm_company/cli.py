@@ -138,6 +138,7 @@ def cmd_provenance(_: argparse.Namespace) -> int:
         "layer_count": manifest["layer_count"],
         "git_revision": manifest["git_revision"],
         "configs": manifest["configs"],
+        "sources": manifest["sources"],
     }, indent=2))
     return 0
 

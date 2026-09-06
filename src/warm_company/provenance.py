@@ -25,6 +25,15 @@ DNA_CONFIGS = (
     "layer_stack.json",
 )
 
+# Python that can change rolls without touching config JSON.
+DNA_SOURCES = (
+    "src/warm_company/generate.py",
+    "src/warm_company/rng.py",
+    "src/warm_company/compatibility.py",
+    "src/warm_company/resolve.py",
+    "src/warm_company/config.py",
+)
+
 
 def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
@@ -49,6 +58,14 @@ def config_hashes() -> dict[str, str]:
             out[name] = "missing"
             continue
         out[name] = sha256_file(path)
+    return out
+
+
+def source_hashes() -> dict[str, str]:
+    out: dict[str, str] = {}
+    for rel in DNA_SOURCES:
+        path = ROOT / rel
+        out[rel] = sha256_file(path) if path.is_file() else "missing"
     return out
 
 
@@ -82,12 +99,14 @@ def git_revision() -> str | None:
 
 def build_manifest(seed: str, phase: int) -> dict[str, Any]:
     configs = config_hashes()
+    sources = source_hashes()
     layers = layer_hashes()
     core = {
         "seed": seed,
         "phase": int(phase),
         "generator_version": __version__,
         "configs": configs,
+        "sources": sources,
         "layers": layers,
         "supply": int(config.collection()["supply"]),
     }
@@ -96,7 +115,7 @@ def build_manifest(seed: str, phase: int) -> dict[str, Any]:
         "tree_digest": tree_digest(core),
         "layer_count": len(layers),
         "git_revision": git_revision(),
-        "note": "tree_digest covers seed, phase, generator_version, config hashes, layer hashes, supply. git_revision is informational.",
+        "note": "tree_digest covers seed, phase, generator_version, config hashes, source hashes, layer hashes, supply. git_revision is informational.",
     }
 
 
@@ -113,6 +132,11 @@ def compare_manifest(stored: dict[str, Any] | None, live: dict[str, Any]) -> lis
     for name in DNA_CONFIGS:
         if stored_configs.get(name) != live_configs.get(name):
             problems.append(f"config drift {name}")
+    stored_sources = stored.get("sources") or {}
+    live_sources = live.get("sources") or {}
+    for rel in DNA_SOURCES:
+        if stored_sources.get(rel) != live_sources.get(rel):
+            problems.append(f"source drift {rel}")
     stored_layers = stored.get("layers") or {}
     live_layers = live.get("layers") or {}
     if stored_layers != live_layers:

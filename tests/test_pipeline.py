@@ -684,6 +684,8 @@ class ProvenanceTests(unittest.TestCase):
         self.assertEqual(a["tree_digest"], b["tree_digest"])
         self.assertEqual(len(a["tree_digest"]), 64)
         self.assertEqual(len(a["configs"]), 7)
+        self.assertEqual(len(a["sources"]), 5)
+        self.assertIn("src/warm_company/generate.py", a["sources"])
         self.assertGreaterEqual(a["layer_count"], 100)
         self.assertEqual(compare_manifest(a, b), [])
 
@@ -709,6 +711,11 @@ class ProvenanceTests(unittest.TestCase):
         stored["layers"] = {"layers/x.png": "cd"}
         problems = compare_manifest(stored, live)
         self.assertTrue(any("layer changed" in p for p in problems))
+        stored = dict(live)
+        stored["sources"] = {"src/warm_company/generate.py": "dead"}
+        live["sources"] = {"src/warm_company/generate.py": "beef"}
+        problems = compare_manifest(stored, live)
+        self.assertTrue(any("source drift" in p for p in problems))
         self.assertTrue(compare_manifest(None, live))
 
     def test_generated_collection_carries_matching_provenance(self):

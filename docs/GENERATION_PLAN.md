@@ -31,7 +31,7 @@ Package: `src/warm_company/`. Wrappers: `scripts/`.
 4. Seeded Fisher–Yates shuffle assigns public `token_id` 1..800.
 5. Write `build/dna/tokens.json`, `collection.jsonl`, and `provenance.json`.
 6. Assert 400 / 200 / 200, unique DNA, contiguous ids.
-7. Bind the run to SHA-256 hashes of DNA-affecting config and every `layers/**/*.png`. `validate-collection` fails if those files drift after generation.
+7. Bind the run to SHA-256 hashes of DNA-affecting config, the generator Python modules, and every `layers/**/*.png`. `validate-collection` fails if those files drift after generation.
 
 Compositing is a later step and is skipped until layers exist. Dry-run generation does not need any PNGs.
 
