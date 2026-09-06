@@ -85,6 +85,7 @@ class CollectionIdentityTests(unittest.TestCase):
         self.assertEqual(len(col["chip0007"]["collection_id"]), 36)
         self.assertIsNone(col["urls"]["website"])
         self.assertEqual(col["urls"]["image_uris"], [])
+        self.assertEqual(col["logo_status"], "deferred-until-phase-10")
 
 
 class ConfigLoadTests(unittest.TestCase):

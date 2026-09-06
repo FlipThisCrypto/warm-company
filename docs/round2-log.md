@@ -199,3 +199,8 @@
 - Evolution: Preflight requires CHIP-0007 collection_id to be a UUID and forbids populated marketplace URLs.
 - Bottleneck: Invented website/IPFS fields could ship in collection.json before they exist.
 - Verification: collection_id is a UUID; website is null; image_uris is empty.
+
+## Iteration 38/50
+- Evolution: Preflight fails if a logo PNG appears or the logo stack slot is no longer deferred.
+- Bottleneck: Phase 10 logo is easy to drop into layers/shared/logo and silently paint on every token.
+- Verification: logo_status deferred; no logo PNGs.

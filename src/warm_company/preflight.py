@@ -52,6 +52,16 @@ def config_integrity_problems() -> list[str]:
         uuid.UUID(str(col["chip0007"]["collection_id"]))
     except (KeyError, ValueError, TypeError):
         problems.append("chip0007.collection_id is not a UUID")
+    if col.get("logo_status") != "deferred-until-phase-10":
+        problems.append("logo_status must remain deferred-until-phase-10")
+    logo_slot = next((row for row in config.layer_stack()["stack"] if row.get("slot") == "logo"), None)
+    if not logo_slot or not logo_slot.get("deferred"):
+        problems.append("logo stack slot must be deferred")
+    from .paths import LAYERS
+
+    logo_pngs = list((LAYERS / "shared" / "logo").glob("*.png")) if (LAYERS / "shared" / "logo").exists() else []
+    if logo_pngs:
+        problems.append(f"logo PNGs present before Phase 10: {logo_pngs[0].name}")
     urls = col.get("urls") or {}
     for key, value in urls.items():
         if key == "note":
