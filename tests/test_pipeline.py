@@ -966,6 +966,13 @@ class PreflightTests(unittest.TestCase):
         self.assertTrue(gen.mint)
 
 
+class DependabotTests(unittest.TestCase):
+    def test_dependabot_covers_actions_and_pip(self):
+        text = (ROOT / ".github" / "dependabot.yml").read_text(encoding="utf-8")
+        self.assertIn("github-actions", text)
+        self.assertIn("pip", text)
+
+
 class CiWorkflowTests(unittest.TestCase):
     def test_ci_workflow_runs_operator_path(self):
         path = ROOT / ".github" / "workflows" / "ci.yml"

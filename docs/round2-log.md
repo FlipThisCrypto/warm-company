@@ -179,3 +179,8 @@
 - Evolution: .gitattributes marks PNGs/JPGs binary and JSON as LF so layer files cannot pick up CRLF.
 - Bottleneck: Git already warned that layer_stack.json CRLF would be rewritten; images had no binary attribute.
 - Verification: attributes file lists png/jpg binary and json lf.
+
+## Iteration 34/50
+- Evolution: Dependabot watches GitHub Actions weekly and pip monthly so the pinned compositor and CI actions can be updated on purpose.
+- Bottleneck: Action and Pillow versions would only change when someone remembered.
+- Verification: dependabot.yml names both ecosystems.
