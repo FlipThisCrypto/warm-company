@@ -85,6 +85,14 @@ class DependencyPinTests(unittest.TestCase):
         self.assertEqual(PIL.__version__, "12.1.0")
 
 
+class BlueprintDocsTests(unittest.TestCase):
+    def test_blueprint_html_is_generated_from_anchors(self):
+        html = (ROOT / "docs" / "blueprints" / "index.html").read_text(encoding="utf-8")
+        self.assertGreater(len(html), 500)
+        self.assertIn("512", html)
+        self.assertIn("896", html)
+
+
 class StyleBibleTests(unittest.TestCase):
     def test_master_style_names_magenta_matte(self):
         text = (ROOT / "prompts" / "MASTER_STYLE.md").read_text(encoding="utf-8")

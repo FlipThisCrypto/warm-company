@@ -239,3 +239,8 @@
 - Evolution: MASTER_STYLE.md now states the magenta #FF00FF matte contract used by production layers.
 - Bottleneck: The style bible omitted the matte rule that prompts.json already required, so a failing test in 44 was evidence of a real gap.
 - Verification: StyleBibleTests passes.
+
+## Iteration 46/50
+- Evolution: Tests require docs/blueprints/index.html to exist and name the shared center/baseline.
+- Bottleneck: Blueprint HTML could go missing while anchors.json stayed; contributors open a dead page.
+- Verification: index.html contains 512 and 896.
