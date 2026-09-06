@@ -69,3 +69,8 @@
 - Evolution: Config JSON loader names the file and rejects non-objects.
 - Bottleneck: A broken traits.json raised a raw JSONDecodeError with no path, stalling generate.
 - Verification: invalid JSON in traits.json raises ValueError naming the file.
+
+## Iteration 12/50
+- Evolution: 12-sample catalog lives in review.py; every gate token must be resource-legal. Dropped illegal Pup determined mouth and nonexistent eyebrows.
+- Bottleneck: The review gate composited unknown traits (eyebrows/determined; Pup mouth/determined).
+- Verification: 12 samples + 3 strip tokens resolve_plan ok.

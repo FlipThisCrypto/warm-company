@@ -514,6 +514,20 @@ class GenerationTests(unittest.TestCase):
         self.assertNotEqual(dna_hash(token["class_id"], token["traits"]), dna_hash(token["class_id"], mutated))
 
 
+class ReviewGateTests(unittest.TestCase):
+    def test_refinement_and_strip_tokens_are_legal(self):
+        from warm_company.resolve import resolve_plan
+        from warm_company.review import REFINEMENT_SAMPLES, STRIP_TOKENS, refinement_tokens
+
+        self.assertEqual(len(REFINEMENT_SAMPLES), 12)
+        for sample_id, _title, token in refinement_tokens():
+            plan = resolve_plan(token["class_id"], token["traits"])
+            self.assertTrue(plan["ok"], msg=f"{sample_id} {plan['violations']}")
+        for name, token in STRIP_TOKENS.items():
+            plan = resolve_plan(token["class_id"], token["traits"])
+            self.assertTrue(plan["ok"], msg=f"{name} {plan['violations']}")
+
+
 class ReviewStripTests(unittest.TestCase):
     def test_strip_slots_match_resolved_stack_of_same_token(self):
         from warm_company.review import STRIP_TOKENS, visible_stack_slots, _strip_layer_visible

@@ -49,6 +49,76 @@ STRIP_TOKENS: dict[str, dict] = {
     "lodge": review_token("large-tent", held_item="lantern", arm_pose="hold-item"),
 }
 
+# 12-sample refinement gate. Extra trait dicts overlay review_token defaults.
+REFINEMENT_SAMPLES: list[tuple[str, str, str, dict[str, str]]] = [
+    ("snug-01-bare", "Snug — Bare rest", "sleeping-bag", {"background": "winter-sunrise"}),
+    ("snug-02-hat", "Snug — Tiny beanie", "sleeping-bag", {"background": "snowy-camp", "headwear": "beanie"}),
+    ("snug-03-coffee", "Snug — Coffee grip", "sleeping-bag", {
+        "background": "winter-sunrise",
+        "arm_pose": "hold-item",
+        "held_item": "coffee",
+        "eyes": "happy",
+        "mouth": "smile",
+        "facial": "blush",
+    }),
+    ("snug-04-night", "Snug — Night snow", "sleeping-bag", {
+        "background": "cold-blue-night",
+        "body": "navy-night",
+        "headwear": "beanie",
+        "atmosphere": "light-snow",
+        "eyes": "determined",
+        "mouth": "determined",
+    }),
+    ("pup-01-bare", "Pup — Bare rest", "small-tent", {"background": "forest-clearing", "body": "forest-green"}),
+    ("pup-02-hat", "Pup — Peak beanie", "small-tent", {
+        "background": "winter-sunrise",
+        "body": "forest-green",
+        "headwear": "beanie",
+    }),
+    ("pup-03-map", "Pup — Two-hand map", "small-tent", {
+        "background": "snowy-camp",
+        "body": "forest-green",
+        "arm_pose": "hold-two-hand",
+        "held_item": "map",
+        "eyes": "happy",
+        "mouth": "smile",
+    }),
+    ("pup-04-night", "Pup — Night snow", "small-tent", {
+        "background": "cold-blue-night",
+        "body": "navy-night",
+        "headwear": "beanie",
+        "atmosphere": "light-snow",
+        "eyes": "determined",
+        "mouth": "smile",
+    }),
+    ("lodge-01-bare", "Lodge — D-door rest", "large-tent", {"background": "snowy-camp", "body": "royal-blue"}),
+    ("lodge-02-hat", "Lodge — Peak beanie", "large-tent", {
+        "background": "winter-sunrise",
+        "body": "camp-orange",
+        "headwear": "beanie",
+    }),
+    ("lodge-03-lantern", "Lodge — Lantern grip", "large-tent", {
+        "background": "forest-clearing",
+        "body": "royal-blue",
+        "arm_pose": "hold-item",
+        "held_item": "lantern",
+    }),
+    ("lodge-04-night", "Lodge — Night snow", "large-tent", {
+        "background": "cold-blue-night",
+        "body": "navy-night",
+        "atmosphere": "light-snow",
+        "eyes": "determined",
+        "mouth": "determined",
+    }),
+]
+
+
+def refinement_tokens() -> list[tuple[str, str, dict]]:
+    rows: list[tuple[str, str, dict]] = []
+    for sample_id, title, class_id, extra in REFINEMENT_SAMPLES:
+        rows.append((sample_id, title, review_token(class_id, **extra)))
+    return rows
+
 
 def _strip_layer_visible(class_id: str, slot: str, source: Path | str) -> bool:
     if source in ("procedural", "procedural-glow"):

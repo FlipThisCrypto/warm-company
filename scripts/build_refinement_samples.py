@@ -11,86 +11,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from warm_company.composite import composite_token  # noqa: E402
-from warm_company.review import STRIP_TOKENS, reconstruction_strip, review_token  # noqa: E402
+from warm_company.review import STRIP_TOKENS, reconstruction_strip, refinement_tokens  # noqa: E402
 
 OUT = ROOT / "build" / "review-v3"
 CANVAS = (1024, 1024)
-
-SAMPLES = [
-    ("snug-01-bare", "Snug — Bare rest", "sleeping-bag", {
-        "background": "winter-sunrise",
-    }),
-    ("snug-02-hat", "Snug — Tiny beanie", "sleeping-bag", {
-        "background": "snowy-camp",
-        "headwear": "beanie",
-    }),
-    ("snug-03-coffee", "Snug — Coffee grip", "sleeping-bag", {
-        "background": "winter-sunrise",
-        "arm_pose": "hold-item",
-        "held_item": "coffee",
-        "eyes": "happy",
-        "mouth": "smile",
-        "facial": "blush",
-    }),
-    ("snug-04-night", "Snug — Night snow", "sleeping-bag", {
-        "background": "cold-blue-night",
-        "body": "navy-night",
-        "headwear": "beanie",
-        "atmosphere": "light-snow",
-        "eyes": "determined",
-        "eyebrows": "determined",
-        "mouth": "determined",
-    }),
-    ("pup-01-bare", "Pup — Bare rest", "small-tent", {
-        "background": "forest-clearing",
-        "body": "forest-green",
-    }),
-    ("pup-02-hat", "Pup — Peak beanie", "small-tent", {
-        "background": "winter-sunrise",
-        "body": "forest-green",
-        "headwear": "beanie",
-    }),
-    ("pup-03-map", "Pup — Two-hand map", "small-tent", {
-        "background": "snowy-camp",
-        "body": "forest-green",
-        "arm_pose": "hold-two-hand",
-        "held_item": "map",
-        "eyes": "happy",
-        "mouth": "smile",
-    }),
-    ("pup-04-night", "Pup — Night snow", "small-tent", {
-        "background": "cold-blue-night",
-        "body": "navy-night",
-        "headwear": "beanie",
-        "atmosphere": "light-snow",
-        "eyes": "determined",
-        "eyebrows": "determined",
-        "mouth": "determined",
-    }),
-    ("lodge-01-bare", "Lodge — D-door rest", "large-tent", {
-        "background": "snowy-camp",
-        "body": "royal-blue",
-    }),
-    ("lodge-02-hat", "Lodge — Peak beanie", "large-tent", {
-        "background": "winter-sunrise",
-        "body": "camp-orange",
-        "headwear": "beanie",
-    }),
-    ("lodge-03-lantern", "Lodge — Lantern grip", "large-tent", {
-        "background": "forest-clearing",
-        "body": "royal-blue",
-        "arm_pose": "hold-item",
-        "held_item": "lantern",
-    }),
-    ("lodge-04-night", "Lodge — Night snow", "large-tent", {
-        "background": "cold-blue-night",
-        "body": "navy-night",
-        "atmosphere": "light-snow",
-        "eyes": "determined",
-        "eyebrows": "determined",
-        "mouth": "determined",
-    }),
-]
 
 
 def font(size: int):
@@ -128,8 +52,7 @@ def contact(rows: list[tuple[str, Image.Image]]) -> Image.Image:
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     rows: list[tuple[str, Image.Image]] = []
-    for sample_id, title, class_id, extra in SAMPLES:
-        token = review_token(class_id, **extra)
+    for sample_id, title, token in refinement_tokens():
         image = composite_token(token, missing="allow")
         if image.size != CANVAS:
             raise SystemExit(f"{sample_id} is {image.size}, expected {CANVAS}")
