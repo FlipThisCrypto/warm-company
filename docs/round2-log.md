@@ -94,3 +94,8 @@
 - Evolution: `warm-company status` reports seed lock, mint eligibility, layer completeness, and tree digest without generating 800 DNA.
 - Bottleneck: Operators had to run generate/preflight to learn whether the tree was mint-blocked.
 - Verification: status ok, mint_allowed false on the placeholder seed.
+
+## Iteration 17/50
+- Evolution: Collection validation checks the 800 tokens still sum to the $12,000 goods table ($13,200 gross).
+- Bottleneck: Class supplies and unit costs could drift independently of the fundraiser document.
+- Verification: 400×7.50 + 200×15 + 200×30 = 12000 on config and generated tokens.

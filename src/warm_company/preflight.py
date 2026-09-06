@@ -81,6 +81,7 @@ def config_integrity_problems() -> list[str]:
 
 def status_report() -> dict[str, Any]:
     """Cheap operator snapshot. Does not generate the collection."""
+    from .fundraiser import campaign_totals, fundraiser_problems
     from .generate import DEV_COLLECTION_FINGERPRINT, DEV_SEED
     from .library import required_paths
     from .paths import ROOT
@@ -91,7 +92,7 @@ def status_report() -> dict[str, Any]:
     mint_problems = mint_seed_problems(seed, mint=True)
     required = list(required_paths())
     missing = [path.relative_to(ROOT).as_posix() for path in required if not path.exists()]
-    integrity = config_integrity_problems() + dignity_problems() + definition_problems()
+    integrity = config_integrity_problems() + dignity_problems() + definition_problems() + fundraiser_problems()
     manifest = build_manifest(seed, 9)
     return {
         "ok": not missing and not integrity,
@@ -111,6 +112,7 @@ def status_report() -> dict[str, Any]:
         "git_revision": manifest.get("git_revision"),
         "runtime": manifest.get("runtime"),
         "generator_version": manifest["generator_version"],
+        "campaign": campaign_totals(),
     }
 
 

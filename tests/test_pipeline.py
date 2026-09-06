@@ -750,6 +750,24 @@ class ResourcePlanTests(unittest.TestCase):
         self.assertNotIn("footwear", slots)
 
 
+class FundraiserTests(unittest.TestCase):
+    def test_goods_table_is_twelve_thousand(self):
+        from warm_company.fundraiser import campaign_totals, fundraiser_problems
+
+        totals = campaign_totals()
+        self.assertEqual(totals["goods_usd"], 12000)
+        self.assertEqual(totals["contingency_usd"], 1200)
+        self.assertEqual(totals["gross_usd"], 13200)
+        self.assertEqual(fundraiser_problems(), [])
+
+    def test_generated_tokens_match_goods_budget(self):
+        from warm_company.fundraiser import token_goods_usd
+        from warm_company.generate import generate_collection
+
+        result = generate_collection(seed="warm-company-dev-seed-v0", phase=9)
+        self.assertEqual(token_goods_usd(result), 12000)
+
+
 class StatusTests(unittest.TestCase):
     def test_status_is_cheap_and_blocks_mint(self):
         from warm_company.preflight import status_report

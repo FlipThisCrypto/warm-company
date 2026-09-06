@@ -15,6 +15,8 @@ This document separates **what the money is for** from **how a Chia NFT happens 
 
 The NFT supply matches this table on purpose: 200 Pups, 200 Lodges, 400 Snugs.
 
+`warm_company.fundraiser` and `validate-collection` fail if class supplies × unit costs no longer equal **$12,000** goods / **$13,200** gross, or if a generated 800-token run rolls up to a different goods total.
+
 ## 2. Contingency (not a royalty)
 
 The brief includes an additional **10% economic component** intended to cover unexpected costs of completing the order: substitutions, tax, shipping, damaged goods, last-minute price changes, platform friction.
