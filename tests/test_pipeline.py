@@ -44,6 +44,14 @@ class SecurityDocTests(unittest.TestCase):
         self.assertIn("preflight --mint", text)
 
 
+class GitAttributesTests(unittest.TestCase):
+    def test_images_are_binary_and_json_is_lf(self):
+        text = (ROOT / ".gitattributes").read_text(encoding="utf-8")
+        self.assertIn("*.png binary", text)
+        self.assertIn("*.jpg binary", text)
+        self.assertIn("*.json text eol=lf", text)
+
+
 class GitignoreTests(unittest.TestCase):
     def test_regenerable_bulk_and_temp_files_are_ignored(self):
         text = (ROOT / ".gitignore").read_text(encoding="utf-8")

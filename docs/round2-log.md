@@ -174,3 +174,8 @@
 - Evolution: Config integrity requires every class anatomy block to include leg origins, lower-leg centers, foot centers, and foot_replace_h.
 - Bottleneck: Missing anatomy keys would fail compositing at runtime instead of preflight.
 - Verification: current three classes already have the keys; preflight checks them.
+
+## Iteration 33/50
+- Evolution: .gitattributes marks PNGs/JPGs binary and JSON as LF so layer files cannot pick up CRLF.
+- Bottleneck: Git already warned that layer_stack.json CRLF would be rewritten; images had no binary attribute.
+- Verification: attributes file lists png/jpg binary and json lf.
