@@ -373,29 +373,32 @@ class CompositorStackTests(unittest.TestCase):
     def test_headwear_clamp_shrinks_oversized_hat(self):
         from PIL import Image, ImageDraw
 
-        from warm_company.composite import CANVAS
+        from warm_company.composite import CANVAS, register_headwear
 
         im = Image.new("RGBA", CANVAS, (0, 0, 0, 0))
         draw = ImageDraw.Draw(im)
         draw.ellipse([200, 40, 824, 400], fill=(180, 80, 60, 255))
-        out = clamp_headwear(im, "sleeping-bag")
+        out = register_headwear(im, "sleeping-bag", "beanie")
         box = out.getchannel("A").getbbox()
         self.assertIsNotNone(box)
         legal = config.class_spec("sleeping-bag")["headwear_zone"]
         self.assertLessEqual(box[2] - box[0], legal["w"] + 2)
-        self.assertGreater(box[2] - box[0], config.class_spec("sleeping-bag")["headwear_preferred"]["w"])
+        cx = (box[0] + box[2]) / 2
+        self.assertAlmostEqual(cx, 512, delta=16)
 
-    def test_clamp_headwear_does_not_upscale_small_hats(self):
+    def test_register_headwear_upsizes_tiny_caps(self):
         from PIL import Image, ImageDraw
 
-        from warm_company.composite import CANVAS
+        from warm_company.composite import CANVAS, register_headwear
 
         im = Image.new("RGBA", CANVAS, (0, 0, 0, 0))
         ImageDraw.Draw(im).ellipse([470, 90, 554, 150], fill=(180, 80, 60, 255))
-        out = clamp_headwear(im, "sleeping-bag")
-        before = im.getchannel("A").getbbox()
+        out = register_headwear(im, "sleeping-bag", "baseball-cap")
         after = out.getchannel("A").getbbox()
-        self.assertEqual(before, after)
+        self.assertIsNotNone(after)
+        self.assertGreater(after[2] - after[0], 84)
+        brim = config.class_spec("sleeping-bag")["headwear_brim_y"]
+        self.assertLess(abs(after[3] - brim), 50)
 
     def test_blank_cream_face_panel_is_skipped(self):
         from PIL import Image, ImageDraw
@@ -814,9 +817,11 @@ class ReviewStripTests(unittest.TestCase):
         box = im.getchannel("A").getbbox()
         self.assertIsNotNone(box)
         pref = config.class_spec("sleeping-bag")["headwear_preferred"]["w"]
-        clamped = clamp_headwear(im, "sleeping-bag")
+        legal = config.class_spec("sleeping-bag")["headwear_zone"]["w"]
+        clamped = clamp_headwear(im, "sleeping-bag", "beanie")
         cbox = clamped.getchannel("A").getbbox()
-        self.assertLessEqual(cbox[2] - cbox[0], pref + 12)
+        self.assertLessEqual(cbox[2] - cbox[0], legal + 12)
+        self.assertGreater(cbox[2] - cbox[0], pref * 0.45)
 
     def test_composite_report_lists_painted_and_skipped_face(self):
         from warm_company.composite import composite_with_report
@@ -1307,7 +1312,7 @@ class InventoryLibraryTests(unittest.TestCase):
 
         path = ROOT / "layers" / "large-tent" / "headwear" / "trapper-hat.png"
         im = Image.open(path).convert("RGBA")
-        out = clamp_headwear(im, "large-tent")
+        out = clamp_headwear(im, "large-tent", "trapper-hat")
         box = out.getchannel("A").getbbox()
         self.assertIsNotNone(box)
         pref = config.class_spec("large-tent")["headwear_preferred"]
@@ -1320,11 +1325,45 @@ class InventoryLibraryTests(unittest.TestCase):
 
         path = ROOT / "layers" / "large-tent" / "headwear" / "baseball-cap.png"
         im = Image.open(path).convert("RGBA")
+        out = clamp_headwear(im, "large-tent", "baseball-cap")
+        after = out.getchannel("A").getbbox()
+        legal = config.class_spec("large-tent")["headwear_zone"]
+        self.assertIsNotNone(after)
+        self.assertLessEqual(after[2] - after[0], legal["w"] + 12)
+        self.assertGreater(after[2] - after[0], 140)
+        self.assertAlmostEqual((after[0] + after[2]) / 2, 512, delta=20)
+
+    def test_snug_knit_keeps_artist_registration(self):
+        from warm_company.composite import register_headwear
+
+        path = ROOT / "layers" / "sleeping-bag" / "headwear" / "knit-cap.png"
+        im = Image.open(path).convert("RGBA")
         before = im.getchannel("A").getbbox()
-        out = clamp_headwear(im, "large-tent")
+        out = register_headwear(im, "sleeping-bag", "knit-cap")
         after = out.getchannel("A").getbbox()
         self.assertEqual(before, after)
-        self.assertGreater(after[2] - after[0], 180)
+
+    def test_snug_baseball_has_crown_height(self):
+        from warm_company.composite import register_headwear
+
+        path = ROOT / "layers" / "sleeping-bag" / "headwear" / "baseball-cap.png"
+        im = Image.open(path).convert("RGBA")
+        out = register_headwear(im, "sleeping-bag", "baseball-cap")
+        box = out.getchannel("A").getbbox()
+        self.assertIsNotNone(box)
+        self.assertGreater(box[3] - box[1], 100)
+        self.assertGreater(box[2] - box[0], 140)
+
+    def test_snug_earflap_is_visible_on_hood(self):
+        from warm_company.composite import register_headwear
+
+        path = ROOT / "layers" / "sleeping-bag" / "headwear" / "earflap-beanie.png"
+        im = Image.open(path).convert("RGBA")
+        out = register_headwear(im, "sleeping-bag", "earflap-beanie")
+        box = out.getchannel("A").getbbox()
+        self.assertIsNotNone(box)
+        self.assertGreater(box[3] - box[1], 160)
+        self.assertGreater(box[2] - box[0], 160)
 
     def test_review_inventory_sheets_exist(self):
         review = ROOT / "build" / "review-inventory"

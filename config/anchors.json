@@ -291,6 +291,39 @@
     "mouth_line_px": 5,
     "blush_optional": "#E8A090"
   },
+  "headwear_fit": {
+    "note": "Hats register to class peak X and headwear_brim_y. Multipliers apply to headwear_preferred. contact is the fraction of hat height that sits on the brim (pom/earflaps hang past). hang is extra px below the legal zone for flaps. float sits above the peak. Well-placed legal hats keep artist registration. by_class overrides trait rows.",
+    "default": { "w_mul": 1.0, "h_mul": 1.15, "contact": 0.88, "fit": "contain", "hang": 24 },
+    "beanie": { "w_mul": 1.05, "h_mul": 1.9, "contact": 0.88, "fit": "contain", "hang": 48 },
+    "knit-cap": { "w_mul": 1.35, "h_mul": 1.75, "contact": 0.86, "fit": "contain", "hang": 32 },
+    "baseball-cap": { "w_mul": 1.35, "h_mul": 1.55, "contact": 0.85, "fit": "cover_height", "hang": 16 },
+    "bucket-hat": { "w_mul": 1.55, "h_mul": 1.25, "contact": 0.84, "fit": "contain", "hang": 16 },
+    "trapper-hat": { "w_mul": 1.9, "h_mul": 1.85, "contact": 0.48, "fit": "contain", "hang": 80 },
+    "earflap-beanie": { "w_mul": 1.8, "h_mul": 1.8, "contact": 0.44, "fit": "contain", "hang": 96 },
+    "santa-hat": { "w_mul": 1.45, "h_mul": 1.85, "contact": 0.72, "fit": "cover_height", "hang": 24 },
+    "crown": { "w_mul": 1.3, "h_mul": 1.35, "contact": 0.90, "fit": "contain", "hang": 8 },
+    "halo": { "w_mul": 1.95, "h_mul": 0.9, "contact": "float", "fit": "contain", "hang": 0 },
+    "by_class": {
+      "sleeping-bag": {
+        "knit-cap": { "w_mul": 1.4, "h_mul": 2.05, "contact": 0.82, "fit": "contain" },
+        "baseball-cap": { "w_mul": 1.55, "h_mul": 1.9, "contact": 0.74, "fit": "cover_height" },
+        "santa-hat": { "w_mul": 1.6, "h_mul": 2.15, "contact": 0.68, "fit": "cover_height" },
+        "earflap-beanie": { "w_mul": 1.75, "h_mul": 2.0, "contact": 0.52, "hang": 168 },
+        "beanie": { "w_mul": 1.12, "h_mul": 1.95, "contact": 0.84 }
+      },
+      "small-tent": {
+        "bucket-hat": { "w_mul": 1.6, "h_mul": 1.4, "contact": 0.78, "fit": "contain", "hang": 28 },
+        "beanie": { "w_mul": 1.1, "h_mul": 1.95, "contact": 0.90, "hang": 56 },
+        "knit-cap": { "w_mul": 1.4, "h_mul": 1.8, "contact": 0.88, "hang": 40 }
+      },
+      "large-tent": {
+        "baseball-cap": { "w_mul": 1.45, "h_mul": 1.7, "contact": 0.80, "fit": "cover_height", "hang": 24 },
+        "trapper-hat": { "w_mul": 1.95, "h_mul": 1.9, "contact": 0.50, "hang": 120 },
+        "crown": { "w_mul": 1.35, "h_mul": 1.4, "contact": 0.88, "hang": 12 },
+        "halo": { "w_mul": 2.0, "h_mul": 0.95, "contact": "float", "hang": 0 }
+      }
+    }
+  },
   "registration_tolerances": {
     "anchor_px": 6,
     "bbox_px": 12,

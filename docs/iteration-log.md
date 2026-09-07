@@ -611,3 +611,22 @@ Each entry is chosen from the then-current project. Not a predetermined roadmap.
 - Rejected/reworked: 4 (iter 10 Pup/Lodge arms 111/113; iter 13 Lodge eyes 116; iter 39 mismatched reconstruction strips; iter 44 Lodge arm isolation 113)
 
 The after-50 gate (full tests, validate-layers, generate --phase 9, validate-collection, review artifacts, one commit) is not an iteration.
+
+---
+
+## Headwear fit loop (10 iterations)
+
+Goal: every production hat sits naturally on its class head (Snug hood wrap, Pup/Lodge peak perch). Sheets in `build/headwear-loop/` (gitignored).
+
+1. **register_headwear** — crop/scale every hat to preferred size. Restored santa visibility; crushed Snug knit wrap.
+2. **Hybrid compositor** — keep artist placement when the hat is already legal and reasonably sized; upscale pancakes; clamp oversized; class `headwear_fit` table. Snug knit wrap restored.
+3. **Snug baseball-cap** redraw — front-facing navy cap with a real crown (was a 72px side sliver).
+4. **Snug santa-hat** redraw — red cone, white fur brim, pom (was a smear).
+5. **Snug earflap-beanie** redraw — navy crown + cream flaps (was brown-on-orange, nearly invisible).
+6. **Lodge baseball-cap** redraw — front-facing cap on the peak (was a 3/4 brim stuck to the left).
+7. **Lodge trapper-hat** redraw — fur trapper with earflaps hugging the ridge (was a tiny peak sticker).
+8. **Pup bucket-hat** redraw — complete olive bucket on the peak (was a split brim with a hole).
+9. **Contact polish** — lower Snug baseball/santa, Pup bucket, Lodge baseball; more hang for trapper/earflap.
+10. **Verify** — 114 tests; review-v3 hat samples regenerated; knit-cap still keeps artist registration.
+
+Remaining: Snug baseball is slightly cleaner/vector than the knit; Lodge baseball V-notch still shows a sliver of peak under the brim.

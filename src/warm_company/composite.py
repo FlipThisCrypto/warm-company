@@ -1,7 +1,7 @@
 """Painter's algorithm compositor driven by config/layer_stack.json.
 
 Limb roots load behind the body. Footwear and rear legs register to class
-anatomy. Headwear that exceeds the legal zone is scaled down.
+anatomy. Headwear registers to class peak/brim via register_headwear.
 Atmosphere punches the face/door. Lantern may emit a procedural warm glow
 when an illustrated light layer is absent.
 """
@@ -127,28 +127,84 @@ def punch_face(im: Image.Image, class_id: str) -> Image.Image:
     return out
 
 
-def clamp_headwear(im: Image.Image, class_id: str) -> Image.Image:
-    """Shrink hats that exceed the legal zone. Do not crush legal hats to beanie size."""
+def headwear_fit_spec(trait_id: str | None, class_id: str | None = None) -> dict:
+    table = config.anchors().get("headwear_fit") or {}
+    merged = dict(table.get("default") or {"w_mul": 1.0, "h_mul": 1.15, "contact": 0.88, "fit": "contain"})
+    if trait_id and trait_id in table:
+        merged.update(table[trait_id])
+    if class_id:
+        class_table = (table.get("by_class") or {}).get(class_id) or {}
+        if trait_id and trait_id in class_table:
+            merged.update(class_table[trait_id])
+    return merged
+
+
+def register_headwear(im: Image.Image, class_id: str, trait_id: str | None = None) -> Image.Image:
+    """Sit a hat on the class head.
+
+    Hats already drawn in the legal zone at a reasonable size keep their
+    canvas placement. Undersized hats upscale toward preferred * multipliers
+    and sit on brim_y. Oversized hats shrink into the legal zone (plus hang
+    for earflaps) and recentre on the peak X.
+    """
     spec = config.class_spec(class_id)
+    pref = spec["headwear_preferred"]
     legal = spec["headwear_zone"]
-    alpha = im.getchannel("A")
-    box = alpha.getbbox()
+    peak = spec["peak"]
+    brim_y = int(spec["headwear_brim_y"])
+    cx = int(spec["character_center_x"])
+    fit = headwear_fit_spec(trait_id, class_id)
+    box = im.getchannel("A").getbbox()
     if not box:
         return im
     w, h = box[2] - box[0], box[3] - box[1]
-    max_w = legal["w"]
-    max_h = legal["h"] + 24
-    if w <= max_w + 12 and h <= max_h + 12:
+    src_cx = (box[0] + box[2]) / 2.0
+    hang = int(fit.get("hang", 24))
+    max_w = int(legal["w"])
+    max_h = int(legal["h"]) + hang
+    target_w = min(max(48, int(pref["w"] * float(fit.get("w_mul", 1.0)))), max_w)
+    target_h = min(max(36, int(pref["h"] * float(fit.get("h_mul", 1.15)))), max_h)
+    mode = str(fit.get("fit") or "contain")
+    contact = fit.get("contact", 0.88)
+
+    oversized = w > max_w + 12 or h > max_h + 12
+    undersized = w < target_w * 0.72 or h < target_h * 0.58
+    off_center = abs(src_cx - cx) > 28
+    too_high = box[3] < brim_y - 28
+    too_low = box[1] > int(peak["y"]) + 48
+    force = mode == "force" or contact == "float"
+
+    if not force and not oversized and not undersized and not off_center and not too_high and not too_low:
         return im
+
     crop = im.crop(box)
-    scale = min(max_w / w, max_h / h)
-    nw, nh = max(1, int(w * scale)), max(1, int(h * scale))
-    crop = crop.resize((nw, nh), Image.Resampling.LANCZOS)
+    if oversized:
+        scale = min(max_w / max(w, 1), max_h / max(h, 1))
+    elif undersized and mode == "cover_height":
+        scale = target_h / max(h, 1)
+        if w * scale > max_w:
+            scale = max_w / max(w, 1)
+    elif undersized:
+        scale = min(target_w / max(w, 1), target_h / max(h, 1))
+        if w * scale > max_w:
+            scale = max_w / max(w, 1)
+    else:
+        scale = 1.0
+    nw, nh = max(1, int(round(w * scale))), max(1, int(round(h * scale)))
+    if (nw, nh) != crop.size:
+        crop = crop.resize((nw, nh), Image.Resampling.LANCZOS)
     canvas = empty()
-    cx = (box[0] + box[2]) / 2
-    cy = (box[1] + box[3]) / 2
-    canvas.paste(crop, (int(cx - nw / 2), int(cy - nh / 2)), crop)
+    if contact == "float":
+        paste_y = int(peak["y"] - nh * 0.55)
+    else:
+        paste_y = int(brim_y - nh * float(contact))
+    canvas.paste(crop, (cx - nw // 2, paste_y), crop)
     return canvas
+
+
+def clamp_headwear(im: Image.Image, class_id: str, trait_id: str | None = None) -> Image.Image:
+    """Back-compat alias: register hats to class anatomy."""
+    return register_headwear(im, class_id, trait_id)
 
 
 def split_left_right(im: Image.Image) -> tuple[Image.Image, Image.Image]:
@@ -542,7 +598,7 @@ def _prepare_layer(
     if slot == "footwear":
         image = place_pair_at_feet(image, class_id, kind="boot")
     if slot == "headwear":
-        image = clamp_headwear(image, class_id)
+        image = register_headwear(image, class_id, traits.get("headwear"))
     if pose_master and body_rgb:
         from .library import recolor_fabric
 

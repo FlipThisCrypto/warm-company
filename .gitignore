@@ -18,6 +18,7 @@ build/qa/
 build/prompts/
 build/final-polish-review/
 build/review-v2/
+build/headwear-loop/
 *.tmp
 *.egg-info/
 dist/
