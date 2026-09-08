@@ -252,3 +252,10 @@ This baseline is not an iteration.
 - Why Round 3: zip-slip / supply-chain of a restore file. Restore already used named members; this proves it.
 - Verification: a zip with `../evil.txt` restores DNA and does not create ROOT/evil.txt.
 - Commit: `round 3 iteration 33: ignore zip-slip members when restoring DNA backups`
+
+## Iteration 34/50
+- Evolution: `status.bak_snapshot` is true when `tokens.json.bak` exists.
+- Constraint: Operators could not see from status whether the immediate overwrite snapshot was available.
+- Why Round 3: recovery visibility on the cheap path, next to last_backup.
+- Verification: status includes bak_snapshot bool.
+- Commit: `round 3 iteration 34: report bak snapshot presence on status`

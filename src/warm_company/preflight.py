@@ -156,7 +156,7 @@ def status_report() -> dict[str, Any]:
     from .fundraiser import campaign_totals, fundraiser_problems
     from .generate import DEV_COLLECTION_FINGERPRINT, DEV_SEED
     from .library import required_paths
-    from .paths import ROOT, build_writable
+    from .paths import BUILD, ROOT, build_writable
     from .provenance import build_manifest, last_generation_drift
     from .validate_layers import duplicate_layer_pairs
 
@@ -222,6 +222,7 @@ def status_report() -> dict[str, Any]:
         ),
         "generation_pair_problems": pair_problems,
         "last_backup": last_backup,
+        "bak_snapshot": (BUILD / "dna" / "tokens.json.bak").is_file(),
     }
 
 
