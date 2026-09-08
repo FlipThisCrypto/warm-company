@@ -357,3 +357,10 @@ This baseline is not an iteration.
 - Why Round 3: strategic/operational visibility for anyone cloning the repo.
 - Verification: README contains generation_stale and restore-bak.
 - Commit: `round 3 iteration 48: publish DNA recovery on the README status table`
+
+## Iteration 49/50
+- Evolution: Automated recovery drill: generate → zip backup → corrupt tokens.json → restore → fingerprint and pair match.
+- Constraint: Backup/restore units existed; nothing proved the full incident path in one test.
+- Why Round 3: restore testing. A backup that has never been restored is not recovery.
+- Verification: restored collection_fingerprint equals the pre-corruption digest; pair problems empty.
+- Commit: `round 3 iteration 49: exercise generate-backup-corrupt-restore drill`

@@ -1075,6 +1075,34 @@ class FundraiserTests(unittest.TestCase):
         self.assertEqual(token_goods_usd(result), 12000)
 
 
+class RecoveryDrillTests(unittest.TestCase):
+    def test_generate_backup_corrupt_restore_pair(self):
+        import tempfile
+
+        from warm_company.backup import restore_backup, verify_backup, write_backup
+        from warm_company.generate import (
+            generate_collection,
+            generation_pair_problems,
+            read_generation_json,
+            write_generation,
+        )
+        from warm_company.paths import BUILD
+
+        result = generate_collection(seed="warm-company-dev-seed-v0", phase=9)
+        write_generation(result)
+        digest = result["collection_fingerprint"]
+        with tempfile.TemporaryDirectory() as tmp:
+            zip_path = Path(tmp) / "drill.zip"
+            write_backup(zip_path)
+            self.assertEqual(verify_backup(zip_path), [])
+            (BUILD / "dna" / "tokens.json").write_text("{broken", encoding="utf-8")
+            self.assertTrue(generation_pair_problems())
+            self.assertEqual(restore_backup(zip_path), [])
+            restored = read_generation_json(BUILD / "dna" / "tokens.json")
+            self.assertEqual(restored["collection_fingerprint"], digest)
+            self.assertEqual(generation_pair_problems(), [])
+
+
 class DnaBackupTests(unittest.TestCase):
     def test_latest_backup_report_without_files(self):
         from warm_company.backup import latest_backup_report
