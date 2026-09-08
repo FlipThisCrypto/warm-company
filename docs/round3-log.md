@@ -210,3 +210,10 @@ This baseline is not an iteration.
 - Why Round 3: data evolution on every validation path, not only disk reads.
 - Verification: bumping schema_version on a real 800 fails validate_result.
 - Commit: `round 3 iteration 27: reject unknown generation schema in validate-collection`
+
+## Iteration 28/50
+- Evolution: Rarity report records schema_version, generated_utc, and tree_digest next to the fingerprint.
+- Constraint: An audit markdown could look healthy while DNA identity or generate time was unknown.
+- Why Round 3: measurement integrity for the rarity artifact operators actually read.
+- Verification: JSON fields match the generation; markdown names Tree digest and Generated UTC.
+- Commit: `round 3 iteration 28: include tree digest and generate time in rarity report`

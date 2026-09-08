@@ -75,6 +75,9 @@ def build_report(result: dict) -> dict:
         "model": config.rarity()["model"],
         "scoring": config.rarity()["scoring"],
         "collection_fingerprint": result.get("collection_fingerprint"),
+        "schema_version": result.get("schema_version"),
+        "generated_utc": result.get("generated_utc"),
+        "tree_digest": (result.get("provenance") or {}).get("tree_digest"),
         "campaign": campaign_totals(),
         "token_goods_usd": token_goods_usd(result),
     }
@@ -94,6 +97,8 @@ def _write_markdown(report: dict) -> None:
         f"- Unique DNA: {report['unique_dna']} ({report['duplicate_check']})",
         f"- Specials: {report['special_count']}",
         f"- Collection fingerprint: `{report.get('collection_fingerprint')}`",
+        f"- Tree digest: `{report.get('tree_digest')}`",
+        f"- Generated UTC: `{report.get('generated_utc')}`",
         f"- Goods budget: ${report.get('token_goods_usd')}",
         "",
         "## Rarest tokens by information score",

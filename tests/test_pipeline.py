@@ -1001,6 +1001,12 @@ class RarityReportTests(unittest.TestCase):
         self.assertEqual(report["collection_fingerprint"], result["collection_fingerprint"])
         self.assertEqual(report["token_goods_usd"], 12000)
         self.assertEqual(report["campaign"]["gross_usd"], 13200)
+        self.assertEqual(report["schema_version"], result["schema_version"])
+        self.assertEqual(report["generated_utc"], result["generated_utc"])
+        self.assertEqual(report["tree_digest"], result["provenance"]["tree_digest"])
+        md = (ROOT / "build" / "reports" / "rarity_report.md").read_text(encoding="utf-8")
+        self.assertIn("Tree digest", md)
+        self.assertIn("Generated UTC", md)
 
 
 class FundraiserTests(unittest.TestCase):
