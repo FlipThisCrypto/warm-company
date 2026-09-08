@@ -613,6 +613,17 @@ class GenerationTests(unittest.TestCase):
         self.assertFalse(report["ok"])
         self.assertTrue(any("schema_version" in p for p in report["problems"]))
 
+    def test_generate_800_stays_under_twenty_seconds(self):
+        import time
+
+        from warm_company.generate import generate_collection
+
+        started = time.perf_counter()
+        result = generate_collection(seed="warm-company-dev-seed-v0", phase=9)
+        elapsed = time.perf_counter() - started
+        self.assertEqual(result["supply"], 800)
+        self.assertLess(elapsed, 20)
+
     def test_reproducible(self):
         again = generate_collection(seed="warm-company-dev-seed-v0", phase=9)
         self.assertEqual(

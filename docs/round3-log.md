@@ -280,3 +280,10 @@ This baseline is not an iteration.
 - Why Round 3: decision evidence at generate time, matching rarity/status.
 - Verification: cli.py generate payload keys include generated_utc and schema_version.
 - Commit: `round 3 iteration 37: include generate time and schema in generate CLI JSON`
+
+## Iteration 38/50
+- Evolution: Test that rolling 800 DNA finishes in under 20 seconds on this machine.
+- Constraint: Generate cost was assumed cheap; nothing failed if it quietly became a minute.
+- Why Round 3: capacity SLO for the DNA path (not 800 images).
+- Verification: generate_collection supply 800 and elapsed < 20s.
+- Commit: `round 3 iteration 38: enforce 20s SLO for rolling 800 DNA`
