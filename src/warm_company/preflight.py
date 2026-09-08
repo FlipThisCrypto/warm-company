@@ -163,6 +163,9 @@ def status_report() -> dict[str, Any]:
     )
     manifest = build_manifest(seed, 9)
     drift = last_generation_drift(seed, 9)
+    from .generate import generation_pair_problems
+
+    pair_problems = generation_pair_problems()
     return {
         "ok": not missing and not integrity,
         "problems": integrity + [f"missing {path}" for path in missing],
@@ -188,7 +191,14 @@ def status_report() -> dict[str, Any]:
         "generation_stale": drift["generation_stale"],
         "generation_problems": drift["generation_problems"],
         "stored_tree_digest": drift["stored_tree_digest"],
-        "ready_to_composite": bool(drift["generation_present"] and not drift["generation_stale"] and not missing and not integrity),
+        "ready_to_composite": bool(
+            drift["generation_present"]
+            and not drift["generation_stale"]
+            and not missing
+            and not integrity
+            and not pair_problems
+        ),
+        "generation_pair_problems": pair_problems,
     }
 
 

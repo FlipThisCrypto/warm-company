@@ -6,6 +6,8 @@ from typing import Any
 
 from . import compatibility, config
 from .resolve import resolve_plan
+from pathlib import Path
+
 from .paths import BUILD, atomic_write_text, ensure_build
 from .rng import SeededStream, dna_hash
 
@@ -273,3 +275,48 @@ def write_generation(result: dict[str, Any]) -> None:
     summary["collection_fingerprint"] = collection_fingerprint(result)
     atomic_write_text(BUILD / "reports" / "generation_summary.json", json.dumps(summary, indent=2))
     atomic_write_text(BUILD / "dna" / "provenance.json", json.dumps(provenance, indent=2))
+
+
+def generation_pair_problems(
+    tokens_path: Path | None = None,
+    jsonl_path: Path | None = None,
+) -> list[str]:
+    """tokens.json and collection.jsonl must describe the same 800 DNA rows."""
+    tokens_path = tokens_path or (BUILD / "dna" / "tokens.json")
+    jsonl_path = jsonl_path or (BUILD / "dna" / "collection.jsonl")
+    if not tokens_path.is_file() and not jsonl_path.is_file():
+        return []
+    if tokens_path.is_file() != jsonl_path.is_file():
+        missing = "collection.jsonl" if tokens_path.is_file() else "tokens.json"
+        return [f"generation pair incomplete: missing {missing}"]
+    try:
+        payload = json.loads(tokens_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return [f"tokens.json unreadable: {exc}"]
+    tokens = payload.get("tokens") if isinstance(payload, dict) else None
+    if not isinstance(tokens, list):
+        return ["tokens.json has no tokens list"]
+    json_rows = [(int(t["token_id"]), t.get("class_id"), t.get("dna")) for t in tokens]
+    jsonl_rows: list[tuple[int, Any, Any]] = []
+    try:
+        text = jsonl_path.read_text(encoding="utf-8")
+    except OSError as exc:
+        return [f"collection.jsonl unreadable: {exc}"]
+    for i, line in enumerate(text.splitlines(), start=1):
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError as exc:
+            return [f"collection.jsonl line {i} invalid JSON: {exc}"]
+        if not isinstance(row, dict):
+            return [f"collection.jsonl line {i} is not an object"]
+        try:
+            jsonl_rows.append((int(row["token_id"]), row.get("class_id"), row.get("dna")))
+        except (KeyError, TypeError, ValueError):
+            return [f"collection.jsonl line {i} missing token_id"]
+    if len(json_rows) != len(jsonl_rows):
+        return [f"generation pair length {len(json_rows)} json vs {len(jsonl_rows)} jsonl"]
+    if json_rows != jsonl_rows:
+        return ["generation pair token_id/class_id/dna mismatch"]
+    return []

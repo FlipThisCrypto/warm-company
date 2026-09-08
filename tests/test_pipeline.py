@@ -1004,6 +1004,35 @@ class CliSurfaceTests(unittest.TestCase):
         self.assertEqual(expected, set(choices))
 
 
+class GenerationPairTests(unittest.TestCase):
+    def test_matching_pair_is_clean_and_mismatch_is_reported(self):
+        import tempfile
+
+        from warm_company.generate import generation_pair_problems
+
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            tokens = folder / "tokens.json"
+            jsonl = folder / "collection.jsonl"
+            rows = [
+                {"token_id": 1, "class_id": "sleeping-bag", "dna": "aaa"},
+                {"token_id": 2, "class_id": "small-tent", "dna": "bbb"},
+            ]
+            tokens.write_text(json.dumps({"tokens": rows}), encoding="utf-8")
+            jsonl.write_text(
+                "".join(json.dumps(row, sort_keys=True) + "\n" for row in rows),
+                encoding="utf-8",
+            )
+            self.assertEqual(generation_pair_problems(tokens, jsonl), [])
+            jsonl.write_text(json.dumps({"token_id": 1, "class_id": "sleeping-bag", "dna": "ZZZ"}) + "\n", encoding="utf-8")
+            problems = generation_pair_problems(tokens, jsonl)
+            self.assertTrue(problems)
+            self.assertTrue(any("length" in p or "mismatch" in p for p in problems))
+            (folder / "only.json").write_text("{}", encoding="utf-8")
+            missing = generation_pair_problems(folder / "only.json", folder / "nope.jsonl")
+            self.assertTrue(missing)
+
+
 class StatusTests(unittest.TestCase):
     def test_status_is_cheap_and_blocks_mint(self):
         from warm_company.preflight import status_report

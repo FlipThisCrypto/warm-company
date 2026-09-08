@@ -54,6 +54,9 @@ def validate_result(result: dict) -> dict:
     live = build_manifest(str(result.get("seed") or ""), int(result.get("phase") or 9))
     provenance_problems = compare_manifest(stored if isinstance(stored, dict) else None, live)
     problems.extend(provenance_problems)
+    from .generate import generation_pair_problems
+
+    problems.extend(generation_pair_problems())
     report = {
         "ok": not problems,
         "problems": problems,

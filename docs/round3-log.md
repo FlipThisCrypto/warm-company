@@ -28,3 +28,10 @@ This baseline is not an iteration.
 - Why Round 3: recovery and decision quality; Round 2 stored hashes, this makes drift visible on the cheap operator path.
 - Verification: missing stored manifest is not stale; forged digest is stale; status still `ok` when no generate exists (CI).
 - Commit: `round 3 iteration 1: flag stale last-generation vs live tree on status`
+
+## Iteration 2/50
+- Evolution: Cross-check `tokens.json` against `collection.jsonl` (count, token_id, class_id, dna). Status and validate-collection both run it.
+- Constraint: An interrupted or hand-edited half of a generate could leave one file looking complete.
+- Why Round 3: corruption detection and recovery; Round 2 atomic writes protect a single file, not the pair.
+- Verification: matching pair is clean; length/dna mismatch is reported; one file without the other is reported.
+- Commit: `round 3 iteration 2: cross-check tokens.json against collection.jsonl`
