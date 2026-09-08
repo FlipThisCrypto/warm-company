@@ -364,3 +364,10 @@ This baseline is not an iteration.
 - Why Round 3: restore testing. A backup that has never been restored is not recovery.
 - Verification: restored collection_fingerprint equals the pre-corruption digest; pair problems empty.
 - Commit: `round 3 iteration 49: exercise generate-backup-corrupt-restore drill`
+
+## Iteration 50/50
+- Evolution: `status.ready_to_mint` is true only with mint allowed, matching DNA, writable build, and a verified backup.
+- Constraint: Operators had to mentally AND mint_allowed, generation_stale, and backup presence.
+- Why Round 3: decision intelligence for the actual mint go/no-go.
+- Verification: placeholder seed => ready_to_mint false; field is present.
+- Commit: `round 3 iteration 50: expose ready_to_mint on status as mint go/no-go`

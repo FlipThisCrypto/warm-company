@@ -226,6 +226,17 @@ def status_report() -> dict[str, Any]:
         "last_backup": last_backup,
         "bak_snapshot": (BUILD / "dna" / "tokens.json.bak").is_file(),
         "duration_ms": int((time.perf_counter() - started) * 1000),
+        "ready_to_mint": bool(
+            not mint_problems
+            and drift["generation_present"]
+            and not drift["generation_stale"]
+            and not missing
+            and not integrity
+            and not pair_problems
+            and writable
+            and last_backup.get("present")
+            and last_backup.get("ok")
+        ),
     }
 
 
