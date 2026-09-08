@@ -217,6 +217,22 @@ def cmd_composite(args: argparse.Namespace) -> int:
         return 1
 
 
+def cmd_backup(args: argparse.Namespace) -> int:
+    from .backup import verify_backup, write_backup
+
+    if args.verify:
+        problems = verify_backup(Path(args.verify))
+        print(json.dumps({"ok": not problems, "problems": problems, "path": args.verify}, indent=2))
+        return 0 if not problems else 1
+    try:
+        path = write_backup()
+    except ValueError as exc:
+        print(json.dumps({"ok": False, "problems": [str(exc)]}, indent=2))
+        return 1
+    print(json.dumps({"ok": True, "path": str(path)}, indent=2))
+    return 0
+
+
 def cmd_status(_: argparse.Namespace) -> int:
     from .preflight import status_report
 
@@ -296,6 +312,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     prov = sub.add_parser("provenance", help="Hash the config + layer tree that a generation must bind to")
     prov.set_defaults(func=cmd_provenance)
+
+    bak = sub.add_parser("backup", help="Zip last DNA+provenance, or verify a zip with --verify")
+    bak.add_argument("--verify", default=None, help="Path to a DNA backup zip to verify")
+    bak.set_defaults(func=cmd_backup)
 
     comp = sub.add_parser("composite", help="Composite tokens (requires layer PNGs)")
     comp.add_argument("--token-id", type=int, default=None)

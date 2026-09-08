@@ -20,6 +20,7 @@ build/final-polish-review/
 build/review-v2/
 build/headwear-loop/
 build/.*.lock
+build/backups/
 *.tmp
 *.egg-info/
 dist/

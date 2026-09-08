@@ -105,3 +105,10 @@ This baseline is not an iteration.
 - Why Round 3: environment parity. Round 2 pinned Pillow, not the interpreter.
 - Verification: status.ci_python is 3.11; python_mismatch is a bool; tree_digest still ignores runtime.
 - Commit: `round 3 iteration 12: report local Python vs CI 3.11 on status`
+
+## Iteration 13/50
+- Evolution: `backup` zips last DNA+provenance; `--verify` checks members, jsonl pair, and fingerprint.
+- Constraint: No portable copy of the mint DNA existed; a disk wipe of `build/dna` was unrecoverable.
+- Why Round 3: disaster recovery. Images stay regenerable; DNA is the record.
+- Verification: round-trip zip verifies clean; empty zip and missing path fail; CLI command registered.
+- Commit: `round 3 iteration 13: zip and verify portable DNA backups`

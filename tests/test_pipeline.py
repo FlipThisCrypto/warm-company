@@ -87,6 +87,7 @@ class GitignoreTests(unittest.TestCase):
             "build/review-v2/",
             "*.tmp",
             "build/.*.lock",
+            "build/backups/",
         ):
             self.assertIn(needle, text)
         self.assertNotIn("build/review-v3/", text)
@@ -990,6 +991,31 @@ class FundraiserTests(unittest.TestCase):
         self.assertEqual(token_goods_usd(result), 12000)
 
 
+class DnaBackupTests(unittest.TestCase):
+    def test_backup_round_trip_and_corrupt_zip(self):
+        import tempfile
+        import zipfile
+
+        from warm_company.backup import verify_backup, write_backup
+        from warm_company.generate import generate_collection, write_generation
+        from warm_company.paths import BUILD
+
+        result = generate_collection(seed="warm-company-dev-seed-v0", phase=9)
+        write_generation(result)
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "dna.zip"
+            wrote = write_backup(dest)
+            self.assertEqual(wrote, dest)
+            self.assertEqual(verify_backup(dest), [])
+            empty = Path(tmp) / "empty.zip"
+            with zipfile.ZipFile(empty, "w") as zf:
+                zf.writestr("readme.txt", "no")
+            self.assertTrue(verify_backup(empty))
+            bogus = Path(tmp) / "nope.zip"
+            self.assertTrue(verify_backup(bogus))
+        self.assertTrue((BUILD / "dna" / "tokens.json").is_file())
+
+
 class GenerationLoadTests(unittest.TestCase):
     def test_read_generation_json_rejects_corrupt_and_huge(self):
         import tempfile
@@ -1041,6 +1067,7 @@ class CliSurfaceTests(unittest.TestCase):
             "provenance",
             "preflight",
             "status",
+            "backup",
         }
         self.assertEqual(expected, set(choices))
 
