@@ -1420,6 +1420,8 @@ class PreflightTests(unittest.TestCase):
         self.assertEqual(report["supply"], 800)
         self.assertTrue(report["provenance_ok"])
         self.assertTrue(report["layer_ok"])
+        self.assertGreaterEqual(report["duration_ms"], 0)
+        self.assertLess(report["duration_ms"], 120_000)
 
     def test_config_integrity_is_clean(self):
         from warm_company.preflight import config_integrity_problems

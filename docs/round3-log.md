@@ -259,3 +259,10 @@ This baseline is not an iteration.
 - Why Round 3: recovery visibility on the cheap path, next to last_backup.
 - Verification: status includes bak_snapshot bool.
 - Commit: `round 3 iteration 34: report bak snapshot presence on status`
+
+## Iteration 35/50
+- Evolution: Preflight reports `duration_ms` on success and mint-blocked paths.
+- Constraint: Operators could not tell a slow preflight from a hung one.
+- Why Round 3: SLO/observability for the fail-closed mint gate.
+- Verification: duration_ms >= 0 and under 120s on the current tree.
+- Commit: `round 3 iteration 35: record preflight duration_ms`

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import time
 import uuid
 from typing import Any
 
@@ -227,6 +228,7 @@ def status_report() -> dict[str, Any]:
 
 
 def run_preflight(*, seed: str | None = None, phase: int = 9, mint: bool = False) -> dict[str, Any]:
+    started = time.perf_counter()
     problems: list[str] = []
     seed = seed or config.production_seed()
     mint_problems = mint_seed_problems(seed, mint=mint)
@@ -245,6 +247,7 @@ def run_preflight(*, seed: str | None = None, phase: int = 9, mint: bool = False
             "seed": seed,
             "phase": phase,
             "mint": mint,
+            "duration_ms": int((time.perf_counter() - started) * 1000),
         }
     problems.extend(config_integrity_problems())
     problems.extend(special_catalog_problems())
@@ -272,4 +275,5 @@ def run_preflight(*, seed: str | None = None, phase: int = 9, mint: bool = False
         "seed": result["seed"],
         "phase": result["phase"],
         "mint": mint,
+        "duration_ms": int((time.perf_counter() - started) * 1000),
     }
