@@ -145,7 +145,7 @@ def status_report() -> dict[str, Any]:
     from .generate import DEV_COLLECTION_FINGERPRINT, DEV_SEED
     from .library import required_paths
     from .paths import ROOT
-    from .provenance import build_manifest
+    from .provenance import build_manifest, last_generation_drift
     from .validate_layers import duplicate_layer_pairs
 
     seed = config.production_seed()
@@ -162,6 +162,7 @@ def status_report() -> dict[str, Any]:
         + fundraiser_problems()
     )
     manifest = build_manifest(seed, 9)
+    drift = last_generation_drift(seed, 9)
     return {
         "ok": not missing and not integrity,
         "problems": integrity + [f"missing {path}" for path in missing],
@@ -183,6 +184,11 @@ def status_report() -> dict[str, Any]:
         "generator_version": manifest["generator_version"],
         "campaign": campaign_totals(),
         "duplicate_layer_pairs": duplicate_layer_pairs(),
+        "generation_present": drift["generation_present"],
+        "generation_stale": drift["generation_stale"],
+        "generation_problems": drift["generation_problems"],
+        "stored_tree_digest": drift["stored_tree_digest"],
+        "ready_to_composite": bool(drift["generation_present"] and not drift["generation_stale"] and not missing and not integrity),
     }
 
 

@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from . import __version__, config
-from .paths import CONFIG, LAYERS, ROOT
+from .paths import BUILD, CONFIG, LAYERS, ROOT
 
 # Config files that change DNA or compositing. Review-only JSON is excluded.
 DNA_CONFIGS = (
@@ -160,3 +160,40 @@ def compare_manifest(stored: dict[str, Any] | None, live: dict[str, Any]) -> lis
         if changed:
             problems.append(f"layer changed {len(changed)}: {changed[0]}")
     return problems
+
+
+def load_stored_manifest() -> dict[str, Any] | None:
+    path = BUILD / "dna" / "provenance.json"
+    if not path.is_file():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+_UNSET = object()
+
+
+def last_generation_drift(seed: str, phase: int = 9, stored: Any = _UNSET) -> dict[str, Any]:
+    """Compare the last written provenance file to the live tree. Cheap; no generate."""
+    if stored is _UNSET:
+        stored = load_stored_manifest()
+    live = build_manifest(seed, phase)
+    if stored is None:
+        return {
+            "generation_present": False,
+            "generation_stale": False,
+            "generation_problems": [],
+            "stored_tree_digest": None,
+            "live_tree_digest": live["tree_digest"],
+        }
+    problems = compare_manifest(stored, live)
+    return {
+        "generation_present": True,
+        "generation_stale": bool(problems),
+        "generation_problems": problems,
+        "stored_tree_digest": stored.get("tree_digest"),
+        "live_tree_digest": live["tree_digest"],
+    }

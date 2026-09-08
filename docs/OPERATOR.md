@@ -10,7 +10,7 @@ python -m warm_company status
 python tests/test_pipeline.py
 ```
 
-`status` does not generate DNA. It tells you whether the placeholder seed still blocks `--mint`, whether layers are missing, and the current `tree_digest`.
+`status` does not generate DNA. It tells you whether the placeholder seed still blocks `--mint`, whether layers are missing, the current `tree_digest`, and whether the last generate (if any) still matches that tree (`generation_stale` / `ready_to_composite`). If you edited layers or config after generate, regenerate before compositing.
 
 ## Before calling a generate "the collection"
 

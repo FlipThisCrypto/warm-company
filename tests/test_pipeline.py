@@ -1016,6 +1016,26 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(len(report["tree_digest"]), 64)
         self.assertEqual(report["missing_layers"], [])
         self.assertEqual(report["specials"], 13)
+        self.assertIn("generation_present", report)
+        self.assertIn("generation_stale", report)
+        self.assertIn("ready_to_composite", report)
+        if not report["generation_present"]:
+            self.assertFalse(report["generation_stale"])
+            self.assertFalse(report["ready_to_composite"])
+
+    def test_last_generation_drift_flags_missing_and_stale(self):
+        from warm_company.generate import DEV_SEED
+        from warm_company.provenance import last_generation_drift, build_manifest
+
+        live = build_manifest(DEV_SEED, 9)
+        absent = last_generation_drift(DEV_SEED, 9, stored=None)
+        self.assertFalse(absent["generation_present"])
+        self.assertFalse(absent["generation_stale"])
+        self.assertEqual(absent["live_tree_digest"], live["tree_digest"])
+        stale = last_generation_drift(DEV_SEED, 9, stored={"tree_digest": "not-the-live-tree", "seed": DEV_SEED, "phase": 9, "supply": 800, "generator_version": "0"})
+        self.assertTrue(stale["generation_present"])
+        self.assertTrue(stale["generation_stale"])
+        self.assertTrue(stale["generation_problems"])
 
     def test_cli_exposes_status(self):
         from warm_company.cli import build_parser
