@@ -161,3 +161,10 @@ This baseline is not an iteration.
 - Why Round 3: observability / incident timelines.
 - Verification: generated_utc matches ISO-8601 Zulu regex.
 - Commit: `round 3 iteration 20: stamp generation JSON with UTC time`
+
+## Iteration 21/50
+- Evolution: `composite --token-id` fails closed when that id is not in the generation.
+- Constraint: A typo `--token-id 8000` printed "composited 0 tokens" and looked successful.
+- Why Round 3: silent success on a missed operator action.
+- Verification: missing id is True; present id and None are False.
+- Commit: `round 3 iteration 21: fail composite when token-id is not in generation`

@@ -128,6 +128,12 @@ def cmd_prompts(args: argparse.Namespace) -> int:
     return 0
 
 
+def requested_token_missing(tokens: list, token_id: int | None) -> bool:
+    if token_id is None:
+        return False
+    return all(int(row.get("token_id") or 0) != int(token_id) for row in tokens)
+
+
 def composite_missing_report(count: int, rows: list[dict], skipped: int = 0) -> dict:
     return {
         "composited": count,
@@ -175,6 +181,9 @@ def cmd_composite(args: argparse.Namespace) -> int:
     try:
         with exclusive_build("composite"):
             result = _load_tokens()
+            if requested_token_missing(result["tokens"], args.token_id):
+                print(json.dumps({"ok": False, "problems": [f"token_id {args.token_id} not in generation"]}, indent=2))
+                return 1
             missing = "allow" if args.allow_missing else "error"
             count = 0
             skipped = 0

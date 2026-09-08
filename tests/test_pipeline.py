@@ -1129,6 +1129,16 @@ class BuildLockTests(unittest.TestCase):
         self.assertFalse(path.is_file())
 
 
+class CompositeTokenIdTests(unittest.TestCase):
+    def test_requested_token_missing_detects_absent_id(self):
+        from warm_company.cli import requested_token_missing
+
+        rows = [{"token_id": 1}, {"token_id": 2}]
+        self.assertFalse(requested_token_missing(rows, None))
+        self.assertFalse(requested_token_missing(rows, 1))
+        self.assertTrue(requested_token_missing(rows, 99))
+
+
 class CompositeDiskTests(unittest.TestCase):
     def test_composite_budget_and_impossible_free_space(self):
         import tempfile
