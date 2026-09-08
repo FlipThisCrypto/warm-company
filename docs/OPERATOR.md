@@ -53,6 +53,6 @@ python -m warm_company composite --allow-missing --limit 12
 python -m warm_company composite --resume
 ```
 
-`--resume` skips tokens that already have a complete 1024 PNG so an interrupted 800-image run can continue.
+`--resume` skips tokens that already have a complete 1024 PNG so an interrupted 800-image run can continue. Composite refuses a stale last-generate (`generation_stale`) unless you pass `--force`.
 
 Missing layers are written to `build/reports/composite_missing.json`.

@@ -49,3 +49,10 @@ This baseline is not an iteration.
 - Why Round 3: failure isolation. Round 2 atomic writes protect one file, not two processes.
 - Verification: live lock raises BuildLockHeld; dead pid + old mtime is stolen; lock files gitignored.
 - Commit: `round 3 iteration 4: exclusive generate and composite build locks`
+
+## Iteration 5/50
+- Evolution: Composite refuses a stale last-generate unless `--force`.
+- Constraint: `--resume` could keep painting new art onto DNA bound to an old tree.
+- Why Round 3: prevents silent pixel/DNA mismatch after layer edits.
+- Verification: `--force` skips the gate; CLI exposes the flag; OPERATOR.md documents it.
+- Commit: `round 3 iteration 5: refuse composite when last generate is stale`

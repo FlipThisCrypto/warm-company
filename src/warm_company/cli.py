@@ -127,10 +127,28 @@ def composite_missing_report(count: int, rows: list[dict], skipped: int = 0) -> 
     }
 
 
+def composite_gate_problems(*, force: bool) -> list[str]:
+    """Refuse to paint pixels from a stale or split generation unless forced."""
+    if force:
+        return []
+    from .generate import generation_pair_problems
+    from .provenance import last_generation_drift
+
+    problems = generation_pair_problems()
+    drift = last_generation_drift(config.production_seed(), 9)
+    if drift["generation_stale"]:
+        problems.append("last generation is stale vs live tree; regenerate or pass --force")
+    return problems
+
+
 def cmd_composite(args: argparse.Namespace) -> int:
     from .composite import composite_with_report, existing_token_png_ok, token_png_path, write_token_png
     from .paths import BUILD, BuildLockHeld, atomic_write_text, exclusive_build
 
+    gate = composite_gate_problems(force=bool(args.force))
+    if gate:
+        print(json.dumps({"ok": False, "problems": gate}, indent=2))
+        return 1
     try:
         with exclusive_build("composite"):
             result = _load_tokens()
@@ -261,6 +279,7 @@ def build_parser() -> argparse.ArgumentParser:
     comp.add_argument("--allow-missing", action="store_true")
     comp.add_argument("--report-missing", action="store_true")
     comp.add_argument("--resume", action="store_true", help="Skip tokens that already have a complete 1024 PNG")
+    comp.add_argument("--force", action="store_true", help="Composite even if last generate is stale")
     comp.set_defaults(func=cmd_composite)
     return parser
 

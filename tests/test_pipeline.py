@@ -1059,6 +1059,11 @@ class CompositeResumeTests(unittest.TestCase):
         self.assertTrue(args.resume)
         self.assertEqual(args.limit, 3)
 
+    def test_composite_gate_force_skips_stale_check(self):
+        from warm_company.cli import composite_gate_problems
+
+        self.assertEqual(composite_gate_problems(force=True), [])
+
 
 class GenerationPairTests(unittest.TestCase):
     def test_matching_pair_is_clean_and_mismatch_is_reported(self):
