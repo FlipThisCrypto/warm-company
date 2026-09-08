@@ -575,15 +575,21 @@ class GenerationTests(unittest.TestCase):
         self.assertNotEqual(result["collection_fingerprint"], self.result["collection_fingerprint"])
 
     def test_collection_fingerprint_is_stable(self):
-        from warm_company.generate import collection_fingerprint
-
+        from warm_company.generate import GENERATION_SCHEMA, collection_fingerprint
         from warm_company.generate import DEV_COLLECTION_FINGERPRINT
-
-        from warm_company.generate import GENERATION_SCHEMA
 
         digest = collection_fingerprint(self.result)
         self.assertEqual(self.result["schema_version"], GENERATION_SCHEMA)
         self.assertRegex(self.result["generated_utc"], r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+        self.assertEqual(digest, DEV_COLLECTION_FINGERPRINT)
+        self.assertEqual(self.result["collection_fingerprint"], digest)
+        text = (ROOT / "src" / "warm_company" / "cli.py").read_text(encoding="utf-8")
+        self.assertIn("collection_fingerprint", text)
+        self.assertIn("token_goods_usd", text)
+        self.assertEqual(
+            self.result["tokens"][0]["dna"],
+            "c556850a522685213f60d06553b65f80f0aa93e625b070d137dc5991c0f9b08c",
+        )
 
     def test_validate_result_rejects_future_schema(self):
         from warm_company.generate import GENERATION_SCHEMA
@@ -594,15 +600,6 @@ class GenerationTests(unittest.TestCase):
         report = validate_result(payload)
         self.assertFalse(report["ok"])
         self.assertTrue(any("schema_version" in p for p in report["problems"]))
-        self.assertEqual(digest, DEV_COLLECTION_FINGERPRINT)
-        self.assertEqual(self.result["collection_fingerprint"], digest)
-        text = (ROOT / "src" / "warm_company" / "cli.py").read_text(encoding="utf-8")
-        self.assertIn("collection_fingerprint", text)
-        self.assertIn("token_goods_usd", text)
-        self.assertEqual(
-            self.result["tokens"][0]["dna"],
-            "c556850a522685213f60d06553b65f80f0aa93e625b070d137dc5991c0f9b08c",
-        )
 
     def test_reproducible(self):
         again = generate_collection(seed="warm-company-dev-seed-v0", phase=9)
