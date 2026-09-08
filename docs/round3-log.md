@@ -266,3 +266,10 @@ This baseline is not an iteration.
 - Why Round 3: SLO/observability for the fail-closed mint gate.
 - Verification: duration_ms >= 0 and under 120s on the current tree.
 - Commit: `round 3 iteration 35: record preflight duration_ms`
+
+## Iteration 36/50
+- Evolution: composite_missing.json records tree_digest and collection_fingerprint of the DNA that was painted.
+- Constraint: A missing-layer report could not be tied to a generation identity later.
+- Why Round 3: incident reconstruction for composite runs.
+- Verification: report helper still has composited/skipped; extra identity keys are JSON-serializable.
+- Commit: `round 3 iteration 36: bind composite missing report to DNA identity`

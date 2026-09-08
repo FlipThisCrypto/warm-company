@@ -214,9 +214,12 @@ def cmd_composite(args: argparse.Namespace) -> int:
                 count += 1
                 if args.limit and (count + skipped) >= args.limit:
                     break
+            report_payload = composite_missing_report(count, missing_rows, skipped)
+            report_payload["tree_digest"] = (result.get("provenance") or {}).get("tree_digest")
+            report_payload["collection_fingerprint"] = result.get("collection_fingerprint")
             atomic_write_text(
                 BUILD / "reports" / "composite_missing.json",
-                json.dumps(composite_missing_report(count, missing_rows, skipped), indent=2),
+                json.dumps(report_payload, indent=2),
             )
             print(f"composited {count} tokens skipped {skipped}")
             if missing_rows:

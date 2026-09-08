@@ -899,6 +899,10 @@ class ReviewStripTests(unittest.TestCase):
         self.assertEqual(payload["composited"], 2)
         self.assertEqual(payload["skipped"], 0)
         self.assertEqual(payload["missing_token_count"], 1)
+        extra = dict(payload)
+        extra["tree_digest"] = "abc"
+        extra["collection_fingerprint"] = "def"
+        self.assertEqual(extra["tree_digest"], "abc")
         self.assertEqual(payload["tokens_with_missing"][0]["token_id"], 1)
 
 
