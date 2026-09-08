@@ -301,3 +301,10 @@ This baseline is not an iteration.
 - Why Round 3: organizational durability of the recovery path.
 - Verification: CONTRIBUTING names generation_stale and backup.
 - Commit: `round 3 iteration 40: require stale check and DNA backup in CONTRIBUTING`
+
+## Iteration 41/50
+- Evolution: Metadata bind check requires CHIP-0007 `data.dna` and `series_number` to match the token.
+- Constraint: A future chip0007() bug could mint metadata for the wrong DNA while schema checks still passed.
+- Why Round 3: data integrity of the mint document vs the generation row.
+- Verification: live token is clean; mutated dna and series_number are reported.
+- Commit: `round 3 iteration 41: bind CHIP-0007 dna and series_number to the token`

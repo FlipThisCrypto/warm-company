@@ -162,14 +162,26 @@ def chip0007_problems(payload: dict[str, Any]) -> list[str]:
     return problems
 
 
+def metadata_bind_problems(token: dict[str, Any], payload: dict[str, Any]) -> list[str]:
+    problems: list[str] = []
+    data = payload.get("data") or {}
+    if data.get("dna") != token.get("dna"):
+        problems.append(f"#{token.get('token_id')} metadata dna mismatch")
+    if payload.get("series_number") != token.get("token_id"):
+        problems.append(f"#{token.get('token_id')} series_number mismatch")
+    return problems
+
+
 def metadata_problems(tokens: list[dict[str, Any]]) -> list[str]:
     problems: list[str] = []
     for token in tokens:
         payload = chip0007(token)
-        for item in chip0007_problems(payload):
-            problems.append(f"#{token.get('token_id')} {item}")
-            if len(problems) >= 20:
-                return problems
+        tagged = metadata_bind_problems(token, payload) + [
+            f"#{token.get('token_id')} {item}" for item in chip0007_problems(payload)
+        ]
+        problems.extend(tagged)
+        if len(problems) >= 20:
+            return problems
     return problems
 
 

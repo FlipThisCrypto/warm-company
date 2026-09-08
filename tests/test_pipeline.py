@@ -548,6 +548,19 @@ class GenerationTests(unittest.TestCase):
         })
         self.assertEqual(self.result["unique_dna"], 800)
 
+    def test_metadata_problems_flag_dna_mismatch(self):
+        from warm_company.metadata import chip0007, metadata_bind_problems, metadata_problems
+
+        token = dict(self.result["tokens"][0])
+        self.assertEqual(metadata_problems([token]), [])
+        payload = chip0007(token)
+        payload["data"] = dict(payload["data"])
+        payload["data"]["dna"] = "0" * 64
+        payload["series_number"] = 0
+        problems = metadata_bind_problems(token, payload)
+        self.assertTrue(any("dna mismatch" in p for p in problems))
+        self.assertTrue(any("series_number mismatch" in p for p in problems))
+
     def test_write_metadata_resume_skips_valid_files(self):
         from warm_company.metadata import chip0007, existing_metadata_ok, write_metadata
         from warm_company.paths import BUILD, atomic_write_text
