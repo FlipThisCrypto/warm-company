@@ -328,6 +328,9 @@ def generation_pair_problems(
     json_rows = [(int(t["token_id"]), t.get("class_id"), t.get("dna")) for t in tokens]
     jsonl_rows: list[tuple[int, Any, Any]] = []
     try:
+        jsonl_size = jsonl_path.stat().st_size
+        if jsonl_size > MAX_GENERATION_BYTES:
+            return [f"collection.jsonl is {jsonl_size} bytes; max {MAX_GENERATION_BYTES}"]
         text = jsonl_path.read_text(encoding="utf-8")
     except OSError as exc:
         return [f"collection.jsonl unreadable: {exc}"]

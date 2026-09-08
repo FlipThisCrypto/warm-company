@@ -1246,6 +1246,13 @@ class GenerationPairTests(unittest.TestCase):
             (folder / "only.json").write_text("{}", encoding="utf-8")
             missing = generation_pair_problems(folder / "only.json", folder / "nope.jsonl")
             self.assertTrue(missing)
+            from warm_company.generate import MAX_GENERATION_BYTES
+
+            huge = folder / "collection.jsonl"
+            tokens.write_text(json.dumps({"tokens": rows}), encoding="utf-8")
+            huge.write_bytes(b"x" * (MAX_GENERATION_BYTES + 1))
+            sized = generation_pair_problems(tokens, huge)
+            self.assertTrue(any("max" in p for p in sized))
 
 
 class StatusTests(unittest.TestCase):

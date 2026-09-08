@@ -175,3 +175,10 @@ This baseline is not an iteration.
 - Why Round 3: organizational durability / knowledge preservation of the mint-safety decision.
 - Verification: ADR names tree_digest, collection_fingerprint, and generation_stale.
 - Commit: `round 3 iteration 22: record ADR for DNA tree digest binding`
+
+## Iteration 23/50
+- Evolution: `collection.jsonl` is size-capped the same 32 MiB as `tokens.json`.
+- Constraint: Pair check would read an unbounded jsonl into memory.
+- Why Round 3: JSON bomb / resource ceiling on the second generation file.
+- Verification: oversized jsonl reports max; matching small pair still clean.
+- Commit: `round 3 iteration 23: cap collection.jsonl size during pair check`
