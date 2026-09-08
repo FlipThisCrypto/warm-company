@@ -1013,6 +1013,15 @@ class DnaBackupTests(unittest.TestCase):
             self.assertTrue(verify_backup(empty))
             bogus = Path(tmp) / "nope.zip"
             self.assertTrue(verify_backup(bogus))
+            from warm_company.backup import restore_backup
+            from warm_company.generate import generation_pair_problems, read_generation_json
+
+            (BUILD / "dna" / "tokens.json").write_text("{}", encoding="utf-8")
+            self.assertTrue(generation_pair_problems())
+            self.assertEqual(restore_backup(dest), [])
+            restored = read_generation_json(BUILD / "dna" / "tokens.json")
+            self.assertEqual(len(restored["tokens"]), 800)
+            self.assertEqual(generation_pair_problems(), [])
         self.assertTrue((BUILD / "dna" / "tokens.json").is_file())
 
 

@@ -85,3 +85,17 @@ def verify_backup(path: Path) -> list[str]:
     if manifest.get("collection_fingerprint") and manifest["collection_fingerprint"] != digest:
         problems.append("backup_manifest fingerprint does not match tokens.json")
     return problems
+
+
+def restore_backup(path: Path) -> list[str]:
+    """Replace build/dna from a verified zip. Leaves previous files if verify fails."""
+    from .paths import atomic_write_text
+
+    problems = verify_backup(path)
+    if problems:
+        return problems
+    with zipfile.ZipFile(path) as zf:
+        for rel in BACKUP_MEMBERS:
+            payload = zf.read(rel).decode("utf-8")
+            atomic_write_text(BUILD / rel, payload)
+    return generation_pair_problems()

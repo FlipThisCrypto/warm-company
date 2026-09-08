@@ -40,6 +40,7 @@ Record `collection_fingerprint` and `tree_digest` from the JSON output. If eithe
 ```powershell
 python -m warm_company backup
 python -m warm_company backup --verify build/backups/dna-....zip
+python -m warm_company backup --restore build/backups/dna-....zip
 ```
 
 That zip holds DNA + provenance only (no 800 images). Verify it before relying on a restore copy.

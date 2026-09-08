@@ -112,3 +112,10 @@ This baseline is not an iteration.
 - Why Round 3: disaster recovery. Images stay regenerable; DNA is the record.
 - Verification: round-trip zip verifies clean; empty zip and missing path fail; CLI command registered.
 - Commit: `round 3 iteration 13: zip and verify portable DNA backups`
+
+## Iteration 14/50
+- Evolution: `backup --restore` verifies then atomically replaces `build/dna` under the generate lock.
+- Constraint: Operators had a zip but no tested restore path.
+- Why Round 3: recovery must be exercised, not assumed. Restore is idempotent and refuses a bad zip.
+- Verification: corrupting tokens.json then restoring yields 800 matching json/jsonl rows.
+- Commit: `round 3 iteration 14: restore DNA from a verified backup zip`
