@@ -527,6 +527,17 @@ class GenerationTests(unittest.TestCase):
 
     def test_supply_and_classes(self):
         self.assertEqual(self.result["supply"], 800)
+
+    def test_write_metadata_resume_skips_valid_files(self):
+        from warm_company.metadata import existing_metadata_ok, write_metadata
+
+        token = self.result["tokens"][0]
+        self.assertFalse(existing_metadata_ok(Path("nope.json")))
+        first = write_metadata([token], resume=False)
+        self.assertEqual(first["wrote"], 1)
+        second = write_metadata([token], resume=True)
+        self.assertEqual(second["skipped"], 1)
+        self.assertEqual(second["wrote"], 0)
         self.assertEqual(self.result["class_counts"], {
             "sleeping-bag": 400,
             "small-tent": 200,

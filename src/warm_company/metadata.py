@@ -4,6 +4,8 @@ import json
 from typing import Any
 
 from . import config
+from pathlib import Path
+
 from .paths import BUILD, atomic_write_text, ensure_build
 
 SKIP_IF_NONE = {
@@ -171,11 +173,34 @@ def metadata_problems(tokens: list[dict[str, Any]]) -> list[str]:
     return problems
 
 
-def write_metadata(tokens: list[dict[str, Any]]) -> None:
+def metadata_path(token_id: int) -> Path:
+    return BUILD / "metadata" / f"{int(token_id):04d}.json"
+
+
+def existing_metadata_ok(path: Path) -> bool:
+    if not path.is_file() or path.stat().st_size < 32:
+        return False
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    if not isinstance(payload, dict):
+        return False
+    return not chip0007_problems(payload)
+
+
+def write_metadata(tokens: list[dict[str, Any]], *, resume: bool = False) -> dict[str, int]:
     ensure_build()
     out = BUILD / "metadata"
     out.mkdir(parents=True, exist_ok=True)
+    wrote = 0
+    skipped = 0
     for token in tokens:
+        path = metadata_path(token["token_id"])
+        if resume and existing_metadata_ok(path):
+            skipped += 1
+            continue
         payload = chip0007(token)
-        path = out / f"{token['token_id']:04d}.json"
         atomic_write_text(path, json.dumps(payload, indent=2))
+        wrote += 1
+    return {"wrote": wrote, "skipped": skipped}

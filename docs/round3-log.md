@@ -140,3 +140,10 @@ This baseline is not an iteration.
 - Why Round 3: supply-chain visibility without retargeting DNA tree_digest.
 - Verification: status.requirements_sha256 is 64 hex chars; tree_digest ignores it.
 - Commit: `round 3 iteration 17: record requirements.txt hash on status`
+
+## Iteration 18/50
+- Evolution: `metadata --resume` skips tokens that already have valid CHIP-0007 JSON.
+- Constraint: Re-running metadata after an interrupt rewrote all 800 files.
+- Why Round 3: resumable workflow for metadata, matching composite --resume.
+- Verification: first write counts wrote=1; second resume skipped=1.
+- Commit: `round 3 iteration 18: resume CHIP-0007 metadata writes`

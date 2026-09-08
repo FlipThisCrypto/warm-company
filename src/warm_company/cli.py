@@ -71,8 +71,8 @@ def cmd_metadata(args: argparse.Namespace) -> int:
     from .metadata import write_metadata
 
     result = _load_tokens()
-    write_metadata(result["tokens"])
-    print(f"wrote {len(result['tokens'])} CHIP-0007 files to {BUILD / 'metadata'}")
+    counts = write_metadata(result["tokens"], resume=bool(args.resume))
+    print(json.dumps({"ok": True, **counts, "out": str(BUILD / "metadata")}, indent=2))
     return 0
 
 
@@ -290,6 +290,7 @@ def build_parser() -> argparse.ArgumentParser:
     gen.set_defaults(func=cmd_generate)
 
     meta = sub.add_parser("metadata", help="Write CHIP-0007 JSON for the last generation")
+    meta.add_argument("--resume", action="store_true", help="Skip tokens that already have valid CHIP-0007 JSON")
     meta.set_defaults(func=cmd_metadata)
 
     vl = sub.add_parser("validate-layers", help="Inspect layer PNGs")
