@@ -31,9 +31,12 @@ def cmd_generate(args: argparse.Namespace) -> int:
     from .paths import BuildLockHeld, exclusive_build
 
     try:
-        with exclusive_build("generate"):
+        if args.dry_run:
             result = generate_collection(seed=args.seed, phase=args.phase, inject_specials=not args.no_specials)
-            write_generation(result)
+        else:
+            with exclusive_build("generate"):
+                result = generate_collection(seed=args.seed, phase=args.phase, inject_specials=not args.no_specials)
+                write_generation(result)
     except BuildLockHeld as exc:
         print(json.dumps({"ok": False, "problems": [str(exc)]}, indent=2))
         return 1
@@ -53,6 +56,8 @@ def cmd_generate(args: argparse.Namespace) -> int:
         "token_goods_usd": token_goods_usd(result),
         "provenance_ok": report.get("provenance_ok"),
         "rarest": rarity["rarest_tokens"][:5],
+        "dry_run": bool(args.dry_run),
+        "wrote": not bool(args.dry_run),
     }, indent=2))
     return 0 if report["ok"] else 1
 
@@ -237,6 +242,7 @@ def build_parser() -> argparse.ArgumentParser:
     gen.add_argument("--phase", type=int, default=9)
     gen.add_argument("--no-specials", action="store_true")
     gen.add_argument("--mint", action="store_true", help="Refuse the development placeholder seed")
+    gen.add_argument("--dry-run", action="store_true", help="Roll DNA and validate without writing build/dna")
     gen.set_defaults(func=cmd_generate)
 
     meta = sub.add_parser("metadata", help="Write CHIP-0007 JSON for the last generation")

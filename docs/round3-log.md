@@ -56,3 +56,10 @@ This baseline is not an iteration.
 - Why Round 3: prevents silent pixel/DNA mismatch after layer edits.
 - Verification: `--force` skips the gate; CLI exposes the flag; OPERATOR.md documents it.
 - Commit: `round 3 iteration 5: refuse composite when last generate is stale`
+
+## Iteration 6/50
+- Evolution: `generate --dry-run` rolls and validates DNA without writing `build/dna`.
+- Constraint: Operators had to overwrite the last generate to learn the fingerprint of a trial seed.
+- Why Round 3: safe rehearsal before mutating durable DNA files.
+- Verification: CLI exposes `--dry-run`; payload includes `wrote: false`.
+- Commit: `round 3 iteration 6: dry-run generate without writing DNA files`

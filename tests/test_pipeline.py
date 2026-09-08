@@ -990,6 +990,15 @@ class FundraiserTests(unittest.TestCase):
         self.assertEqual(token_goods_usd(result), 12000)
 
 
+class GenerateDryRunTests(unittest.TestCase):
+    def test_cli_exposes_generate_dry_run(self):
+        from warm_company.cli import build_parser
+
+        args = build_parser().parse_args(["generate", "--dry-run", "--phase", "9"])
+        self.assertTrue(args.dry_run)
+        self.assertEqual(args.phase, 9)
+
+
 class CliSurfaceTests(unittest.TestCase):
     def test_operator_commands_are_registered(self):
         from warm_company.cli import build_parser

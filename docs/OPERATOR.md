@@ -20,6 +20,8 @@ python -m warm_company preflight --phase 9
 
 That command must print `"ok": true`. It generates the development-seed 800, checks provenance, CHIP-0007 legal title, dignity labels, the $12,000 goods table, and the frozen DNA fingerprint.
 
+`python -m warm_company generate --dry-run --phase 9` rolls the same DNA and prints `collection_fingerprint` without writing `build/dna`.
+
 ## Production seed lock (Phase 11)
 
 1. Replace `config/collection.json` `production_seed.value` with a new secret.
