@@ -679,8 +679,15 @@ def existing_token_png_ok(path: Path) -> bool:
         return False
 
 
+def atomic_write_png(path: Path, image: Image.Image) -> Path:
+    """Write a complete PNG or leave the previous file intact."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + ".tmp")
+    image.convert("RGBA").save(tmp, "PNG")
+    tmp.replace(path)
+    return path
+
+
 def write_token_png(token: dict, image: Image.Image) -> Path:
     ensure_build()
-    path = token_png_path(token["token_id"])
-    image.convert("RGBA").save(path, "PNG")
-    return path
+    return atomic_write_png(token_png_path(token["token_id"]), image)

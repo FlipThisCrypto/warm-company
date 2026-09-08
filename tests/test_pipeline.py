@@ -1066,6 +1066,26 @@ class BuildLockTests(unittest.TestCase):
         self.assertFalse(path.is_file())
 
 
+class AtomicPngTests(unittest.TestCase):
+    def test_atomic_png_replaces_complete_file_and_clears_tmp(self):
+        import tempfile
+
+        from PIL import Image as PilImage
+
+        from warm_company.composite import CANVAS, atomic_write_png, existing_token_png_ok
+
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "0007.png"
+            first = PilImage.new("RGBA", CANVAS, (10, 20, 30, 255))
+            second = PilImage.new("RGBA", CANVAS, (40, 50, 60, 255))
+            atomic_write_png(dest, first)
+            self.assertTrue(existing_token_png_ok(dest))
+            atomic_write_png(dest, second)
+            with PilImage.open(dest) as im:
+                self.assertEqual(im.getpixel((0, 0))[:3], (40, 50, 60))
+            self.assertFalse(dest.with_name("0007.png.tmp").exists())
+
+
 class CompositeResumeTests(unittest.TestCase):
     def test_existing_complete_png_is_skippable(self):
         import tempfile

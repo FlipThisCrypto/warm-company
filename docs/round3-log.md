@@ -84,3 +84,10 @@ This baseline is not an iteration.
 - Why Round 3: failure containment on the operator load path.
 - Verification: valid payload loads; `{not-json` names invalid JSON; oversized file names max.
 - Commit: `round 3 iteration 9: cap and name errors when loading tokens.json`
+
+## Iteration 10/50
+- Evolution: Composite writes token PNGs atomically (temp + replace).
+- Constraint: A crash mid-save could leave a truncated PNG that `--resume` might treat as done.
+- Why Round 3: interrupted-operation recovery for the slow image path. Round 2 atomic-wrote JSON only.
+- Verification: second write replaces pixels; no leftover `.tmp`.
+- Commit: `round 3 iteration 10: write token PNGs atomically`
