@@ -336,3 +336,10 @@ This baseline is not an iteration.
 - Why Round 3: incident reconstruction for the validate artifact.
 - Verification: validate_result fields match the generation.
 - Commit: `round 3 iteration 45: persist generate identity on collection validation`
+
+## Iteration 46/50
+- Evolution: `tree_digest` layer hashes skip resolved paths that escape `layers/`.
+- Constraint: A symlink planted under layers/ could have been hashed into the mint digest.
+- Why Round 3: digest integrity + path-escape. Validate already fails those files; the digest must not include them.
+- Verification: every hashed key starts with layers/; README is an escape.
+- Commit: `round 3 iteration 46: omit escaped layer paths from tree digest`

@@ -158,11 +158,9 @@ def duplicate_layer_pairs() -> list[dict[str, str]]:
 
 
 def path_escapes_library(path: Path) -> bool:
-    try:
-        path.resolve().relative_to(LAYERS.resolve())
-        return False
-    except ValueError:
-        return True
+    from .paths import path_escapes
+
+    return path_escapes(path, LAYERS)
 
 
 def validate_library() -> dict:

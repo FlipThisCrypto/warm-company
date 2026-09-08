@@ -35,6 +35,14 @@ def pid_is_alive(pid: int) -> bool:
     return True
 
 
+def path_escapes(path: Path, root: Path) -> bool:
+    try:
+        path.resolve().relative_to(root.resolve())
+        return False
+    except ValueError:
+        return True
+
+
 def lock_path(name: str) -> Path:
     return BUILD / f".{name}.lock"
 

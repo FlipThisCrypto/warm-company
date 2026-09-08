@@ -1434,6 +1434,13 @@ class LayerPathEscapeTests(unittest.TestCase):
         sample = next(LAYERS.rglob("*.png"))
         self.assertFalse(path_escapes_library(sample))
         self.assertTrue(path_escapes_library(ROOT / "README.md"))
+        from warm_company.paths import path_escapes
+        from warm_company.provenance import layer_hashes
+
+        hashes = layer_hashes()
+        self.assertTrue(hashes)
+        self.assertTrue(all(key.startswith("layers/") for key in hashes))
+        self.assertTrue(path_escapes(ROOT / "README.md", LAYERS))
 
 
 class LayerSizeCapTests(unittest.TestCase):

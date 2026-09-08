@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from . import __version__, config
-from .paths import BUILD, CONFIG, LAYERS, ROOT
+from .paths import BUILD, CONFIG, LAYERS, ROOT, path_escapes
 
 # Config files that change DNA or compositing. Review-only JSON is excluded.
 DNA_CONFIGS = (
@@ -75,6 +75,8 @@ def layer_hashes() -> dict[str, str]:
     if not LAYERS.is_dir():
         return out
     for path in sorted(LAYERS.rglob("*.png")):
+        if path_escapes(path, LAYERS):
+            continue
         rel = path.relative_to(ROOT).as_posix()
         out[rel] = sha256_file(path)
     return out
