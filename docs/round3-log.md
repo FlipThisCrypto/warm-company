@@ -217,3 +217,10 @@ This baseline is not an iteration.
 - Why Round 3: measurement integrity for the rarity artifact operators actually read.
 - Verification: JSON fields match the generation; markdown names Tree digest and Generated UTC.
 - Commit: `round 3 iteration 28: include tree digest and generate time in rarity report`
+
+## Iteration 29/50
+- Evolution: Resume metadata only if CHIP-0007 `series_number` matches the filename stem.
+- Constraint: A swapped 0001.json from token 2 would be treated as complete.
+- Why Round 3: tamper evidence on mint metadata files.
+- Verification: mismatched series_number is not existing_metadata_ok.
+- Commit: `round 3 iteration 29: require metadata series_number to match filename`

@@ -186,6 +186,13 @@ def existing_metadata_ok(path: Path) -> bool:
         return False
     if not isinstance(payload, dict):
         return False
+    try:
+        series = int(payload.get("series_number") or 0)
+        stem = int(path.stem)
+    except (TypeError, ValueError):
+        return False
+    if series != stem:
+        return False
     return not chip0007_problems(payload)
 
 
