@@ -70,6 +70,8 @@ class ContributingTests(unittest.TestCase):
         text = (ROOT / "CONTRIBUTING.md").read_text(encoding="utf-8")
         self.assertIn("python -m warm_company status", text)
         self.assertIn("python -m warm_company preflight", text)
+        self.assertIn("generation_stale", text)
+        self.assertIn("warm_company backup", text)
 
 
 class SecurityDocTests(unittest.TestCase):

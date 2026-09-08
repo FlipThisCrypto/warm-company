@@ -9,7 +9,7 @@ This collection is meant to be worked on by more than one person. The rule that 
 1. Read [docs/COLLECTION_BIBLE.md](docs/COLLECTION_BIBLE.md).
 2. Open [docs/COORDINATE_SYSTEM.md](docs/COORDINATE_SYSTEM.md) and `config/anchors.json` — those numbers are the contract.
 3. Look at `templates/` (occupancy + blueprints), the locked v3 canonicals in `references/approved/`, and `build/review-v3/` (12-sample refinement gate).
-4. Run `python -m warm_company status` then `python -m warm_company preflight` before treating a generate as mint-ready.
+4. Run `python -m warm_company status` then `python -m warm_company preflight` before treating a generate as mint-ready. If `generation_stale` is true, regenerate (or `--dry-run` first). After a good generate, `python -m warm_company backup`.
 
 If a PNG and `anchors.json` disagree, regenerate the PNG. Do not edit the JSON to match a drifted drawing unless the group agrees to change the geometry.
 
@@ -24,7 +24,7 @@ Commit:
 
 Do not commit:
 
-- `build/dna/`, `build/metadata/`, `build/images/` of a full 800-run (regenerable)
+- `build/dna/`, `build/metadata/`, `build/images/`, `build/backups/` of a full 800-run (regenerable; keep backups off git)
 - editor junk, virtualenvs, `.env`
 
 ## Adding a layer

@@ -294,3 +294,10 @@ This baseline is not an iteration.
 - Why Round 3: path-escape / supply-chain of the layer tree.
 - Verification: a real layer is inside; README.md is an escape.
 - Commit: `round 3 iteration 39: reject layer paths that escape the library root`
+
+## Iteration 40/50
+- Evolution: CONTRIBUTING requires checking `generation_stale` and running `backup` after a mint-quality generate.
+- Constraint: Onboarding stopped at preflight; new maintainers would not snapshot DNA.
+- Why Round 3: organizational durability of the recovery path.
+- Verification: CONTRIBUTING names generation_stale and backup.
+- Commit: `round 3 iteration 40: require stale check and DNA backup in CONTRIBUTING`
