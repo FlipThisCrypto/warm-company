@@ -53,6 +53,7 @@ class OperatorDocTests(unittest.TestCase):
         self.assertIn("6aa596f", text)
         self.assertIn("Disaster recovery", text)
         self.assertIn("backup --restore", text)
+        self.assertIn("restore-bak", text)
         self.assertIn("composite --resume", text)
         self.assertIn("generation_stale", text)
 

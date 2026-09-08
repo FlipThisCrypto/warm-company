@@ -76,6 +76,7 @@ DNA is the record. Images and metadata are regenerable from DNA + the live tree.
 | `generate` killed mid-run | `tokens.json` is atomic; the previous complete generate remains. Re-run `generate`. |
 | `composite` killed mid-run | `python -m warm_company composite --resume` after `status` shows `ready_to_composite`. |
 | `build/dna` deleted | `python -m warm_company backup --restore path\to\dna-....zip` then `status` (must not be `generation_stale`). |
+| Accidental second `generate` | `python -m warm_company backup --restore-bak` to put `tokens.json.bak` back, then `status`. |
 | `generation_stale` true | Layers/config changed. Re-run `generate` (or `--dry-run` first). Do not `--force` composite for a mint. |
 | `BuildLockHeld` | Another generate/composite is running, or a dead lock is less than 6 hours old. Wait, or delete `build/.generate.lock` / `build/.composite.lock` only if the pid is dead. |
 | `build directory is not writable` | Free disk, fix permissions, re-run `status`. |

@@ -315,3 +315,10 @@ This baseline is not an iteration.
 - Why Round 3: SLO for the operator snapshot. Preflight already records duration; status must too.
 - Verification: duration_ms >= 0 and < 30000 on this tree.
 - Commit: `round 3 iteration 42: record status duration and keep it under 30s`
+
+## Iteration 43/50
+- Evolution: OPERATOR disaster table documents `--restore-bak` for an accidental second generate.
+- Constraint: The bak snapshot existed; the runbook still sent operators only to zip restore.
+- Why Round 3: recovery procedure for the most likely operator mistake.
+- Verification: OPERATOR.md names restore-bak.
+- Commit: `round 3 iteration 43: document bak restore in the disaster table`
