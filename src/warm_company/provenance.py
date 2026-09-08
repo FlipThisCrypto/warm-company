@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -120,7 +121,7 @@ def build_manifest(seed: str, phase: int) -> dict[str, Any]:
         "tree_digest": tree_digest(core),
         "layer_count": len(layers),
         "git_revision": git_revision(),
-        "runtime": {"pillow": pillow},
+        "runtime": {"pillow": pillow, "python": sys.version.split()[0]},
         "note": "tree_digest covers seed, phase, generator_version, config hashes, source hashes, layer hashes, supply. git_revision and runtime are informational.",
     }
 

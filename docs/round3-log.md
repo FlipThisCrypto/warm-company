@@ -98,3 +98,10 @@ This baseline is not an iteration.
 - Why Round 3: storage ceiling / failure prevention before the slow path.
 - Verification: 800-token budget is 1.25e9 bytes; 10^18-byte request fails on a temp dir; 0 tokens is clean.
 - Commit: `round 3 iteration 11: refuse composite when free disk is below PNG budget`
+
+## Iteration 12/50
+- Evolution: Provenance runtime records Python version; status compares it to CI 3.11 without failing `ok`.
+- Constraint: Local 3.14 vs CI 3.11 was invisible; compositing could disagree later.
+- Why Round 3: environment parity. Round 2 pinned Pillow, not the interpreter.
+- Verification: status.ci_python is 3.11; python_mismatch is a bool; tree_digest still ignores runtime.
+- Commit: `round 3 iteration 12: report local Python vs CI 3.11 on status`

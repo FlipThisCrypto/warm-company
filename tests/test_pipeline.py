@@ -1179,6 +1179,8 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(len(report["tree_digest"]), 64)
         self.assertEqual(report["missing_layers"], [])
         self.assertEqual(report["specials"], 13)
+        self.assertEqual(report["ci_python"], "3.11")
+        self.assertIn("python_mismatch", report)
         self.assertIn("generation_present", report)
         self.assertIn("generation_stale", report)
         self.assertIn("ready_to_composite", report)
