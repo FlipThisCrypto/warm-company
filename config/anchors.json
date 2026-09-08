@@ -293,7 +293,7 @@
   },
   "headwear_fit": {
     "note": "Hats register to class peak X and headwear_brim_y. Multipliers apply to headwear_preferred. contact is the fraction of hat height that sits on the brim (pom/earflaps hang past). hang is extra px below the legal zone for flaps. float sits above the peak. Well-placed legal hats keep artist registration. by_class overrides trait rows.",
-    "default": { "w_mul": 1.0, "h_mul": 1.15, "contact": 0.88, "fit": "contain", "hang": 24 },
+    "default": { "w_mul": 1.0, "h_mul": 1.15, "contact": 0.88, "fit": "contain", "hang": 200 },
     "beanie": { "w_mul": 1.05, "h_mul": 1.9, "contact": 0.88, "fit": "contain", "hang": 48 },
     "knit-cap": { "w_mul": 1.35, "h_mul": 1.75, "contact": 0.86, "fit": "contain", "hang": 32 },
     "baseball-cap": { "w_mul": 1.35, "h_mul": 1.55, "contact": 0.85, "fit": "cover_height", "hang": 16 },

@@ -630,3 +630,7 @@ Goal: every production hat sits naturally on its class head (Snug hood wrap, Pup
 10. **Verify** — 114 tests; review-v3 hat samples regenerated; knit-cap still keeps artist registration.
 
 Remaining: Snug baseball is slightly cleaner/vector than the knit; Lodge baseball V-notch still shows a sliver of peak under the brim.
+
+## Headwear custom-fit pass
+
+Hats were redrawn ON each class body (wrap the Snug hood; hug Pup/Lodge peaks) then extracted in canvas position. Compositor no longer crushes wrap hats back to beanie size. Sheet: `build/headwear-loop/fitted4-sheet.png`.

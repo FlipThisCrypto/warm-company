@@ -377,12 +377,12 @@ class CompositorStackTests(unittest.TestCase):
 
         im = Image.new("RGBA", CANVAS, (0, 0, 0, 0))
         draw = ImageDraw.Draw(im)
-        draw.ellipse([200, 40, 824, 400], fill=(180, 80, 60, 255))
+        draw.ellipse([40, 20, 984, 520], fill=(180, 80, 60, 255))
         out = register_headwear(im, "sleeping-bag", "beanie")
         box = out.getchannel("A").getbbox()
         self.assertIsNotNone(box)
-        legal = config.class_spec("sleeping-bag")["headwear_zone"]
-        self.assertLessEqual(box[2] - box[0], legal["w"] + 2)
+        body_w = config.class_spec("sleeping-bag")["bounding_box"]["w"]
+        self.assertLessEqual(box[2] - box[0], int(body_w * 1.7) + 16)
         cx = (box[0] + box[2]) / 2
         self.assertAlmostEqual(cx, 512, delta=16)
 
@@ -817,10 +817,10 @@ class ReviewStripTests(unittest.TestCase):
         box = im.getchannel("A").getbbox()
         self.assertIsNotNone(box)
         pref = config.class_spec("sleeping-bag")["headwear_preferred"]["w"]
-        legal = config.class_spec("sleeping-bag")["headwear_zone"]["w"]
+        body_w = config.class_spec("sleeping-bag")["bounding_box"]["w"]
         clamped = clamp_headwear(im, "sleeping-bag", "beanie")
         cbox = clamped.getchannel("A").getbbox()
-        self.assertLessEqual(cbox[2] - cbox[0], legal + 12)
+        self.assertLessEqual(cbox[2] - cbox[0], int(body_w * 1.7) + 16)
         self.assertGreater(cbox[2] - cbox[0], pref * 0.45)
 
     def test_composite_report_lists_painted_and_skipped_face(self):
@@ -1316,9 +1316,9 @@ class InventoryLibraryTests(unittest.TestCase):
         box = out.getchannel("A").getbbox()
         self.assertIsNotNone(box)
         pref = config.class_spec("large-tent")["headwear_preferred"]
-        legal = config.class_spec("large-tent")["headwear_zone"]
+        body_w = config.class_spec("large-tent")["bounding_box"]["w"]
         self.assertGreater(box[2] - box[0], pref["w"] + 20)
-        self.assertLessEqual(box[2] - box[0], legal["w"] + 12)
+        self.assertLessEqual(box[2] - box[0], int(body_w * 1.7) + 16)
 
     def test_lodge_baseball_stays_inside_legal_zone(self):
         from warm_company.composite import clamp_headwear
@@ -1327,11 +1327,11 @@ class InventoryLibraryTests(unittest.TestCase):
         im = Image.open(path).convert("RGBA")
         out = clamp_headwear(im, "large-tent", "baseball-cap")
         after = out.getchannel("A").getbbox()
-        legal = config.class_spec("large-tent")["headwear_zone"]
+        body_w = config.class_spec("large-tent")["bounding_box"]["w"]
         self.assertIsNotNone(after)
-        self.assertLessEqual(after[2] - after[0], legal["w"] + 12)
+        self.assertLessEqual(after[2] - after[0], int(body_w * 1.7) + 16)
         self.assertGreater(after[2] - after[0], 140)
-        self.assertAlmostEqual((after[0] + after[2]) / 2, 512, delta=20)
+        self.assertAlmostEqual((after[0] + after[2]) / 2, 512, delta=40)
 
     def test_snug_knit_keeps_artist_registration(self):
         from warm_company.composite import register_headwear

@@ -160,21 +160,21 @@ def register_headwear(im: Image.Image, class_id: str, trait_id: str | None = Non
     w, h = box[2] - box[0], box[3] - box[1]
     src_cx = (box[0] + box[2]) / 2.0
     hang = int(fit.get("hang", 24))
-    max_w = int(legal["w"])
-    max_h = int(legal["h"]) + hang
-    target_w = min(max(48, int(pref["w"] * float(fit.get("w_mul", 1.0)))), max_w)
-    target_h = min(max(36, int(pref["h"] * float(fit.get("h_mul", 1.15)))), max_h)
+    body_w = int(spec["bounding_box"]["w"])
+    max_w = min(1000, max(int(legal["w"]), int(body_w * 1.7)))
+    max_h = 720
+    target_w = min(max(48, int(pref["w"] * float(fit.get("w_mul", 1.0)))), int(legal["w"]))
+    target_h = min(max(36, int(pref["h"] * float(fit.get("h_mul", 1.15)))), int(legal["h"]) + hang)
     mode = str(fit.get("fit") or "contain")
     contact = fit.get("contact", 0.88)
 
-    oversized = w > max_w + 12 or h > max_h + 12
+    # Hats drawn on the character keep canvas placement. Only upscale
+    # pancake stickers; do not crush wrap-fitted art back to beanie size.
+    oversized = w > max_w + 12
     undersized = w < target_w * 0.72 or h < target_h * 0.58
-    off_center = abs(src_cx - cx) > 28
-    too_high = box[3] < brim_y - 28
-    too_low = box[1] > int(peak["y"]) + 48
-    force = mode == "force" or contact == "float"
+    force = mode == "force"
 
-    if not force and not oversized and not undersized and not off_center and not too_high and not too_low:
+    if not force and not oversized and not undersized:
         return im
 
     crop = im.crop(box)
