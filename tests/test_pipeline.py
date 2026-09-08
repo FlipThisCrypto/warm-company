@@ -587,6 +587,9 @@ class GenerationTests(unittest.TestCase):
         self.assertTrue(report["ok"])
         self.assertEqual(report["unique_dna"], 800)
         self.assertEqual(report["special_count"], 13)
+        self.assertEqual(report["schema_version"], self.result["schema_version"])
+        self.assertEqual(report["generated_utc"], self.result["generated_utc"])
+        self.assertEqual(report["collection_fingerprint"], self.result["collection_fingerprint"])
 
     def test_no_specials_still_fills_supply(self):
         from warm_company.fundraiser import token_goods_usd

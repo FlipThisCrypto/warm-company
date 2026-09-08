@@ -329,3 +329,10 @@ This baseline is not an iteration.
 - Why Round 3: operator-error isolation on recovery commands.
 - Verification: parsing both --verify and --restore-bak returns exit 1.
 - Commit: `round 3 iteration 44: make backup restore modes mutually exclusive`
+
+## Iteration 45/50
+- Evolution: Collection validation JSON includes schema_version, generated_utc, and collection_fingerprint.
+- Constraint: collection_validation.json could not be used later to identify which generate was audited.
+- Why Round 3: incident reconstruction for the validate artifact.
+- Verification: validate_result fields match the generation.
+- Commit: `round 3 iteration 45: persist generate identity on collection validation`

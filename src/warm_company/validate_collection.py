@@ -76,6 +76,9 @@ def validate_result(result: dict) -> dict:
         "tree_digest": (stored or {}).get("tree_digest") if isinstance(stored, dict) else None,
         "live_tree_digest": live.get("tree_digest"),
         "provenance_ok": not provenance_problems,
+        "schema_version": result.get("schema_version"),
+        "generated_utc": result.get("generated_utc"),
+        "collection_fingerprint": result.get("collection_fingerprint"),
     }
     atomic_write_text(BUILD / "reports" / "collection_validation.json", json.dumps(report, indent=2))
     return report
