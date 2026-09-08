@@ -13,6 +13,7 @@ from .rng import SeededStream, dna_hash
 
 MAX_TOKEN_ATTEMPTS = 80
 MAX_GENERATION_BYTES = 32 * 1024 * 1024
+GENERATION_SCHEMA = 1
 DEV_SEED = "warm-company-dev-seed-v0"
 DEV_COLLECTION_FINGERPRINT = "81da0c01e76da56d89c41d16f1d4cacf3c513d20d8a208faa0e9e798ff02189b"
 ROLL_SLOTS = [
@@ -208,6 +209,7 @@ def generate_collection(
     from .provenance import build_manifest
 
     result = {
+        "schema_version": GENERATION_SCHEMA,
         "seed": seed,
         "phase": phase,
         "supply": len(minted),
@@ -292,6 +294,13 @@ def read_generation_json(path: Path) -> dict[str, Any]:
         raise ValueError(f"{path.name} invalid JSON: {exc}") from exc
     if not isinstance(payload, dict) or not isinstance(payload.get("tokens"), list):
         raise ValueError(f"{path.name} is not a generation object with a tokens list")
+    schema = payload.get("schema_version", GENERATION_SCHEMA)
+    try:
+        schema_i = int(schema)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"{path.name} schema_version is not an integer") from exc
+    if schema_i != GENERATION_SCHEMA:
+        raise ValueError(f"{path.name} schema_version {schema_i} != {GENERATION_SCHEMA}")
     return payload
 
 

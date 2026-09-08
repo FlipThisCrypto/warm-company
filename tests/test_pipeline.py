@@ -560,7 +560,10 @@ class GenerationTests(unittest.TestCase):
 
         from warm_company.generate import DEV_COLLECTION_FINGERPRINT
 
+        from warm_company.generate import GENERATION_SCHEMA
+
         digest = collection_fingerprint(self.result)
+        self.assertEqual(self.result["schema_version"], GENERATION_SCHEMA)
         self.assertEqual(digest, DEV_COLLECTION_FINGERPRINT)
         self.assertEqual(self.result["collection_fingerprint"], digest)
         text = (ROOT / "src" / "warm_company" / "cli.py").read_text(encoding="utf-8")
@@ -1046,6 +1049,11 @@ class GenerationLoadTests(unittest.TestCase):
             with self.assertRaises(ValueError) as ctx:
                 read_generation_json(huge)
             self.assertIn("max", str(ctx.exception))
+            future = folder / "tokens.json"
+            future.write_text(json.dumps({"schema_version": 99, "tokens": []}), encoding="utf-8")
+            with self.assertRaises(ValueError) as ctx:
+                read_generation_json(future)
+            self.assertIn("schema_version", str(ctx.exception))
 
 
 class GenerateDryRunTests(unittest.TestCase):

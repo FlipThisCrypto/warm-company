@@ -119,3 +119,10 @@ This baseline is not an iteration.
 - Why Round 3: recovery must be exercised, not assumed. Restore is idempotent and refuses a bad zip.
 - Verification: corrupting tokens.json then restoring yields 800 matching json/jsonl rows.
 - Commit: `round 3 iteration 14: restore DNA from a verified backup zip`
+
+## Iteration 15/50
+- Evolution: Generation files carry `schema_version: 1`; loaders reject a future version.
+- Constraint: A later format change could be misread as a valid 800.
+- Why Round 3: data evolution / compatibility. Missing version defaults to 1 so current files still load.
+- Verification: schema 99 raises; current generate includes schema_version 1.
+- Commit: `round 3 iteration 15: version generation JSON and reject unknown schemas`
