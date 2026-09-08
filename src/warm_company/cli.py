@@ -179,6 +179,9 @@ def cmd_composite(args: argparse.Namespace) -> int:
         return 1
 
     # Count the tokens this run will attempt (limit/token-id shrink the set).
+    if args.limit is not None and int(args.limit) <= 0:
+        print(json.dumps({"ok": False, "problems": ["composite --limit must be >= 1"]}, indent=2))
+        return 1
     pending = 1 if args.token_id else (args.limit or 800)
     disk = composite_disk_problems(int(pending))
     if disk:

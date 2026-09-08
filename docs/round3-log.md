@@ -343,3 +343,10 @@ This baseline is not an iteration.
 - Why Round 3: digest integrity + path-escape. Validate already fails those files; the digest must not include them.
 - Verification: every hashed key starts with layers/; README is an escape.
 - Commit: `round 3 iteration 46: omit escaped layer paths from tree digest`
+
+## Iteration 47/50
+- Evolution: `composite --limit 0` (or negative) fails closed instead of compositing nothing with ok.
+- Constraint: `--limit 0` printed "composited 0 tokens skipped 0" and looked like success.
+- Why Round 3: silent success on a no-op operator command.
+- Verification: cmd_composite with limit 0 returns 1.
+- Commit: `round 3 iteration 47: reject non-positive composite --limit`

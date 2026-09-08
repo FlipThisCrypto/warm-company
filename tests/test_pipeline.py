@@ -1333,6 +1333,11 @@ class CompositeResumeTests(unittest.TestCase):
         args = build_parser().parse_args(["composite", "--resume", "--limit", "3"])
         self.assertTrue(args.resume)
         self.assertEqual(args.limit, 3)
+        zero = build_parser().parse_args(["composite", "--limit", "0"])
+        self.assertEqual(zero.limit, 0)
+        from warm_company.cli import cmd_composite
+
+        self.assertEqual(cmd_composite(zero), 1)
 
     def test_composite_gate_force_skips_stale_check(self):
         from warm_company.cli import composite_gate_problems
