@@ -154,6 +154,7 @@ def special_catalog_problems() -> list[str]:
 
 def status_report() -> dict[str, Any]:
     """Cheap operator snapshot. Does not generate the collection."""
+    started = time.perf_counter()
     from .fundraiser import campaign_totals, fundraiser_problems
     from .generate import DEV_COLLECTION_FINGERPRINT, DEV_SEED
     from .library import required_paths
@@ -224,6 +225,7 @@ def status_report() -> dict[str, Any]:
         "generation_pair_problems": pair_problems,
         "last_backup": last_backup,
         "bak_snapshot": (BUILD / "dna" / "tokens.json.bak").is_file(),
+        "duration_ms": int((time.perf_counter() - started) * 1000),
     }
 
 

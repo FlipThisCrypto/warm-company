@@ -1382,6 +1382,8 @@ class StatusTests(unittest.TestCase):
         self.assertIn("present", report["last_backup"])
         self.assertIn("bak_snapshot", report)
         self.assertIsInstance(report["bak_snapshot"], bool)
+        self.assertGreaterEqual(report["duration_ms"], 0)
+        self.assertLess(report["duration_ms"], 30_000)
         self.assertIn("generation_present", report)
         self.assertIn("generation_stale", report)
         self.assertIn("ready_to_composite", report)
