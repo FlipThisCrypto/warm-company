@@ -66,3 +66,18 @@ python -m warm_company composite --resume
 `--resume` skips tokens that already have a complete 1024 PNG so an interrupted 800-image run can continue. Composite refuses a stale last-generate (`generation_stale`) unless you pass `--force`.
 
 Missing layers are written to `build/reports/composite_missing.json`.
+
+## Disaster recovery
+
+DNA is the record. Images and metadata are regenerable from DNA + the live tree.
+
+| Failure | What to do |
+| --- | --- |
+| `generate` killed mid-run | `tokens.json` is atomic; the previous complete generate remains. Re-run `generate`. |
+| `composite` killed mid-run | `python -m warm_company composite --resume` after `status` shows `ready_to_composite`. |
+| `build/dna` deleted | `python -m warm_company backup --restore path\to\dna-....zip` then `status` (must not be `generation_stale`). |
+| `generation_stale` true | Layers/config changed. Re-run `generate` (or `--dry-run` first). Do not `--force` composite for a mint. |
+| `BuildLockHeld` | Another generate/composite is running, or a dead lock is less than 6 hours old. Wait, or delete `build/.generate.lock` / `build/.composite.lock` only if the pid is dead. |
+| `build directory is not writable` | Free disk, fix permissions, re-run `status`. |
+
+Never mint 800 images until the 12-sample gate and `preflight --mint` are green. Never rewrite git history at `6aa596f`.

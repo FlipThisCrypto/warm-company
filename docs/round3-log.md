@@ -224,3 +224,10 @@ This baseline is not an iteration.
 - Why Round 3: tamper evidence on mint metadata files.
 - Verification: mismatched series_number is not existing_metadata_ok.
 - Commit: `round 3 iteration 29: require metadata series_number to match filename`
+
+## Iteration 30/50
+- Evolution: OPERATOR.md disaster-recovery table for killed generate/composite, lost DNA, stale tree, locks, and unwritable build.
+- Constraint: Recovery tools existed; the runbook did not tell an on-call which command to run.
+- Why Round 3: operational handoff. Tools without a procedure are not recovery.
+- Verification: OPERATOR.md names restore, resume, generation_stale, and 6aa596f.
+- Commit: `round 3 iteration 30: document disaster recovery in the operator runbook`

@@ -51,6 +51,10 @@ class OperatorDocTests(unittest.TestCase):
         self.assertIn("collection_fingerprint", text)
         self.assertIn("legal_title_to_physical_item", text)
         self.assertIn("6aa596f", text)
+        self.assertIn("Disaster recovery", text)
+        self.assertIn("backup --restore", text)
+        self.assertIn("composite --resume", text)
+        self.assertIn("generation_stale", text)
 
 
 class ReadmeStatusTests(unittest.TestCase):
