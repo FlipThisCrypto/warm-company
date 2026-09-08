@@ -168,3 +168,10 @@ This baseline is not an iteration.
 - Why Round 3: silent success on a missed operator action.
 - Verification: missing id is True; present id and None are False.
 - Commit: `round 3 iteration 21: fail composite when token-id is not in generation`
+
+## Iteration 22/50
+- Evolution: ADR 0001 records why DNA binds to `tree_digest` rather than a git commit.
+- Constraint: The integrity model lived only in code comments; a new maintainer could "simplify" it.
+- Why Round 3: organizational durability / knowledge preservation of the mint-safety decision.
+- Verification: ADR names tree_digest, collection_fingerprint, and generation_stale.
+- Commit: `round 3 iteration 22: record ADR for DNA tree digest binding`

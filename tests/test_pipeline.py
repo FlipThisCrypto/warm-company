@@ -36,6 +36,14 @@ class DuplicateLayerTests(unittest.TestCase):
         self.assertIn("snow-boots.png", blob)
 
 
+class AdrTests(unittest.TestCase):
+    def test_tree_digest_adr_exists(self):
+        text = (ROOT / "docs" / "adr" / "0001-dna-tree-digest.md").read_text(encoding="utf-8")
+        self.assertIn("tree_digest", text)
+        self.assertIn("collection_fingerprint", text)
+        self.assertIn("generation_stale", text)
+
+
 class OperatorDocTests(unittest.TestCase):
     def test_operator_runbook_covers_mint_locks(self):
         text = (ROOT / "docs" / "OPERATOR.md").read_text(encoding="utf-8")
