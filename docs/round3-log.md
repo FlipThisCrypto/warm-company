@@ -42,3 +42,10 @@ This baseline is not an iteration.
 - Why Round 3: scale and recovery of the slow path. Round 2 wrote missing-layer reports; this resumes pixels.
 - Verification: 1024 PNG is skippable; tiny/missing files are not; CLI exposes --resume; report includes skipped.
 - Commit: `round 3 iteration 3: resume interrupted composite by skipping complete PNGs`
+
+## Iteration 4/50
+- Evolution: Exclusive `build/.generate.lock` and `build/.composite.lock`; steal dead/stale pids.
+- Constraint: Two overlapping generate/composite runs could interleave tokens.json and PNGs.
+- Why Round 3: failure isolation. Round 2 atomic writes protect one file, not two processes.
+- Verification: live lock raises BuildLockHeld; dead pid + old mtime is stolen; lock files gitignored.
+- Commit: `round 3 iteration 4: exclusive generate and composite build locks`

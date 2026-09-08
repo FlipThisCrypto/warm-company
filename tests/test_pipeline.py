@@ -79,7 +79,15 @@ class GitAttributesTests(unittest.TestCase):
 class GitignoreTests(unittest.TestCase):
     def test_regenerable_bulk_and_temp_files_are_ignored(self):
         text = (ROOT / ".gitignore").read_text(encoding="utf-8")
-        for needle in ("build/dna/", "build/images/", "build/metadata/", "build/final-polish-review/", "build/review-v2/", "*.tmp"):
+        for needle in (
+            "build/dna/",
+            "build/images/",
+            "build/metadata/",
+            "build/final-polish-review/",
+            "build/review-v2/",
+            "*.tmp",
+            "build/.*.lock",
+        ):
             self.assertIn(needle, text)
         self.assertNotIn("build/review-v3/", text)
 
@@ -1003,6 +1011,27 @@ class CliSurfaceTests(unittest.TestCase):
             "status",
         }
         self.assertEqual(expected, set(choices))
+
+
+class BuildLockTests(unittest.TestCase):
+    def test_live_lock_blocks_and_dead_lock_is_stolen(self):
+        import os
+
+        from warm_company.paths import BuildLockHeld, exclusive_build, lock_path
+
+        with exclusive_build("unit-lock"):
+            path = lock_path("unit-lock")
+            self.assertTrue(path.is_file())
+            with self.assertRaises(BuildLockHeld):
+                with exclusive_build("unit-lock"):
+                    pass
+            path.write_text("1\n", encoding="utf-8")
+        # After release the lock file is gone; a leftover dead pid is stolen.
+        path.write_text("999999\n", encoding="utf-8")
+        os.utime(path, (0, 0))
+        with exclusive_build("unit-lock", stale_after_s=1):
+            self.assertEqual(int(path.read_text(encoding="utf-8").split()[0]), os.getpid())
+        self.assertFalse(path.is_file())
 
 
 class CompositeResumeTests(unittest.TestCase):
