@@ -196,3 +196,10 @@ This baseline is not an iteration.
 - Why Round 3: metadata is a mint artifact; it must not silently bind to a stale tree.
 - Verification: CLI exposes `--force` and `--resume`; gate with force=True is empty.
 - Commit: `round 3 iteration 25: refuse metadata writes when last generate is stale`
+
+## Iteration 26/50
+- Evolution: Contact sheets only thumbnail complete 1024 PNGs; truncated files fall back to schematic.
+- Constraint: `png.exists()` would open a crash-leftover file and fail the whole sheet.
+- Why Round 3: failure isolation on a derived artifact. Uses the same complete-PNG check as composite --resume.
+- Verification: missing token 9999 yields a THUMB-sized schematic.
+- Commit: `round 3 iteration 26: contact sheets ignore incomplete token PNGs`

@@ -1149,6 +1149,17 @@ class BuildLockTests(unittest.TestCase):
         self.assertFalse(path.is_file())
 
 
+class ContactSheetCellTests(unittest.TestCase):
+    def test_cell_image_falls_back_when_png_is_not_complete(self):
+        from warm_company.contact_sheet import THUMB, _cell_image, schematic_thumb
+
+        token = {"token_id": 9999, "class_id": "sleeping-bag"}
+        cell = _cell_image(token)
+        fallback = schematic_thumb(token)
+        self.assertEqual(cell.size, (THUMB, THUMB))
+        self.assertEqual(cell.size, fallback.size)
+
+
 class CompositeTokenIdTests(unittest.TestCase):
     def test_requested_token_missing_detects_absent_id(self):
         from warm_company.cli import requested_token_missing

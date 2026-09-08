@@ -59,8 +59,10 @@ def schematic_thumb(token: dict, size: int = THUMB) -> Image.Image:
 
 
 def _cell_image(token: dict) -> Image.Image:
-    png = BUILD / "images" / f"{token['token_id']:04d}.png"
-    if png.exists():
+    from .composite import existing_token_png_ok, token_png_path
+
+    png = token_png_path(token["token_id"])
+    if existing_token_png_ok(png):
         return Image.open(png).convert("RGB").resize((THUMB, THUMB), Image.Resampling.LANCZOS)
     return schematic_thumb(token)
 
