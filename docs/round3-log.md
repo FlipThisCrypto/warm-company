@@ -203,3 +203,10 @@ This baseline is not an iteration.
 - Why Round 3: failure isolation on a derived artifact. Uses the same complete-PNG check as composite --resume.
 - Verification: missing token 9999 yields a THUMB-sized schematic.
 - Commit: `round 3 iteration 26: contact sheets ignore incomplete token PNGs`
+
+## Iteration 27/50
+- Evolution: Collection validation rejects an in-memory result with the wrong `schema_version`.
+- Constraint: File loaders checked schema; preflight/validate of a live result did not.
+- Why Round 3: data evolution on every validation path, not only disk reads.
+- Verification: bumping schema_version on a real 800 fails validate_result.
+- Commit: `round 3 iteration 27: reject unknown generation schema in validate-collection`

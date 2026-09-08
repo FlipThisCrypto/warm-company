@@ -584,6 +584,16 @@ class GenerationTests(unittest.TestCase):
         digest = collection_fingerprint(self.result)
         self.assertEqual(self.result["schema_version"], GENERATION_SCHEMA)
         self.assertRegex(self.result["generated_utc"], r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
+
+    def test_validate_result_rejects_future_schema(self):
+        from warm_company.generate import GENERATION_SCHEMA
+        from warm_company.validate_collection import validate_result
+
+        payload = dict(self.result)
+        payload["schema_version"] = GENERATION_SCHEMA + 1
+        report = validate_result(payload)
+        self.assertFalse(report["ok"])
+        self.assertTrue(any("schema_version" in p for p in report["problems"]))
         self.assertEqual(digest, DEV_COLLECTION_FINGERPRINT)
         self.assertEqual(self.result["collection_fingerprint"], digest)
         text = (ROOT / "src" / "warm_company" / "cli.py").read_text(encoding="utf-8")

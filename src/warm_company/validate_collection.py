@@ -44,6 +44,14 @@ def validate_result(result: dict) -> dict:
     from .provenance import build_manifest, compare_manifest
 
     problems.extend(fundraiser_problems(result))
+    from .generate import GENERATION_SCHEMA
+
+    try:
+        schema = int(result.get("schema_version") or GENERATION_SCHEMA)
+    except (TypeError, ValueError):
+        schema = -1
+    if schema != GENERATION_SCHEMA:
+        problems.append(f"schema_version {schema} != {GENERATION_SCHEMA}")
     if result.get("seed") == DEV_SEED:
         digest = collection_fingerprint(result)
         if digest != DEV_COLLECTION_FINGERPRINT:
