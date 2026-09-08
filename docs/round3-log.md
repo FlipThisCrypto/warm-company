@@ -133,3 +133,10 @@ This baseline is not an iteration.
 - Why Round 3: resource ceiling. Round 2 locked PNG count, not byte size.
 - Verification: 8MiB+1 fake file is rejected; a real layer is under the cap.
 - Commit: `round 3 iteration 16: reject oversized layer PNGs before decode`
+
+## Iteration 17/50
+- Evolution: Provenance runtime records SHA-256 of `requirements.txt`; status surfaces it.
+- Constraint: A silent Pillow/requirements edit was invisible on the cheap operator path.
+- Why Round 3: supply-chain visibility without retargeting DNA tree_digest.
+- Verification: status.requirements_sha256 is 64 hex chars; tree_digest ignores it.
+- Commit: `round 3 iteration 17: record requirements.txt hash on status`

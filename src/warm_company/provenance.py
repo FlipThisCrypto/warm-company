@@ -121,7 +121,11 @@ def build_manifest(seed: str, phase: int) -> dict[str, Any]:
         "tree_digest": tree_digest(core),
         "layer_count": len(layers),
         "git_revision": git_revision(),
-        "runtime": {"pillow": pillow, "python": sys.version.split()[0]},
+        "runtime": {
+            "pillow": pillow,
+            "python": sys.version.split()[0],
+            "requirements_sha256": sha256_file(ROOT / "requirements.txt") if (ROOT / "requirements.txt").is_file() else None,
+        },
         "note": "tree_digest covers seed, phase, generator_version, config hashes, source hashes, layer hashes, supply. git_revision and runtime are informational.",
     }
 

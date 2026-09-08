@@ -197,6 +197,7 @@ def status_report() -> dict[str, Any]:
         "runtime": manifest.get("runtime"),
         "ci_python": "3.11",
         "python_mismatch": not str((manifest.get("runtime") or {}).get("python") or "").startswith("3.11"),
+        "requirements_sha256": (manifest.get("runtime") or {}).get("requirements_sha256"),
         "specials": int(config.rarity()["specials"]["count"]),
         "generator_version": manifest["generator_version"],
         "campaign": campaign_totals(),

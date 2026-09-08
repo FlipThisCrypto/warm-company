@@ -1225,6 +1225,7 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(report["specials"], 13)
         self.assertEqual(report["ci_python"], "3.11")
         self.assertIn("python_mismatch", report)
+        self.assertEqual(len(report["requirements_sha256"] or ""), 64)
         self.assertIn("generation_present", report)
         self.assertIn("generation_stale", report)
         self.assertIn("ready_to_composite", report)
