@@ -8,6 +8,7 @@ when an illustrated light layer is absent.
 
 from __future__ import annotations
 
+import shutil
 from pathlib import Path
 
 from PIL import Image, ImageChops, ImageDraw, ImageFilter
@@ -662,6 +663,31 @@ def composite_with_report(
 def composite_token(token: dict, *, missing: str = "error", skip_slots: tuple[str, ...] = ()) -> Image.Image:
     image, _report = composite_with_report(token, missing=missing, skip_slots=skip_slots)
     return image
+
+
+PNG_BUDGET_BYTES = 1_500_000
+PNG_HEADROOM_BYTES = 50_000_000
+
+
+def estimated_composite_bytes(token_count: int) -> int:
+    return max(0, int(token_count)) * PNG_BUDGET_BYTES + PNG_HEADROOM_BYTES
+
+
+def disk_has_room(path: Path, nbytes: int) -> bool:
+    try:
+        return shutil.disk_usage(path).free >= int(nbytes)
+    except OSError:
+        return False
+
+
+def composite_disk_problems(token_count: int, dest: Path | None = None) -> list[str]:
+    dest = dest or (BUILD / "images")
+    dest.mkdir(parents=True, exist_ok=True)
+    need = estimated_composite_bytes(token_count)
+    if disk_has_room(dest, need):
+        return []
+    free = shutil.disk_usage(dest).free
+    return [f"only {free} bytes free; need ~{need} for {token_count} PNGs"]
 
 
 def token_png_path(token_id: int) -> Path:

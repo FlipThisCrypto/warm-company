@@ -91,3 +91,10 @@ This baseline is not an iteration.
 - Why Round 3: interrupted-operation recovery for the slow image path. Round 2 atomic-wrote JSON only.
 - Verification: second write replaces pixels; no leftover `.tmp`.
 - Commit: `round 3 iteration 10: write token PNGs atomically`
+
+## Iteration 11/50
+- Evolution: Composite refuses to start when free disk is below 1.5 MB × token count + 50 MB headroom.
+- Constraint: An 800-PNG run could fill the disk mid-write and leave a partial set.
+- Why Round 3: storage ceiling / failure prevention before the slow path.
+- Verification: 800-token budget is 1.25e9 bytes; 10^18-byte request fails on a temp dir; 0 tokens is clean.
+- Commit: `round 3 iteration 11: refuse composite when free disk is below PNG budget`

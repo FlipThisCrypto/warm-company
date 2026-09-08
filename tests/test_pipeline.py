@@ -1066,6 +1066,27 @@ class BuildLockTests(unittest.TestCase):
         self.assertFalse(path.is_file())
 
 
+class CompositeDiskTests(unittest.TestCase):
+    def test_composite_budget_and_impossible_free_space(self):
+        import tempfile
+
+        from warm_company.composite import (
+            composite_disk_problems,
+            disk_has_room,
+            estimated_composite_bytes,
+        )
+
+        self.assertEqual(estimated_composite_bytes(800), 800 * 1_500_000 + 50_000_000)
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp)
+            self.assertTrue(disk_has_room(dest, 1))
+            self.assertFalse(disk_has_room(dest, 10**18))
+            self.assertEqual(composite_disk_problems(0, dest), [])
+            huge = composite_disk_problems(10**9, dest)
+            self.assertTrue(huge)
+            self.assertIn("free", huge[0])
+
+
 class AtomicPngTests(unittest.TestCase):
     def test_atomic_png_replaces_complete_file_and_clears_tmp(self):
         import tempfile

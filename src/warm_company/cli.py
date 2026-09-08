@@ -152,12 +152,25 @@ def composite_gate_problems(*, force: bool) -> list[str]:
 
 
 def cmd_composite(args: argparse.Namespace) -> int:
-    from .composite import composite_with_report, existing_token_png_ok, token_png_path, write_token_png
+    from .composite import (
+        composite_disk_problems,
+        composite_with_report,
+        existing_token_png_ok,
+        token_png_path,
+        write_token_png,
+    )
     from .paths import BUILD, BuildLockHeld, atomic_write_text, exclusive_build
 
     gate = composite_gate_problems(force=bool(args.force))
     if gate:
         print(json.dumps({"ok": False, "problems": gate}, indent=2))
+        return 1
+
+    # Count the tokens this run will attempt (limit/token-id shrink the set).
+    pending = 1 if args.token_id else (args.limit or 800)
+    disk = composite_disk_problems(int(pending))
+    if disk:
+        print(json.dumps({"ok": False, "problems": disk}, indent=2))
         return 1
     try:
         with exclusive_build("composite"):
