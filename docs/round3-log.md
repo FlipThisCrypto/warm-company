@@ -35,3 +35,10 @@ This baseline is not an iteration.
 - Why Round 3: corruption detection and recovery; Round 2 atomic writes protect a single file, not the pair.
 - Verification: matching pair is clean; length/dna mismatch is reported; one file without the other is reported.
 - Commit: `round 3 iteration 2: cross-check tokens.json against collection.jsonl`
+
+## Iteration 3/50
+- Evolution: `composite --resume` skips complete 1024 PNGs so an interrupted 800-image run can continue.
+- Constraint: Composite was all-or-nothing; a crash meant redoing every token.
+- Why Round 3: scale and recovery of the slow path. Round 2 wrote missing-layer reports; this resumes pixels.
+- Verification: 1024 PNG is skippable; tiny/missing files are not; CLI exposes --resume; report includes skipped.
+- Commit: `round 3 iteration 3: resume interrupted composite by skipping complete PNGs`

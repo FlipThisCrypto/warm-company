@@ -111,20 +111,32 @@ def cmd_prompts(args: argparse.Namespace) -> int:
     return 0
 
 
-def composite_missing_report(count: int, rows: list[dict]) -> dict:
-    return {"composited": count, "missing_token_count": len(rows), "tokens_with_missing": rows}
+def composite_missing_report(count: int, rows: list[dict], skipped: int = 0) -> dict:
+    return {
+        "composited": count,
+        "skipped": skipped,
+        "missing_token_count": len(rows),
+        "tokens_with_missing": rows,
+    }
 
 
 def cmd_composite(args: argparse.Namespace) -> int:
-    from .composite import composite_with_report, write_token_png
+    from .composite import composite_with_report, existing_token_png_ok, token_png_path, write_token_png
     from .paths import BUILD, atomic_write_text
 
     result = _load_tokens()
     missing = "allow" if args.allow_missing else "error"
     count = 0
+    skipped = 0
     missing_rows: list[dict] = []
     for token in result["tokens"]:
         if args.token_id and token["token_id"] != args.token_id:
+            continue
+        dest = token_png_path(token["token_id"])
+        if args.resume and existing_token_png_ok(dest):
+            skipped += 1
+            if args.limit and (count + skipped) >= args.limit:
+                break
             continue
         try:
             image, report = composite_with_report(token, missing=missing)
@@ -137,13 +149,13 @@ def cmd_composite(args: argparse.Namespace) -> int:
             if args.report_missing:
                 print(f"#{token.get('token_id')} missing: {', '.join(report['missing'])}")
         count += 1
-        if args.limit and count >= args.limit:
+        if args.limit and (count + skipped) >= args.limit:
             break
     atomic_write_text(
         BUILD / "reports" / "composite_missing.json",
-        json.dumps(composite_missing_report(count, missing_rows), indent=2),
+        json.dumps(composite_missing_report(count, missing_rows, skipped), indent=2),
     )
-    print(f"composited {count} tokens")
+    print(f"composited {count} tokens skipped {skipped}")
     if missing_rows:
         print(f"missing layers on {len(missing_rows)} tokens; see {BUILD / 'reports' / 'composite_missing.json'}")
     return 0
@@ -233,6 +245,7 @@ def build_parser() -> argparse.ArgumentParser:
     comp.add_argument("--limit", type=int, default=None)
     comp.add_argument("--allow-missing", action="store_true")
     comp.add_argument("--report-missing", action="store_true")
+    comp.add_argument("--resume", action="store_true", help="Skip tokens that already have a complete 1024 PNG")
     comp.set_defaults(func=cmd_composite)
     return parser
 

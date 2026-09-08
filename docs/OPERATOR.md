@@ -50,6 +50,9 @@ Do not composite all 800 until a human has approved the 12-sample gate in `build
 
 ```powershell
 python -m warm_company composite --allow-missing --limit 12
+python -m warm_company composite --resume
 ```
+
+`--resume` skips tokens that already have a complete 1024 PNG so an interrupted 800-image run can continue.
 
 Missing layers are written to `build/reports/composite_missing.json`.

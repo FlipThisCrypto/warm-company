@@ -664,8 +664,23 @@ def composite_token(token: dict, *, missing: str = "error", skip_slots: tuple[st
     return image
 
 
+def token_png_path(token_id: int) -> Path:
+    return BUILD / "images" / f"{int(token_id):04d}.png"
+
+
+def existing_token_png_ok(path: Path) -> bool:
+    """True when a previous composite left a complete 1024 PNG."""
+    if not path.is_file() or path.stat().st_size < 256:
+        return False
+    try:
+        with Image.open(path) as image:
+            return image.size == CANVAS
+    except (OSError, ValueError):
+        return False
+
+
 def write_token_png(token: dict, image: Image.Image) -> Path:
     ensure_build()
-    path = BUILD / "images" / f"{token['token_id']:04d}.png"
+    path = token_png_path(token["token_id"])
     image.convert("RGBA").save(path, "PNG")
     return path

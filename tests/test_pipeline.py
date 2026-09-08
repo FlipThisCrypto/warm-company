@@ -848,6 +848,7 @@ class ReviewStripTests(unittest.TestCase):
 
         payload = composite_missing_report(2, [{"token_id": 1, "missing": ["layers/x.png"]}])
         self.assertEqual(payload["composited"], 2)
+        self.assertEqual(payload["skipped"], 0)
         self.assertEqual(payload["missing_token_count"], 1)
         self.assertEqual(payload["tokens_with_missing"][0]["token_id"], 1)
 
@@ -1002,6 +1003,32 @@ class CliSurfaceTests(unittest.TestCase):
             "status",
         }
         self.assertEqual(expected, set(choices))
+
+
+class CompositeResumeTests(unittest.TestCase):
+    def test_existing_complete_png_is_skippable(self):
+        import tempfile
+
+        from PIL import Image as PilImage
+
+        from warm_company.composite import CANVAS, existing_token_png_ok
+
+        with tempfile.TemporaryDirectory() as tmp:
+            good = Path(tmp) / "0001.png"
+            bad = Path(tmp) / "tiny.png"
+            missing = Path(tmp) / "nope.png"
+            PilImage.new("RGBA", CANVAS, (1, 2, 3, 255)).save(good, "PNG")
+            PilImage.new("RGBA", (8, 8), (1, 2, 3, 255)).save(bad, "PNG")
+            self.assertTrue(existing_token_png_ok(good))
+            self.assertFalse(existing_token_png_ok(bad))
+            self.assertFalse(existing_token_png_ok(missing))
+
+    def test_cli_exposes_composite_resume(self):
+        from warm_company.cli import build_parser
+
+        args = build_parser().parse_args(["composite", "--resume", "--limit", "3"])
+        self.assertTrue(args.resume)
+        self.assertEqual(args.limit, 3)
 
 
 class GenerationPairTests(unittest.TestCase):
