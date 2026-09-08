@@ -64,6 +64,8 @@ class ReadmeStatusTests(unittest.TestCase):
         self.assertIn("docs/OPERATOR.md", text)
         self.assertIn("tree_digest", text)
         self.assertIn("800-image mint", text)
+        self.assertIn("generation_stale", text)
+        self.assertIn("restore-bak", text)
 
 
 class ContributingTests(unittest.TestCase):

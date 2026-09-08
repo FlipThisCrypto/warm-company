@@ -97,6 +97,7 @@ The development seed is `warm-company-dev-seed-v0`. Replace it before Phase 11 a
 | Refinement 12-sample gate | `build/review-v3/` (resource-legal samples + reconstruction strips) |
 | Provenance | `tree_digest` of config, generator source, and layer hashes |
 | Operator path | `status`, `preflight`, `preflight --mint`; see `docs/OPERATOR.md` |
+| DNA recovery | `backup` / `--verify` / `--restore` / `--restore-bak`; `status` reports `generation_stale` |
 | CI | GitHub Actions: status, tests, preflight |
 | CHIP-0007 | Legal title false; invented URLs rejected |
 | Campaign math | 800 tokens = $12,000 goods / $13,200 gross |

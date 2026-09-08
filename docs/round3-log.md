@@ -350,3 +350,10 @@ This baseline is not an iteration.
 - Why Round 3: silent success on a no-op operator command.
 - Verification: cmd_composite with limit 0 returns 1.
 - Commit: `round 3 iteration 47: reject non-positive composite --limit`
+
+## Iteration 48/50
+- Evolution: README status table names DNA backup/restore and `generation_stale`.
+- Constraint: Public README still described operator path without recovery.
+- Why Round 3: strategic/operational visibility for anyone cloning the repo.
+- Verification: README contains generation_stale and restore-bak.
+- Commit: `round 3 iteration 48: publish DNA recovery on the README status table`
