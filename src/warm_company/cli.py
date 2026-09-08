@@ -63,6 +63,8 @@ def cmd_generate(args: argparse.Namespace) -> int:
         "rarest": rarity["rarest_tokens"][:5],
         "dry_run": bool(args.dry_run),
         "wrote": not bool(args.dry_run),
+        "generated_utc": result.get("generated_utc"),
+        "schema_version": result.get("schema_version"),
     }, indent=2))
     return 0 if report["ok"] else 1
 

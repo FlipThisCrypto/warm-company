@@ -273,3 +273,10 @@ This baseline is not an iteration.
 - Why Round 3: incident reconstruction for composite runs.
 - Verification: report helper still has composited/skipped; extra identity keys are JSON-serializable.
 - Commit: `round 3 iteration 36: bind composite missing report to DNA identity`
+
+## Iteration 37/50
+- Evolution: generate CLI JSON includes `generated_utc` and `schema_version`.
+- Constraint: Operators capturing generate stdout could not record when or which schema produced the fingerprint.
+- Why Round 3: decision evidence at generate time, matching rarity/status.
+- Verification: cli.py generate payload keys include generated_utc and schema_version.
+- Commit: `round 3 iteration 37: include generate time and schema in generate CLI JSON`
