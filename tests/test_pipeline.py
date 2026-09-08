@@ -1076,6 +1076,20 @@ class DnaBackupTests(unittest.TestCase):
         self.assertTrue((BUILD / "dna" / "tokens.json").is_file())
 
 
+class GenerationRotateTests(unittest.TestCase):
+    def test_rotate_previous_generation_copies_bak(self):
+        from warm_company.generate import rotate_previous_generation, write_generation, generate_collection
+        from warm_company.paths import BUILD
+
+        result = generate_collection(seed="warm-company-dev-seed-v0", phase=9)
+        write_generation(result)
+        first = (BUILD / "dna" / "tokens.json").read_text(encoding="utf-8")
+        rotated = rotate_previous_generation()
+        self.assertIn("tokens.json.bak", rotated)
+        bak = (BUILD / "dna" / "tokens.json.bak").read_text(encoding="utf-8")
+        self.assertEqual(bak, first)
+
+
 class GenerationLoadTests(unittest.TestCase):
     def test_read_generation_json_rejects_corrupt_and_huge(self):
         import tempfile

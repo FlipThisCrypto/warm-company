@@ -12,6 +12,7 @@ Thumbs.db
 build/images/
 build/metadata/
 build/dna/
+build/dna/*.bak
 build/contact-sheets/
 build/reports/
 build/qa/

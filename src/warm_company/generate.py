@@ -246,8 +246,22 @@ def collection_fingerprint(result: dict[str, Any]) -> str:
     return hashlib.sha256("\n".join(lines).encode("utf-8")).hexdigest()
 
 
+def rotate_previous_generation() -> list[str]:
+    """Keep one previous DNA snapshot beside the new write."""
+    rotated: list[str] = []
+    for rel in ("dna/tokens.json", "dna/collection.jsonl", "dna/provenance.json"):
+        src = BUILD / rel
+        if not src.is_file():
+            continue
+        dest = src.with_name(src.name + ".bak")
+        dest.write_bytes(src.read_bytes())
+        rotated.append(dest.name)
+    return rotated
+
+
 def write_generation(result: dict[str, Any]) -> None:
     ensure_build()
+    rotate_previous_generation()
     tokens_path = BUILD / "dna" / "tokens.json"
     slim = [{k: v for k, v in token.items()} for token in result["tokens"]]
     payload = {k: v for k, v in result.items() if k != "tokens"}

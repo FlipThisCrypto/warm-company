@@ -231,3 +231,10 @@ This baseline is not an iteration.
 - Why Round 3: operational handoff. Tools without a procedure are not recovery.
 - Verification: OPERATOR.md names restore, resume, generation_stale, and 6aa596f.
 - Commit: `round 3 iteration 30: document disaster recovery in the operator runbook`
+
+## Iteration 31/50
+- Evolution: `write_generation` copies the previous tokens/jsonl/provenance to `*.bak` before overwrite.
+- Constraint: A second generate destroyed the only on-disk DNA without a snapshot.
+- Why Round 3: one-step rollback if generate was accidental. Zip backup still required for off-disk copies.
+- Verification: after write_generation, rotating again produces tokens.json.bak equal to tokens.json.
+- Commit: `round 3 iteration 31: snapshot previous DNA to bak before overwrite`
