@@ -371,3 +371,24 @@ This baseline is not an iteration.
 - Why Round 3: decision intelligence for the actual mint go/no-go.
 - Verification: placeholder seed => ready_to_mint false; field is present.
 - Commit: `round 3 iteration 50: expose ready_to_mint on status as mint go/no-go`
+
+---
+
+# ROUND 3 COMPLETION AUDIT
+
+- Branch: `main` (matches `origin/main`)
+- Round 3 start (parent of iteration 1): `c7fea7c`
+- Round 3 first commit: `3453516` (`round 3 iteration 1`)
+- Round 3 last commit: `b0449da` (`round 3 iteration 50`)
+- Round 3 numbered commits: 50 sequential `round 3 iteration N` messages (1–50)
+- Extra non-iteration commit in range: `fd824eb` (`fix: restore fingerprint assertions split by schema test`)
+- Round 1/2 history: intact (`6aa596f` ancestor; Round 2 ends `1e3c984`)
+- Tests: 141 OK in 67.6s (`python -m unittest tests.test_pipeline`)
+- Lint/type-check: not configured (unittest only, same as Round 2)
+- E2E/browser/accessibility: not applicable (CLI generator, no web UI)
+- Security verification: mint seed lock, path-escape, zip-slip, unsafe ids, metadata DNA bind — covered by unit tests
+- Performance: 800 DNA < 20s; status < 30s; preflight duration_ms recorded (~31s including layer inspect)
+- Recovery: generate→zip→corrupt→restore drill passes; bak snapshot restore passes
+- Deployment: still not minted; `ready_to_mint` is false on the placeholder seed
+- Remaining limitations: production seed is still `placeholder-not-for-mint`; no 800-image mint; duplicate boot PNGs still warned not failed; local Python 3.14 vs CI 3.11 (`python_mismatch`); no live marketplace; art review gate still required before compositing 800
+
