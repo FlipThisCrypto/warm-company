@@ -64,6 +64,17 @@ def exclusive_build(name: str, *, stale_after_s: int = 6 * 3600) -> Iterator[Pat
         path.unlink(missing_ok=True)
 
 
+def build_writable() -> bool:
+    ensure_build()
+    probe = BUILD / ".write-probe"
+    try:
+        probe.write_text("ok", encoding="utf-8")
+        probe.unlink(missing_ok=True)
+        return True
+    except OSError:
+        return False
+
+
 def ensure_build() -> None:
     for sub in (
         "images",

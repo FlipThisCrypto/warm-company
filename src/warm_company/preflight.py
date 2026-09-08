@@ -156,7 +156,7 @@ def status_report() -> dict[str, Any]:
     from .fundraiser import campaign_totals, fundraiser_problems
     from .generate import DEV_COLLECTION_FINGERPRINT, DEV_SEED
     from .library import required_paths
-    from .paths import ROOT
+    from .paths import ROOT, build_writable
     from .provenance import build_manifest, last_generation_drift
     from .validate_layers import duplicate_layer_pairs
 
@@ -178,6 +178,9 @@ def status_report() -> dict[str, Any]:
     from .generate import generation_pair_problems
 
     pair_problems = generation_pair_problems()
+    writable = build_writable()
+    if not writable:
+        integrity = list(integrity) + ["build directory is not writable"]
     return {
         "ok": not missing and not integrity,
         "problems": integrity + [f"missing {path}" for path in missing],
@@ -202,6 +205,7 @@ def status_report() -> dict[str, Any]:
         "generator_version": manifest["generator_version"],
         "campaign": campaign_totals(),
         "duplicate_layer_pairs": duplicate_layer_pairs(),
+        "build_writable": writable,
         "generation_present": drift["generation_present"],
         "generation_stale": drift["generation_stale"],
         "generation_problems": drift["generation_problems"],

@@ -1100,6 +1100,13 @@ class CliSurfaceTests(unittest.TestCase):
         self.assertEqual(expected, set(choices))
 
 
+class BuildWritableTests(unittest.TestCase):
+    def test_build_writable_is_true_here(self):
+        from warm_company.paths import build_writable
+
+        self.assertTrue(build_writable())
+
+
 class BuildLockTests(unittest.TestCase):
     def test_live_lock_blocks_and_dead_lock_is_stolen(self):
         import os
@@ -1237,6 +1244,7 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(report["ci_python"], "3.11")
         self.assertIn("python_mismatch", report)
         self.assertEqual(len(report["requirements_sha256"] or ""), 64)
+        self.assertTrue(report["build_writable"])
         self.assertIn("generation_present", report)
         self.assertIn("generation_stale", report)
         self.assertIn("ready_to_composite", report)

@@ -147,3 +147,10 @@ This baseline is not an iteration.
 - Why Round 3: resumable workflow for metadata, matching composite --resume.
 - Verification: first write counts wrote=1; second resume skipped=1.
 - Commit: `round 3 iteration 18: resume CHIP-0007 metadata writes`
+
+## Iteration 19/50
+- Evolution: `status` probes that `build/` is writable and fails `ok` when it is not.
+- Constraint: A read-only build dir would fail generate/composite with a raw OSError mid-run.
+- Why Round 3: startup recovery / operator diagnosis before the slow path.
+- Verification: probe succeeds on this machine; status.build_writable is true.
+- Commit: `round 3 iteration 19: fail status when build dir is not writable`
