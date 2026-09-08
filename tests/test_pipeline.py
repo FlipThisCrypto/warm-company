@@ -1015,6 +1015,11 @@ class FundraiserTests(unittest.TestCase):
 
 
 class DnaBackupTests(unittest.TestCase):
+    def test_latest_backup_report_without_files(self):
+        from warm_company.backup import latest_backup_report
+
+        report = latest_backup_report()
+        self.assertIn("present", report)
     def test_backup_round_trip_and_corrupt_zip(self):
         import tempfile
         import zipfile
@@ -1271,6 +1276,8 @@ class StatusTests(unittest.TestCase):
         self.assertIn("python_mismatch", report)
         self.assertEqual(len(report["requirements_sha256"] or ""), 64)
         self.assertTrue(report["build_writable"])
+        self.assertIn("last_backup", report)
+        self.assertIn("present", report["last_backup"])
         self.assertIn("generation_present", report)
         self.assertIn("generation_stale", report)
         self.assertIn("ready_to_composite", report)

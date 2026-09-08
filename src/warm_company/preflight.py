@@ -178,6 +178,9 @@ def status_report() -> dict[str, Any]:
     from .generate import generation_pair_problems
 
     pair_problems = generation_pair_problems()
+    from .backup import latest_backup_report
+
+    last_backup = latest_backup_report()
     writable = build_writable()
     if not writable:
         integrity = list(integrity) + ["build directory is not writable"]
@@ -218,6 +221,7 @@ def status_report() -> dict[str, Any]:
             and not pair_problems
         ),
         "generation_pair_problems": pair_problems,
+        "last_backup": last_backup,
     }
 
 

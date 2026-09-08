@@ -17,6 +17,16 @@ BACKUP_MEMBERS = (
 )
 
 
+def latest_backup_report() -> dict:
+    folder = backup_dir()
+    files = sorted(folder.glob("dna-*.zip"), key=lambda path: path.stat().st_mtime, reverse=True)
+    if not files:
+        return {"present": False, "path": None, "ok": None, "problems": []}
+    path = files[0]
+    problems = verify_backup(path)
+    return {"present": True, "path": str(path), "ok": not problems, "problems": problems}
+
+
 def backup_dir() -> Path:
     ensure_build()
     path = BUILD / "backups"

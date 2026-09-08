@@ -182,3 +182,10 @@ This baseline is not an iteration.
 - Why Round 3: JSON bomb / resource ceiling on the second generation file.
 - Verification: oversized jsonl reports max; matching small pair still clean.
 - Commit: `round 3 iteration 23: cap collection.jsonl size during pair check`
+
+## Iteration 24/50
+- Evolution: `status.last_backup` reports the newest `build/backups/dna-*.zip` and whether it still verifies.
+- Constraint: Operators could not tell from status whether a recovery zip existed or was corrupt.
+- Why Round 3: backup validation on the cheap path.
+- Verification: last_backup.present is a bool; missing folder is present=false.
+- Commit: `round 3 iteration 24: report latest DNA backup on status`
