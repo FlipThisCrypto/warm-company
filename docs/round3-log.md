@@ -238,3 +238,10 @@ This baseline is not an iteration.
 - Why Round 3: one-step rollback if generate was accidental. Zip backup still required for off-disk copies.
 - Verification: after write_generation, rotating again produces tokens.json.bak equal to tokens.json.
 - Commit: `round 3 iteration 31: snapshot previous DNA to bak before overwrite`
+
+## Iteration 32/50
+- Evolution: `backup --restore-bak` puts the previous `*.bak` DNA snapshot back under the generate lock.
+- Constraint: Accidental generate had a bak file but no restore command.
+- Why Round 3: immediate rollback without a zip. Zip restore remains for off-disk copies.
+- Verification: after corrupting tokens.json, restore_previous_generation returns the bak bytes and a clean pair.
+- Commit: `round 3 iteration 32: restore DNA from the previous bak snapshot`

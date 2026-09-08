@@ -1088,6 +1088,11 @@ class GenerationRotateTests(unittest.TestCase):
         self.assertIn("tokens.json.bak", rotated)
         bak = (BUILD / "dna" / "tokens.json.bak").read_text(encoding="utf-8")
         self.assertEqual(bak, first)
+        from warm_company.generate import restore_previous_generation
+
+        (BUILD / "dna" / "tokens.json").write_text("{}", encoding="utf-8")
+        self.assertEqual(restore_previous_generation(), [])
+        self.assertEqual((BUILD / "dna" / "tokens.json").read_text(encoding="utf-8"), first)
 
 
 class GenerationLoadTests(unittest.TestCase):

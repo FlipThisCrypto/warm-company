@@ -259,6 +259,21 @@ def rotate_previous_generation() -> list[str]:
     return rotated
 
 
+def restore_previous_generation() -> list[str]:
+    """Put *.bak DNA files back. Fails if bak pair is incomplete."""
+    mapping = {
+        "dna/tokens.json.bak": "dna/tokens.json",
+        "dna/collection.jsonl.bak": "dna/collection.jsonl",
+        "dna/provenance.json.bak": "dna/provenance.json",
+    }
+    missing = [src for src in mapping if not (BUILD / src).is_file()]
+    if missing:
+        return [f"no previous snapshot: missing {missing[0]}"]
+    for src, dest in mapping.items():
+        (BUILD / dest).write_bytes((BUILD / src).read_bytes())
+    return generation_pair_problems()
+
+
 def write_generation(result: dict[str, Any]) -> None:
     ensure_build()
     rotate_previous_generation()

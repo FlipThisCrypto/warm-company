@@ -238,6 +238,17 @@ def cmd_backup(args: argparse.Namespace) -> int:
         problems = verify_backup(Path(args.verify))
         print(json.dumps({"ok": not problems, "problems": problems, "path": args.verify}, indent=2))
         return 0 if not problems else 1
+    if args.restore_bak:
+        from .generate import restore_previous_generation
+
+        try:
+            with exclusive_build("generate"):
+                problems = restore_previous_generation()
+        except BuildLockHeld as exc:
+            print(json.dumps({"ok": False, "problems": [str(exc)]}, indent=2))
+            return 1
+        print(json.dumps({"ok": not problems, "problems": problems, "source": "bak"}, indent=2))
+        return 0 if not problems else 1
     if args.restore:
         try:
             with exclusive_build("generate"):
@@ -341,6 +352,7 @@ def build_parser() -> argparse.ArgumentParser:
     bak = sub.add_parser("backup", help="Zip last DNA+provenance, or verify a zip with --verify")
     bak.add_argument("--verify", default=None, help="Path to a DNA backup zip to verify")
     bak.add_argument("--restore", default=None, help="Replace build/dna from a verified backup zip")
+    bak.add_argument("--restore-bak", action="store_true", help="Restore DNA from the previous *.bak snapshot")
     bak.set_defaults(func=cmd_backup)
 
     comp = sub.add_parser("composite", help="Composite tokens (requires layer PNGs)")
