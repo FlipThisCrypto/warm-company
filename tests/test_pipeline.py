@@ -575,6 +575,7 @@ class GenerationTests(unittest.TestCase):
 
         digest = collection_fingerprint(self.result)
         self.assertEqual(self.result["schema_version"], GENERATION_SCHEMA)
+        self.assertRegex(self.result["generated_utc"], r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
         self.assertEqual(digest, DEV_COLLECTION_FINGERPRINT)
         self.assertEqual(self.result["collection_fingerprint"], digest)
         text = (ROOT / "src" / "warm_company" / "cli.py").read_text(encoding="utf-8")

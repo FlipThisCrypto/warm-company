@@ -154,3 +154,10 @@ This baseline is not an iteration.
 - Why Round 3: startup recovery / operator diagnosis before the slow path.
 - Verification: probe succeeds on this machine; status.build_writable is true.
 - Commit: `round 3 iteration 19: fail status when build dir is not writable`
+
+## Iteration 20/50
+- Evolution: Each generation records `generated_utc` (UTC, second precision).
+- Constraint: tokens.json had no clock for incident reconstruction or backup freshness.
+- Why Round 3: observability / incident timelines.
+- Verification: generated_utc matches ISO-8601 Zulu regex.
+- Commit: `round 3 iteration 20: stamp generation JSON with UTC time`

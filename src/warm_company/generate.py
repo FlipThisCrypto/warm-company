@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from datetime import datetime, timezone
 from typing import Any
 
 from . import compatibility, config
@@ -219,6 +220,7 @@ def generate_collection(
         "special_count": special_count,
         "tokens": minted,
         "provenance": build_manifest(seed, phase),
+        "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
     result["collection_fingerprint"] = collection_fingerprint(result)
     _assert_invariants(result)
