@@ -10,6 +10,7 @@ from .matte import fringe_report
 from .paths import BUILD, LAYERS, ROOT, TEMPLATES, ensure_build
 
 CANVAS = (1024, 1024)
+MAX_LAYER_BYTES = 8 * 1024 * 1024
 REQUIRED_MODE_TRANSPARENT = {"RGBA"}
 
 FOLDER_TO_SLOT = {
@@ -46,7 +47,22 @@ def _bbox(image: Image.Image) -> tuple[int, int, int, int] | None:
 
 
 def inspect_png(path: Path, *, expect_transparent: bool) -> dict:
-    report: dict = {"path": str(path.relative_to(ROOT)), "ok": True, "errors": [], "warnings": []}
+    try:
+        rel = str(path.relative_to(ROOT))
+    except ValueError:
+        rel = str(path)
+    report: dict = {"path": rel, "ok": True, "errors": [], "warnings": []}
+    try:
+        size_b = path.stat().st_size
+    except OSError as exc:
+        report["ok"] = False
+        report["errors"].append(f"cannot stat: {exc}")
+        return report
+    report["bytes"] = size_b
+    if size_b > MAX_LAYER_BYTES:
+        report["ok"] = False
+        report["errors"].append(f"file {size_b} bytes exceeds {MAX_LAYER_BYTES}")
+        return report
     try:
         image = Image.open(path)
     except Exception as exc:  # noqa: BLE001

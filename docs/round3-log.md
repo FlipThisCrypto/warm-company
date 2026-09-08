@@ -126,3 +126,10 @@ This baseline is not an iteration.
 - Why Round 3: data evolution / compatibility. Missing version defaults to 1 so current files still load.
 - Verification: schema 99 raises; current generate includes schema_version 1.
 - Commit: `round 3 iteration 15: version generation JSON and reject unknown schemas`
+
+## Iteration 16/50
+- Evolution: Layer inspector refuses PNGs larger than 8 MiB before opening them.
+- Constraint: A huge file in `layers/` would exhaust RAM during validate/composite.
+- Why Round 3: resource ceiling. Round 2 locked PNG count, not byte size.
+- Verification: 8MiB+1 fake file is rejected; a real layer is under the cap.
+- Commit: `round 3 iteration 16: reject oversized layer PNGs before decode`

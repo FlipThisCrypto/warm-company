@@ -1253,6 +1253,26 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(args.func.__name__, "cmd_status")
 
 
+class LayerSizeCapTests(unittest.TestCase):
+    def test_inspect_png_rejects_oversized_file(self):
+        import tempfile
+
+        from warm_company.validate_layers import MAX_LAYER_BYTES, inspect_png
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "huge.png"
+            path.write_bytes(b"\x00" * (MAX_LAYER_BYTES + 1))
+            report = inspect_png(path, expect_transparent=True)
+            self.assertFalse(report["ok"])
+            self.assertTrue(any("exceeds" in err for err in report["errors"]))
+        from warm_company.paths import LAYERS
+
+        sample = next(LAYERS.rglob("*.png"))
+        ok_report = inspect_png(sample, expect_transparent=True)
+        self.assertTrue(ok_report["ok"], msg=ok_report.get("errors"))
+        self.assertLessEqual(ok_report["bytes"], MAX_LAYER_BYTES)
+
+
 class SafeIdTests(unittest.TestCase):
     def test_kebab_and_snake_ids_pass_path_ids_fail(self):
         from warm_company.preflight import config_integrity_problems, unsafe_id
