@@ -63,3 +63,10 @@ This baseline is not an iteration.
 - Why Round 3: safe rehearsal before mutating durable DNA files.
 - Verification: CLI exposes `--dry-run`; payload includes `wrote: false`.
 - Commit: `round 3 iteration 6: dry-run generate without writing DNA files`
+
+## Iteration 7/50
+- Evolution: Pin GitHub Actions `checkout` and `setup-python` to immutable commit SHAs.
+- Constraint: Floating `@v4`/`@v5` tags can be retargeted; CI supply chain was mutable.
+- Why Round 3: dependency compromise mitigation. Round 2 added CI; this hardens it.
+- Verification: workflow contains 40-char SHAs; test forbids `checkout@v4`.
+- Commit: `round 3 iteration 7: pin GitHub Actions to immutable commit SHAs`

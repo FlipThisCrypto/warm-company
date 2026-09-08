@@ -1198,9 +1198,12 @@ class CiWorkflowTests(unittest.TestCase):
             "python -m warm_company preflight --phase 9",
             "cache: pip",
             "cancel-in-progress: true",
+            "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+            "actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
         ):
             self.assertIn(needle, text)
         self.assertNotIn("python -m warm_company generate --phase 9\n", text)
+        self.assertNotIn("actions/checkout@v4\n", text)
 
 
 class ProvenanceTests(unittest.TestCase):
