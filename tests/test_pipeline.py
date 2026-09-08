@@ -1395,6 +1395,16 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(args.func.__name__, "cmd_status")
 
 
+class LayerPathEscapeTests(unittest.TestCase):
+    def test_path_outside_layers_is_escape(self):
+        from warm_company.paths import LAYERS, ROOT
+        from warm_company.validate_layers import path_escapes_library
+
+        sample = next(LAYERS.rglob("*.png"))
+        self.assertFalse(path_escapes_library(sample))
+        self.assertTrue(path_escapes_library(ROOT / "README.md"))
+
+
 class LayerSizeCapTests(unittest.TestCase):
     def test_inspect_png_rejects_oversized_file(self):
         import tempfile

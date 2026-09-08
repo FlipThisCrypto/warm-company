@@ -157,6 +157,14 @@ def duplicate_layer_pairs() -> list[dict[str, str]]:
     return pairs
 
 
+def path_escapes_library(path: Path) -> bool:
+    try:
+        path.resolve().relative_to(LAYERS.resolve())
+        return False
+    except ValueError:
+        return True
+
+
 def validate_library() -> dict:
     ensure_build()
     pngs = [path for path in LAYERS.rglob("*.png") if path.is_file()]
@@ -166,6 +174,10 @@ def validate_library() -> dict:
     for trait in config.traits()["traits"]:
         known_ids.setdefault(trait["slot"], set()).add(trait["id"])
     for path in sorted(pngs):
+        if path_escapes_library(path):
+            errors += 1
+            reports.append({"path": str(path), "ok": False, "errors": ["path escapes layers/"]})
+            continue
         rel = path.relative_to(LAYERS).parts
         is_background = len(rel) >= 2 and rel[0] == "shared" and rel[1] == "backgrounds"
         expect_transparent = not is_background

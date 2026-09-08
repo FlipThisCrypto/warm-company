@@ -287,3 +287,10 @@ This baseline is not an iteration.
 - Why Round 3: capacity SLO for the DNA path (not 800 images).
 - Verification: generate_collection supply 800 and elapsed < 20s.
 - Commit: `round 3 iteration 38: enforce 20s SLO for rolling 800 DNA`
+
+## Iteration 39/50
+- Evolution: Layer validation rejects resolved paths that escape `layers/`.
+- Constraint: A symlink in layers/ to /etc or the repo root could be hashed and opened.
+- Why Round 3: path-escape / supply-chain of the layer tree.
+- Verification: a real layer is inside; README.md is an escape.
+- Commit: `round 3 iteration 39: reject layer paths that escape the library root`
