@@ -1143,6 +1143,19 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(args.func.__name__, "cmd_status")
 
 
+class SafeIdTests(unittest.TestCase):
+    def test_kebab_and_snake_ids_pass_path_ids_fail(self):
+        from warm_company.preflight import config_integrity_problems, unsafe_id
+
+        self.assertFalse(unsafe_id("baseball-cap"))
+        self.assertFalse(unsafe_id("arm_pose"))
+        self.assertFalse(unsafe_id("the-not-by-chance"))
+        self.assertTrue(unsafe_id("../layers"))
+        self.assertTrue(unsafe_id("hat/../../x"))
+        self.assertTrue(unsafe_id("has space"))
+        self.assertEqual(config_integrity_problems(), [])
+
+
 class PreflightTests(unittest.TestCase):
     def test_preflight_passes_current_tree(self):
         from warm_company.preflight import run_preflight

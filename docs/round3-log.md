@@ -70,3 +70,10 @@ This baseline is not an iteration.
 - Why Round 3: dependency compromise mitigation. Round 2 added CI; this hardens it.
 - Verification: workflow contains 40-char SHAs; test forbids `checkout@v4`.
 - Commit: `round 3 iteration 7: pin GitHub Actions to immutable commit SHAs`
+
+## Iteration 8/50
+- Evolution: Preflight rejects trait/special ids that are not kebab/snake-case (path traversal, spaces).
+- Constraint: A `../` trait id would be joined into a layer path.
+- Why Round 3: abuse-case / path safety. Round 2 checked unknown ids, not character set.
+- Verification: baseball-cap and arm_pose pass; `../layers` fails; live catalog is clean.
+- Commit: `round 3 iteration 8: reject unsafe trait and special identifiers`

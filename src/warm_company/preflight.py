@@ -2,8 +2,16 @@
 
 from __future__ import annotations
 
+import re
 import uuid
 from typing import Any
+
+SAFE_ID_RE = re.compile(r"^[a-z0-9]+(?:[-_][a-z0-9]+)*$")
+
+
+def unsafe_id(value: object) -> bool:
+    text = str(value or "")
+    return not bool(SAFE_ID_RE.fullmatch(text)) or ".." in text or "/" in text or "\\" in text
 
 from . import config
 from .compatibility import orphan_rule_problems
@@ -83,6 +91,8 @@ def config_integrity_problems() -> list[str]:
         if key in seen:
             problems.append(f"duplicate trait {key[0]}/{key[1]}")
         seen.add(key)
+        if unsafe_id(key[0]) or unsafe_id(key[1]):
+            problems.append(f"unsafe trait id {key[0]}/{key[1]}")
     needed = (
         "sole_baseline_y",
         "left_leg_origin",
@@ -103,6 +113,8 @@ def config_integrity_problems() -> list[str]:
             if key not in anatomy:
                 problems.append(f"{class_id} anatomy missing {key}")
     for spec in config.rarity()["specials"]["characters"]:
+        if unsafe_id(spec.get("id")):
+            problems.append(f"unsafe special id {spec.get('id')}")
         if spec.get("class") not in config.CLASS_IDS:
             problems.append(f"special {spec.get('id')} unknown class {spec.get('class')}")
         for slot, value in (spec.get("traits") or {}).items():
