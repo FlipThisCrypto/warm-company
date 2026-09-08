@@ -189,3 +189,10 @@ This baseline is not an iteration.
 - Why Round 3: backup validation on the cheap path.
 - Verification: last_backup.present is a bool; missing folder is present=false.
 - Commit: `round 3 iteration 24: report latest DNA backup on status`
+
+## Iteration 25/50
+- Evolution: `metadata` uses the same stale-generation gate as composite unless `--force`.
+- Constraint: CHIP-0007 could be written from DNA that no longer matches live layers/config.
+- Why Round 3: metadata is a mint artifact; it must not silently bind to a stale tree.
+- Verification: CLI exposes `--force` and `--resume`; gate with force=True is empty.
+- Commit: `round 3 iteration 25: refuse metadata writes when last generate is stale`

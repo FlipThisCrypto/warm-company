@@ -1082,6 +1082,13 @@ class GenerationLoadTests(unittest.TestCase):
 
 
 class GenerateDryRunTests(unittest.TestCase):
+    def test_cli_exposes_metadata_force_and_resume(self):
+        from warm_company.cli import build_parser
+
+        args = build_parser().parse_args(["metadata", "--resume", "--force"])
+        self.assertTrue(args.resume)
+        self.assertTrue(args.force)
+
     def test_cli_exposes_generate_dry_run(self):
         from warm_company.cli import build_parser
 
