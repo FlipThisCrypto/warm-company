@@ -245,3 +245,10 @@ This baseline is not an iteration.
 - Why Round 3: immediate rollback without a zip. Zip restore remains for off-disk copies.
 - Verification: after corrupting tokens.json, restore_previous_generation returns the bak bytes and a clean pair.
 - Commit: `round 3 iteration 32: restore DNA from the previous bak snapshot`
+
+## Iteration 33/50
+- Evolution: DNA zip restore only writes the known member list, ignoring `../` entries.
+- Constraint: A hostile backup zip could have been extracted with ZipFile.extractall.
+- Why Round 3: zip-slip / supply-chain of a restore file. Restore already used named members; this proves it.
+- Verification: a zip with `../evil.txt` restores DNA and does not create ROOT/evil.txt.
+- Commit: `round 3 iteration 33: ignore zip-slip members when restoring DNA backups`

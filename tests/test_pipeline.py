@@ -1073,6 +1073,16 @@ class DnaBackupTests(unittest.TestCase):
             restored = read_generation_json(BUILD / "dna" / "tokens.json")
             self.assertEqual(len(restored["tokens"]), 800)
             self.assertEqual(generation_pair_problems(), [])
+            slip = Path(tmp) / "slip.zip"
+            with zipfile.ZipFile(dest, "r") as src, zipfile.ZipFile(slip, "w") as zf:
+                for info in src.infolist():
+                    zf.writestr(info, src.read(info.filename))
+                zf.writestr("../evil.txt", "nope")
+            from warm_company.backup import restore_backup
+            from warm_company.paths import ROOT
+
+            self.assertEqual(restore_backup(slip), [])
+            self.assertFalse((ROOT / "evil.txt").exists())
         self.assertTrue((BUILD / "dna" / "tokens.json").is_file())
 
 
