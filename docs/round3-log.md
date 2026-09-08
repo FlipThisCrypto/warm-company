@@ -322,3 +322,10 @@ This baseline is not an iteration.
 - Why Round 3: recovery procedure for the most likely operator mistake.
 - Verification: OPERATOR.md names restore-bak.
 - Commit: `round 3 iteration 43: document bak restore in the disaster table`
+
+## Iteration 44/50
+- Evolution: `backup --verify`, `--restore`, and `--restore-bak` are mutually exclusive.
+- Constraint: Combining flags could restore then immediately overwrite, or skip verify.
+- Why Round 3: operator-error isolation on recovery commands.
+- Verification: parsing both --verify and --restore-bak returns exit 1.
+- Commit: `round 3 iteration 44: make backup restore modes mutually exclusive`

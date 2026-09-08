@@ -239,6 +239,10 @@ def cmd_backup(args: argparse.Namespace) -> int:
     from .backup import restore_backup, verify_backup, write_backup
     from .paths import BuildLockHeld, exclusive_build
 
+    modes = sum(bool(flag) for flag in (args.verify, args.restore, args.restore_bak))
+    if modes > 1:
+        print(json.dumps({"ok": False, "problems": ["backup --verify, --restore, and --restore-bak are mutually exclusive"]}, indent=2))
+        return 1
     if args.verify:
         problems = verify_backup(Path(args.verify))
         print(json.dumps({"ok": not problems, "problems": problems, "path": args.verify}, indent=2))

@@ -1174,6 +1174,16 @@ class GenerateDryRunTests(unittest.TestCase):
         self.assertTrue(args.resume)
         self.assertTrue(args.force)
 
+    def test_backup_flags_are_parsed(self):
+        from warm_company.cli import build_parser, cmd_backup
+
+        args = build_parser().parse_args(["backup", "--restore-bak"])
+        self.assertTrue(args.restore_bak)
+        conflict = build_parser().parse_args(["backup", "--verify", "x.zip", "--restore-bak"])
+        self.assertTrue(conflict.verify)
+        self.assertTrue(conflict.restore_bak)
+        self.assertEqual(cmd_backup(conflict), 1)
+
     def test_cli_exposes_generate_dry_run(self):
         from warm_company.cli import build_parser
 
