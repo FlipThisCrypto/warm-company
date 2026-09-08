@@ -10,10 +10,15 @@ from .paths import BUILD, ensure_build
 
 
 def _load_tokens(path: Path | None = None) -> dict:
+    from .generate import read_generation_json
+
     path = path or (BUILD / "dna" / "tokens.json")
     if not path.exists():
         raise SystemExit(f"no generation found at {path}; run generate first")
-    return json.loads(path.read_text(encoding="utf-8"))
+    try:
+        return read_generation_json(path)
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
 
 
 def cmd_generate(args: argparse.Namespace) -> int:

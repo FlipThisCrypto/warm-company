@@ -77,3 +77,10 @@ This baseline is not an iteration.
 - Why Round 3: abuse-case / path safety. Round 2 checked unknown ids, not character set.
 - Verification: baseball-cap and arm_pose pass; `../layers` fails; live catalog is clean.
 - Commit: `round 3 iteration 8: reject unsafe trait and special identifiers`
+
+## Iteration 9/50
+- Evolution: Load `tokens.json` with a 32 MiB cap and a named invalid-JSON error.
+- Constraint: A truncated or hostile tokens.json raised a raw JSONDecodeError or could be a JSON bomb.
+- Why Round 3: failure containment on the operator load path.
+- Verification: valid payload loads; `{not-json` names invalid JSON; oversized file names max.
+- Commit: `round 3 iteration 9: cap and name errors when loading tokens.json`

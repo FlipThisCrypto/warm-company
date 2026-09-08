@@ -990,6 +990,29 @@ class FundraiserTests(unittest.TestCase):
         self.assertEqual(token_goods_usd(result), 12000)
 
 
+class GenerationLoadTests(unittest.TestCase):
+    def test_read_generation_json_rejects_corrupt_and_huge(self):
+        import tempfile
+
+        from warm_company.generate import MAX_GENERATION_BYTES, read_generation_json
+
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            good = folder / "tokens.json"
+            good.write_text(json.dumps({"tokens": [{"token_id": 1}]}), encoding="utf-8")
+            self.assertEqual(len(read_generation_json(good)["tokens"]), 1)
+            bad = folder / "tokens.json"
+            bad.write_text("{not-json", encoding="utf-8")
+            with self.assertRaises(ValueError) as ctx:
+                read_generation_json(bad)
+            self.assertIn("invalid JSON", str(ctx.exception))
+            huge = folder / "tokens.json"
+            huge.write_bytes(b"x" * (MAX_GENERATION_BYTES + 1))
+            with self.assertRaises(ValueError) as ctx:
+                read_generation_json(huge)
+            self.assertIn("max", str(ctx.exception))
+
+
 class GenerateDryRunTests(unittest.TestCase):
     def test_cli_exposes_generate_dry_run(self):
         from warm_company.cli import build_parser

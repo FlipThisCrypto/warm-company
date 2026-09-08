@@ -12,6 +12,7 @@ from .paths import BUILD, atomic_write_text, ensure_build
 from .rng import SeededStream, dna_hash
 
 MAX_TOKEN_ATTEMPTS = 80
+MAX_GENERATION_BYTES = 32 * 1024 * 1024
 DEV_SEED = "warm-company-dev-seed-v0"
 DEV_COLLECTION_FINGERPRINT = "81da0c01e76da56d89c41d16f1d4cacf3c513d20d8a208faa0e9e798ff02189b"
 ROLL_SLOTS = [
@@ -275,6 +276,23 @@ def write_generation(result: dict[str, Any]) -> None:
     summary["collection_fingerprint"] = collection_fingerprint(result)
     atomic_write_text(BUILD / "reports" / "generation_summary.json", json.dumps(summary, indent=2))
     atomic_write_text(BUILD / "dna" / "provenance.json", json.dumps(provenance, indent=2))
+
+
+def read_generation_json(path: Path) -> dict[str, Any]:
+    """Load tokens.json with a size cap and a named JSON error."""
+    try:
+        size = path.stat().st_size
+    except OSError as exc:
+        raise ValueError(f"{path.name} unreadable: {exc}") from exc
+    if size > MAX_GENERATION_BYTES:
+        raise ValueError(f"{path.name} is {size} bytes; max {MAX_GENERATION_BYTES}")
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"{path.name} invalid JSON: {exc}") from exc
+    if not isinstance(payload, dict) or not isinstance(payload.get("tokens"), list):
+        raise ValueError(f"{path.name} is not a generation object with a tokens list")
+    return payload
 
 
 def generation_pair_problems(
